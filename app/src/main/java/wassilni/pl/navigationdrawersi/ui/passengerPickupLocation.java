@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -27,6 +26,7 @@ import wassilni.pl.navigationdrawersi.R;
 public class passengerPickupLocation extends FragmentActivity implements OnMapReadyCallback {
 
     /*
+     comment by haya...
     * two ways to specify the passenger location:
     *  1. to get the passenger's location using GPS.
     *  2. to enable the passenger to specify her own location on the map.
