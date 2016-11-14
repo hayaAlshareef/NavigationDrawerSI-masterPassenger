@@ -157,6 +157,9 @@ public class passengerPickupLocation extends FragmentActivity implements OnMapRe
 }
     public void setMarker()
     {
+        /*
+        * This method will set marker on the user's location, created to be called in a single line since it'll be called twice.
+        * */
         if (m != null)
             m.remove();
         {
