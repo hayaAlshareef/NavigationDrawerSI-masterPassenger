@@ -2,6 +2,7 @@ package wassilni.pl.navigationdrawersi.ui;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -17,6 +18,8 @@ import android.widget.Toast;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import wassilni.pl.navigationdrawersi.R;
 
@@ -59,55 +62,70 @@ public class register extends AppCompatActivity  implements DatePickerDialog.OnD
 
 
 
-        private void register(){
+        private void register() {
             intitialize();// intitialize the input to string var
-            if(!validate()){
-                Toast.makeText(this,"خطأ في التسجيل",Toast.LENGTH_SHORT).show();
-            }
-            else {
-                Toast.makeText(this,"اكتمل التسجيل",Toast.LENGTH_SHORT).show();
+            if (!validate()) {
+                // Toast.makeText(this,"خطأ في التسجيل",Toast.LENGTH_SHORT).show();
+            } else {
+                // Toast.makeText(this,"اكتمل التسجيل",Toast.LENGTH_SHORT).show();
                 //onSigunSuccess();
+                if (!check()) {
+                    //    Toast.makeText(this,"خطأ في التسجيل",Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(this, "اكتمل التسجيل", Toast.LENGTH_SHORT).show();
+                    onSigunSuccess();
+
+                }
             }
         }
-       /* public void onSigunSuccess(){
-            Intent i=new Intent(getApplicationContext(), registermore.class);
+        public void onSigunSuccess(){
+            Intent i=new Intent(getApplicationContext(), MainActivity.class);
             startActivity(i);
-        }*/
+        }
         public boolean validate(){
             boolean valid=true;
             if(sName.isEmpty() || sName.length()>=32){ //to validate the first name
                 et_fName.setError("أدخل اسم صحيح!!");
                 valid=false;
             }
-            else if(lName.isEmpty() || lName.length()>=32){ //to validate the first name
+            else if(lName.isEmpty() || lName.length()>=32){ //to validate the last name
                 et_lName.setError("أدخل اسم صحيح!!");
                 valid=false;
             }
 
-            else if(email.isEmpty() || email.length()>=32){ //to validate the last name
-                et_email.setError("أدخل اسم صحيح!!");
+            else if(email.isEmpty() || email.length()>=32){ //to validate the email
+                et_email.setError("أدخل البريد الإلكتروني!!");
                 valid=false;
             }
             else if(phone.isEmpty() || phone.length()!=10){ //to validate the phone number
-                et_phone.setError("أدخل اسم صحيح!!");
+                et_phone.setError("أدخل اسم صحيح!!");valid=false;
+            }
+            else if(password.isEmpty() || password.length() >=10){ //to validate the password
+                et_password.setError("أدخل كلمة مرور مناسبة!!");
                 valid=false;
             }
-            else if(password.isEmpty() || password.length()!=10){ //to validate the first name
-                et_password.setError("أدخل اسم صحيح!!");
+            else if(passwordCheck.isEmpty() || passwordCheck.length() >=10){ //to validate the confirmpassword
+                et_checkPassword.setError("أدخل كلمة مرور مناسبة!!");
                 valid=false;
             }
-            else if(passwordCheck.isEmpty() || passwordCheck.length()!=10){ //to validate the first name
-                et_checkPassword.setError("أدخل اسم صحيح!!");
-                valid=false;
-            }
-            else if(DOB.isEmpty() || DOB.length()!=10){ //to validate the first name
-                et_DOB.setError("أدخل اسم صحيح!!");
+            else if(DOB.isEmpty() || DOB.length() >=10){ //to validate the first name
+                et_DOB.setError("ليس ميلاد!!");
                 valid=false;
             }
             return valid;
         }
 
         private void intitialize(){
+            //Reset errors
+            et_fName.setError(null);
+            et_lName.setError(null);
+            et_email.setError(null);
+            et_password.setError(null);
+            et_checkPassword.setError(null);
+            et_phone.setError(null);
+            et_DOB.setError(null);
+            //convert edittext to string
             sName =et_fName.getText().toString().trim();
             lName =et_lName.getText().toString().trim();
             email =et_email.getText().toString().trim();
@@ -118,7 +136,40 @@ public class register extends AppCompatActivity  implements DatePickerDialog.OnD
 
         }
 
+    private boolean check(){
+        boolean validate1=true;
+        if(!isPasswordMatching(password,passwordCheck)){
+            et_password.setError("كلمة المرور غير متوافقة!");
+            et_checkPassword.setError("كلمة المرور غير متوافقة!");
 
+            validate1=false;
+        }
+        else if(!isEmailValid(email)){
+            et_email.setError("ليس بريد إلكتروني!");
+            validate1=false;
+        }
+
+        return validate1;
+
+    }
+
+    public boolean isPasswordMatching(String pass, String cPass) {
+        boolean val=true;
+        Pattern pattern = Pattern.compile(pass, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(cPass);
+
+        if (!matcher.matches()) {
+            // do your Toast("passwords are not matching");
+            val=false;
+
+        }
+
+        return val;
+    }
+
+    private boolean isEmailValid(String email) {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
      /*   public boolean checkFieldsRequired(ViewGroup viewGroup){
 
             int count = viewGroup.getChildCount();
