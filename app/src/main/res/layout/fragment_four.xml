@@ -34,21 +34,31 @@
         android:layout_marginRight="20dp" />
 
 
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_marginTop="27dp"
+        android:id="@+id/spinner"
+        android:background="@android:drawable/spinner_background"
+        android:layout_below="@+id/edit_texto"
+        android:layout_alignLeft="@+id/button2"
+        android:layout_alignStart="@+id/button2"
+        android:layout_height="50dp"
+        android:layout_alignRight="@+id/button2"
+        android:layout_alignEnd="@+id/button2" />
+
     <Button
         android:text="@string/send"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/edit_texto"
-        android:layout_marginTop="74dp"
+        android:layout_marginTop="21dp"
         android:id="@+id/button2"
-        android:layout_alignRight="@+id/edit_texto"
-        android:layout_alignEnd="@+id/edit_texto"
+        android:background="@color/blue_button"
+        android:textSize="24sp"
+        android:layout_below="@+id/spinner"
         android:layout_alignLeft="@+id/edit_texto"
         android:layout_alignStart="@+id/edit_texto"
-        android:background="@color/blue_button"
-        android:textSize="24sp" />
-
-
+        android:layout_alignRight="@+id/edit_texto"
+        android:layout_alignEnd="@+id/edit_texto" />
 
 
 </RelativeLayout>

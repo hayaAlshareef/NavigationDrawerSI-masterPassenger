@@ -87,4 +87,9 @@
     <string name="name5">Name</string>
     <string name="usernamelogin">اسم المستخدم</string>
     <string name="passlogin">كلمة المرور</string>
+    <string name="registers">حساب جديد</string>
+    <string name="login1">تسجيل دخول</string>
+    <string name="passwords">كلمة المرور</string>
+    <string name="del">حذف الحساب</string>
+    <string name="savechanges">حفظ التغييرات</string>
 </resources>

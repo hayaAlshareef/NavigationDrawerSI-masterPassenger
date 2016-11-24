@@ -2,7 +2,6 @@ package wassilni.pl.navigationdrawersi.ui;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -15,7 +14,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.regex.Matcher;
@@ -26,8 +24,8 @@ import wassilni.pl.navigationdrawersi.R;
 
 public class register extends AppCompatActivity  implements DatePickerDialog.OnDateSetListener,AdapterView.OnItemSelectedListener {
     //  Spinner spinNationality;
-    EditText et_fName ,et_lName , et_email , et_password, et_checkPassword ,et_phone , et_DOB ;
-    String sName ,lName , email , password , passwordCheck , phone , DOB;
+    EditText et_fName ,et_lName , et_email , et_password, et_checkPassword ,et_phone , et_school ;
+    String sName ,lName , email , password , passwordCheck , phone , school;
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -43,7 +41,7 @@ public class register extends AppCompatActivity  implements DatePickerDialog.OnD
             et_password = (EditText)findViewById(R.id.passwordET);
             et_checkPassword = (EditText)findViewById(R.id.passwordCheckET);
             et_phone = (EditText)findViewById(R.id.phoneET);
-            et_DOB = (EditText)findViewById(R.id.datepickerET);
+            et_school = (EditText)findViewById(R.id.school);
           //  et_nationality = (EditText)findViewById(R.id.NationalityET);
            // et_driverNum = (EditText)findViewById(R.id.driveNumET);
 
@@ -73,15 +71,18 @@ public class register extends AppCompatActivity  implements DatePickerDialog.OnD
                     //    Toast.makeText(this,"خطأ في التسجيل",Toast.LENGTH_SHORT).show();
 
                 } else {
-                    Toast.makeText(this, "اكتمل التسجيل", Toast.LENGTH_SHORT).show();
+                  //  Toast.makeText(this, "اكتمل التسجيل", Toast.LENGTH_SHORT).show();
                     onSigunSuccess();
 
                 }
             }
         }
         public void onSigunSuccess(){
-            Intent i=new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(i);
+           // Intent i=new Intent(getApplicationContext(), MainActivity.class);
+            //startActivity(i);
+            String method="register";
+            backgroundTask bc=new backgroundTask(this);
+            bc.execute(method,sName,lName,email,password,phone,school);
         }
         public boolean validate(){
             boolean valid=true;
@@ -109,10 +110,7 @@ public class register extends AppCompatActivity  implements DatePickerDialog.OnD
                 et_checkPassword.setError("أدخل كلمة مرور مناسبة!!");
                 valid=false;
             }
-            else if(DOB.isEmpty() || DOB.length() >=10){ //to validate the first name
-                et_DOB.setError("ليس ميلاد!!");
-                valid=false;
-            }
+
             return valid;
         }
 
@@ -124,15 +122,15 @@ public class register extends AppCompatActivity  implements DatePickerDialog.OnD
             et_password.setError(null);
             et_checkPassword.setError(null);
             et_phone.setError(null);
-            et_DOB.setError(null);
+
             //convert edittext to string
             sName =et_fName.getText().toString().trim();
             lName =et_lName.getText().toString().trim();
             email =et_email.getText().toString().trim();
             phone =et_phone.getText().toString().trim();
-            DOB =et_DOB.toString().trim();
             password =et_password.getText().toString().trim();
             passwordCheck =et_checkPassword.getText().toString().trim();
+            school=et_school.getText().toString().trim();
 
         }
 
@@ -210,8 +208,8 @@ public class register extends AppCompatActivity  implements DatePickerDialog.OnD
 
     private void setDate(final Calendar calendar){
 
-        final DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
-        ((EditText) findViewById(R.id.datepickerET)).setText(dateFormat.format(calendar.getTime()));
+      //  final DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
+       // ((EditText) findViewById(R.id.datepickerET)).setText(dateFormat.format(calendar.getTime()));
 
     }
 

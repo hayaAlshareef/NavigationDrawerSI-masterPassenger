@@ -1,4 +1,4 @@
-package wassilni.pl.navigationdrawersi.ui.fragments;
+package wassilni.pl.navigationdrawersi.ui;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

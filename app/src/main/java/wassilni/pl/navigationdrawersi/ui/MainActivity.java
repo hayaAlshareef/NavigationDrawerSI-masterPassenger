@@ -23,12 +23,6 @@ import timber.log.Timber;
 import wassilni.pl.navigationdrawersi.R;
 import wassilni.pl.navigationdrawersi.data.Fragments;
 import wassilni.pl.navigationdrawersi.data.model.NavigationDrawerItem;
-import wassilni.pl.navigationdrawersi.ui.fragments.FragmentAbout;
-import wassilni.pl.navigationdrawersi.ui.fragments.FragmentFifth;
-import wassilni.pl.navigationdrawersi.ui.fragments.FragmentFour;
-import wassilni.pl.navigationdrawersi.ui.fragments.FragmentOne;
-import wassilni.pl.navigationdrawersi.ui.fragments.FragmentThree;
-import wassilni.pl.navigationdrawersi.ui.fragments.FragmentTwo;
 import wassilni.pl.navigationdrawersi.ui.navigationdrawer.NavigationDrawerView;
 
 

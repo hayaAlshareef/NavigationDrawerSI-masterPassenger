@@ -45,7 +45,7 @@ public class passengerPickupLocation extends FragmentActivity implements OnMapRe
     private Button gpsButton;
     //private TextView locStatus;
     private Marker m;
-    private Button haya;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

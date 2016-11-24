@@ -2,12 +2,12 @@ package wassilni.pl.navigationdrawersi.data;
 
 import android.support.v4.app.Fragment;
 
-import wassilni.pl.navigationdrawersi.ui.fragments.FragmentAbout;
-import wassilni.pl.navigationdrawersi.ui.fragments.FragmentFifth;
-import wassilni.pl.navigationdrawersi.ui.fragments.FragmentFour;
-import wassilni.pl.navigationdrawersi.ui.fragments.FragmentOne;
-import wassilni.pl.navigationdrawersi.ui.fragments.FragmentThree;
-import wassilni.pl.navigationdrawersi.ui.fragments.FragmentTwo;
+import wassilni.pl.navigationdrawersi.ui.FragmentAbout;
+import wassilni.pl.navigationdrawersi.ui.FragmentFifth;
+import wassilni.pl.navigationdrawersi.ui.FragmentFour;
+import wassilni.pl.navigationdrawersi.ui.FragmentOne;
+import wassilni.pl.navigationdrawersi.ui.FragmentThree;
+import wassilni.pl.navigationdrawersi.ui.FragmentTwo;
 
 
 public enum Fragments {
