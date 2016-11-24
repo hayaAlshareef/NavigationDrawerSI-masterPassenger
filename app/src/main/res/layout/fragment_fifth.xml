@@ -6,7 +6,10 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -29,7 +32,10 @@
                 android:textColor="?attr/colorButtonNormal"
                 android:textSize="30sp"
                 android:gravity="center" />
-
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@android:color/darker_gray" >
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -43,7 +49,11 @@
                 android:hint="الاسم الأول"
                 android:textColorHint="@android:color/darker_gray"
                 android:layout_marginTop="10dp" />
-
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@android:color/darker_gray" >
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -57,7 +67,11 @@
                 android:hint="الاسم الإخير"
                 android:textColorHint="@android:color/darker_gray"
                 android:layout_marginTop="10dp" />
-
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@android:color/darker_gray" >
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -70,7 +84,11 @@
                 android:hint="البريد الإلكتروني"
                 android:textColorHint="@android:color/darker_gray"
                 android:layout_marginTop="10dp" />
-
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@android:color/darker_gray" >
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -79,11 +97,16 @@
                 android:id="@+id/passwordCurrentET"
                 android:textColorLink="?attr/colorButtonNormal"
                 android:textColor="?attr/colorButtonNormal"
-                android:gravity="end"
+                android:gravity="right"
                 android:background="@android:drawable/editbox_background_normal"
                 android:hint="كلمة المرور الحالية"
                 android:textColorHint="@android:color/darker_gray"
                 android:layout_marginTop="10dp" />
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@android:color/darker_gray" >
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -92,12 +115,16 @@
                 android:id="@+id/passwordCheckET"
                 android:textColorLink="?attr/colorButtonNormal"
                 android:textColor="?attr/colorButtonNormal"
-                android:gravity="end"
+                android:gravity="right"
                 android:background="@android:drawable/editbox_background_normal"
                 android:hint="كلمة المرور الجديدة"
                 android:textColorHint="@android:color/darker_gray"
                 android:layout_marginTop="10dp" />
-
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@android:color/darker_gray" >
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -112,7 +139,11 @@
                 android:hint="تأكيد كلمة المرور"
                 android:textColorHint="@android:color/darker_gray"
                 android:layout_marginTop="10dp" />
-
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@android:color/darker_gray" >
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -126,53 +157,37 @@
                 android:hint="رقم الجوال"
                 android:textColorHint="@android:color/darker_gray"
                 android:layout_marginTop="10dp" />
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@android:color/darker_gray" >
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="7"
+                android:id="@+id/school"
+                android:textColorLink="?attr/colorButtonNormal"
+                android:textColor="?attr/colorButtonNormal"
+                android:background="@android:drawable/editbox_background_normal"
+                android:gravity="start"
+                android:foregroundGravity="right"
+                android:layout_weight="1"
+                android:hint="المدرسة أو الشركة"
+                android:textColorHint="@android:color/darker_gray"
+                android:layout_marginTop="10dp"/>
+            </android.support.design.widget.TextInputLayout>
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp">
+
 
                 <Button
-                    android:layout_width="40dp"
-                    android:layout_height="match_parent"
-                    android:id="@+id/datepickerB"
-                    android:onClick="datePicker"
-                    android:background="@drawable/calendar"
-                    android:elevation="0dp"
-                    android:gravity="right" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="date"
-                    android:ems="7"
-                    android:id="@+id/datepickerET"
-                    android:textColorLink="?attr/colorButtonNormal"
-                    android:textColor="?attr/colorButtonNormal"
-                    android:background="@android:drawable/editbox_background_normal"
-                    android:gravity="start"
-                    android:foregroundGravity="right"
-                    android:layout_weight="1"
-                    android:hint="تاريخ الميلاد"
-                    android:textColorHint="@android:color/darker_gray"
-
-
-                    />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp">
-
-            </LinearLayout>
-
-
-            <Button
-                android:text="حفظ التغييرات"
+                android:text="@string/savechanges"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/registerB"
@@ -181,8 +196,42 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:onClick="Click"
-                android:layout_marginBottom="30dp" />
+                android:layout_marginBottom="20dp" />
 
+
+            </LinearLayout>
+            <android.support.v7.widget.AppCompatTextView
+                android:text="@string/del"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/deletPassenger"
+                android:textSize="18sp"
+                android:textColor="@color/red_light"
+                android:gravity="center"
+
+                android:clickable="true" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp">
+        </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp">
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp">
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>
