@@ -1,8 +1,12 @@
 package wassilni.pl.navigationdrawersi.ui;
 
 
+import android.annotation.TargetApi;
 import android.app.ProgressDialog;
+import android.icu.text.SimpleDateFormat;
+import android.icu.util.Calendar;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,7 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,6 +29,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import wassilni.pl.navigationdrawersi.R;
 
@@ -31,29 +39,27 @@ import wassilni.pl.navigationdrawersi.R;
  */
 
 
+@TargetApi(Build.VERSION_CODES.N)
 public class FragmentFour extends Fragment {
 
     public static final String MY_JSON = "SendComplaint";//MY_JSON
-    String url = "http://192.168.56.1/wassilni/PassengerComplaint.php";
+
     String[] name;
     String sJson;
+    String ID_Driver=null;
+    String Complaint;
+    EditText complaint;
     ArrayList<String> DriverN;
-    // TextView name , email , id;
+    ArrayList<GetDriversName> driveresInfo;
+    GetDriversName driverObject;
+    final Calendar calendar = Calendar.getInstance();
     private static final String JSON_ARRAY = "result";
-   /* private static final String ID = "P_ID";//same as the name in php file
-    private static final String PASSWORD  = "P_password";
-    private static final String FName = "P_F_Name";
-    private static final String LName= "P_L_Name";
-    private static final String EMAIL= "P_email";
-    private static final String PHONE= "P_phone";
-    private static final String school= "P_school";
 
-    EditText et_fName ,et_lName , et_email , et_password, et_checkPassword ,et_phone , et_school;
-    String id;*/
 
     private int TRACK = 0;
     private JSONArray users = null;
     Spinner DriversName;
+    Button send;
 
     @Nullable
     @Override
@@ -61,40 +67,13 @@ public class FragmentFour extends Fragment {
         View view = inflater.inflate(R.layout.fragment_four, container, false);
 
         DriversName = (Spinner) view.findViewById(R.id.spinner);
-      /*  et_fName = (EditText) view.findViewById(R.id.fistNameET);
-        et_lName = (EditText)view.findViewById(R.id.lastNameET);
-        et_email = (EditText)view.findViewById(R.id.emailET);
-        et_password = (EditText)view.findViewById(R.id.passwordET);
-        et_checkPassword = (EditText)view.findViewById(R.id.passwordCheckET);
-        et_phone = (EditText)view.findViewById(R.id.phoneET);
-        et_school = (EditText)view.findViewById(R.id.school);
-        TextView d =(TextView)view.findViewById(R.id.deletPassenger);
-        d.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // switch (v.getId()) {
-                //   case R.id.registerB:
-                // Intent e=new Intent(getActivity(),editpage.class);
-                //  startActivity(e);
-                //   break;
-                // case R.id.deletPassenger:
+        driveresInfo = new ArrayList<GetDriversName>();
+        complaint = (EditText) view.findViewById(R.id.edit_texto);
+        send = (Button) view.findViewById(R.id.send);
 
-                String method = "delete";
-                backgroundTask bc = new backgroundTask(getActivity());
-                bc.execute(method,id);
-                //   break;
-            }
-        });*/
 
-        getJSON(url);
-        //  Button edit=(Button)view.findViewById(R.id.editinfo);
-          /*  edit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent e=new Intent(getActivity(),editpage.class);
-                    startActivity(e);
-                }
-            });*/
+        getJSON("getComplaint");
+
         return view;
 
     }
@@ -104,12 +83,6 @@ public class FragmentFour extends Fragment {
         try {
             JSONObject jsonObject = users.getJSONObject(TRACK);
 
-
-
-
-           /* id.setText(jsonObject.getString(ID));
-            name.setText(jsonObject.getString(FName));
-            email.setText(jsonObject.getString(EMAIL));*/
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -129,10 +102,10 @@ public class FragmentFour extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        //  ButterKnife.reset(this);
+
     }
 
-    private void getJSON(String url) {
+    public void getJSON(String url) {
         class GetJSON extends AsyncTask<String, Void, String> {
             ProgressDialog loading;
 
@@ -141,32 +114,46 @@ public class FragmentFour extends Fragment {
                 super.onPreExecute();
                 loading = ProgressDialog.show(getActivity(), "Please Wait...", null, true, true);
                 DriverN = new ArrayList<String>();
+
             }
 
             @Override
             protected String doInBackground(String... params) {
+                String uri = "http://192.168.56.1/wassilni/PassengerComplaint.php";
+                String Exe = null;
+                String method = params[0];
+                //String comp;
+                //String Drivername;
+               /* if (method.equals("sendComplaint")) {
 
-                String uri = params[0];
 
-                BufferedReader bufferedReader = null;
-                try {
-                    URL url = new URL(uri);
-                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                    StringBuilder sb = new StringBuilder();
 
-                    bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
 
-                    String json;
-                    while ((json = bufferedReader.readLine()) != null) {
-                        sb.append(json + "\n");
-                    }
 
-                    return sb.toString().trim();
 
-                } catch (Exception e) {
-                    return null;
                 }
+                else*/
+                if (method.equals("getComplaint")) {
+                    BufferedReader bufferedReader = null;
+                    try {
+                        URL url = new URL(uri);
+                        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                        StringBuilder sb = new StringBuilder();
 
+                        bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+                        String json;
+                        while ((json = bufferedReader.readLine()) != null) {
+                            sb.append(json + "\n");
+                        }
+
+                        Exe = sb.toString().trim();
+
+                    } catch (Exception e) {
+                        Exe = null;
+                    }
+                }
+                return Exe;
             }
 
             @Override
@@ -187,14 +174,19 @@ public class FragmentFour extends Fragment {
 
 
                 try {
-                    int counter = 0;
-                    name = new String[users.length()];
-                    JSONObject jsonObject = users.getJSONObject(TRACK);
-
+                    int counter = 1;
+                    name = new String[users.length() + 1];
+                    JSONObject jsonObject;
+                    driverObject = new GetDriversName("0", "شكوى عامة");
+                    driveresInfo.add(driverObject);
+                    name[0] = "شكوى عامة";
                     while (TRACK < users.length()) {
-
-                        name[counter] = jsonObject.getString("D_F_Name");
-
+                        jsonObject = users.getJSONObject(TRACK);
+                        String fName = jsonObject.getString("D_F_Name");
+                        String lName = jsonObject.getString("D_L_Name");
+                        name[counter] = fName + " " + lName;
+                        driverObject = new GetDriversName(jsonObject.getString("D_ID"), name[counter]);
+                        driveresInfo.add(driverObject);
                         counter++;
                         TRACK++;
                     }
@@ -205,13 +197,9 @@ public class FragmentFour extends Fragment {
                         DriverN.add(name[i]);
 
                     }
+
                     spinner_fn();
-                    /*id=jsonObject.getString(ID);
-                    et_fName.setText(jsonObject.getString(FName));
-                    et_lName.setText(jsonObject.getString(LName));
-                    et_email.setText(jsonObject.getString(EMAIL));
-                    et_phone.setText(jsonObject.getString(PHONE));
-                    et_school.setText(jsonObject.getString(school));*/
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -223,12 +211,38 @@ public class FragmentFour extends Fragment {
     }
 
     private void spinner_fn() {
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, name);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, DriverN);
         DriversName.setAdapter(dataAdapter);
         DriversName.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 DriversName.setSelection(position);
+                String driverSelected = parent.getItemAtPosition(position).toString();
+
+
+                if (!driverSelected.isEmpty()) {
+                    for (int i = 0; i < driveresInfo.size(); i++) {
+                        if (driveresInfo.get(i).getDriverName().contains(driverSelected)) {
+                            ID_Driver = driveresInfo.get(i).getDriverID();
+                            Complaint = complaint.getText().toString().trim();
+                            Toast.makeText(getActivity(), ID_Driver+Complaint,Toast.LENGTH_SHORT).show();
+
+                            //String method="sendComplaint";
+                            //getJSON(method);
+                            send.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    SendComplaint(ID_Driver, Complaint);
+                                }
+                            });
+                        }
+                    }
+
+                    // Complaint=complaint.getText().toString().trim();
+                    // ID_Driver=null;
+                    //SendComplaint(ID_Driver,Complaint);
+                }
+
             }
 
             @Override
@@ -237,5 +251,31 @@ public class FragmentFour extends Fragment {
             }
         });
 
+    }
+
+
+    private void SendComplaint(String id, String comp) {
+        final String methods = "sendComplaint";
+       // String date = setCurrentDate();
+        String time=setCurrentTime();
+        String Pass_id="3"; // login session
+        backgroundTask b = new backgroundTask(getActivity());
+        b.execute(methods, id, comp,Pass_id,time);
+
+    }
+
+    private String setCurrentDate() {
+
+        String dateFormat = "yyyy-mm-dd";
+        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.getDefault());
+
+        return sdf.format(calendar.getTime());
+    }
+
+
+    private String setCurrentTime() {
+        String timeFormat = "hh:mm:ss a";
+       SimpleDateFormat sdf=new SimpleDateFormat(timeFormat,Locale.getDefault());
+        return sdf.format(calendar.getTime());
     }
 }

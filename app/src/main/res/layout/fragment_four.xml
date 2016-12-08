@@ -29,9 +29,10 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="130dp"
-        android:background="@android:drawable/editbox_background_normal"
+        android:background="@android:drawable/editbox_background"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp" />
+        android:layout_marginRight="20dp"
+        android:textColor="@color/black"/>
 
 
     <Spinner
@@ -40,18 +41,20 @@
         android:id="@+id/spinner"
         android:background="@android:drawable/spinner_background"
         android:layout_below="@+id/edit_texto"
-        android:layout_alignLeft="@+id/button2"
-        android:layout_alignStart="@+id/button2"
+        android:layout_alignLeft="@+id/send"
+        android:layout_alignStart="@+id/send"
         android:layout_height="50dp"
-        android:layout_alignRight="@+id/button2"
-        android:layout_alignEnd="@+id/button2" />
+        android:layout_alignRight="@+id/send"
+        android:layout_alignEnd="@+id/send"
+        android:gravity="center_vertical|end"
+        android:textColor="@color/black"/>
 
     <Button
         android:text="@string/send"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="21dp"
-        android:id="@+id/button2"
+        android:id="@+id/send"
         android:background="@color/blue_button"
         android:textSize="24sp"
         android:layout_below="@+id/spinner"
