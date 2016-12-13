@@ -211,7 +211,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="11dp"
-        android:id="@+id/button"
+        android:id="@+id/searchbutton"
         android:background="@color/blue_button"
         android:layout_alignRight="@+id/textView13"
         android:layout_alignEnd="@+id/textView13"

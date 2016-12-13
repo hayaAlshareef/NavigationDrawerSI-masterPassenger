@@ -18,7 +18,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -60,6 +59,7 @@ public class FragmentFour extends Fragment {
     private JSONArray users = null;
     Spinner DriversName;
     Button send;
+
 
     @Nullable
     @Override
@@ -225,7 +225,7 @@ public class FragmentFour extends Fragment {
                         if (driveresInfo.get(i).getDriverName().contains(driverSelected)) {
                             ID_Driver = driveresInfo.get(i).getDriverID();
                             Complaint = complaint.getText().toString().trim();
-                            Toast.makeText(getActivity(), ID_Driver+Complaint,Toast.LENGTH_SHORT).show();
+                           // Toast.makeText(getActivity(), ID_Driver+Complaint,Toast.LENGTH_SHORT).show();
 
                             //String method="sendComplaint";
                             //getJSON(method);

@@ -92,4 +92,6 @@
     <string name="passwords">كلمة المرور</string>
     <string name="del">حذف الحساب</string>
     <string name="savechanges">حفظ التغييرات</string>
+    <string name="requestbutton">انشاء الطلب</string>
+    <string name="absent">الغياب</string>
 </resources>

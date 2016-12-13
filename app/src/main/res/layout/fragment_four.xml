@@ -35,15 +35,20 @@
         android:textColor="@color/black"/>
 
 
+
     <Spinner
         android:layout_width="match_parent"
-        android:layout_marginTop="27dp"
+        android:layout_height="40dp"
+
+        android:scrollbarSize="@dimen/activity_horizontal_margin"
+        android:textSize="18sp"
+        android:layout_marginTop="10dp"
         android:id="@+id/spinner"
-        android:background="@android:drawable/spinner_background"
+        android:background="@android:drawable/btn_dropdown"
         android:layout_below="@+id/edit_texto"
         android:layout_alignLeft="@+id/send"
         android:layout_alignStart="@+id/send"
-        android:layout_height="50dp"
+        android:layout_weight="0.14"
         android:layout_alignRight="@+id/send"
         android:layout_alignEnd="@+id/send"
         android:gravity="center_vertical|end"
