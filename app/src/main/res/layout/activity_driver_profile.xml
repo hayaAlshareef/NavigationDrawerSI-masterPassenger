@@ -1,0 +1,577 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:orientation="vertical" android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@color/gray_shadow"
+android:id="@+id/activity_driver_profile"
+android:weightSum="1">
+
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="0.32">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="1"
+            android:layout_weight="0.32">
+
+            <TableLayout
+                android:layout_width="234dp"
+                android:layout_height="match_parent">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+
+                    <TextView
+                        android:text=" أحمد علي "
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/driveNameET"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:layout_weight="0.10"
+                        android:layout_marginTop="50dp"
+                        android:gravity="right"
+                        />
+
+                    <TextView
+                        android:text="اسم السائق : "
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/driveName"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:layout_marginTop="50dp"
+                        android:elevation="1dp" />
+
+
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:text="05568938502"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/driverNumET"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:layout_weight="0.10"
+                        android:gravity="right"/>
+
+                    <TextView
+                        android:text="رقم الجوال: "
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/driveNum"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:gravity="right"
+                        android:elevation="1dp" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+                    <TextView
+                        android:text="42"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/diverAgeET"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:layout_weight="0.10"
+                        android:gravity="right" />
+                    <TextView
+                        android:text="العمر : "
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/age"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:gravity="right"
+                        android:elevation="1dp" />
+
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:text="مصري"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/nationalityET"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:layout_weight="0.10"
+                        android:gravity="right" />
+                    <TextView
+                        android:text="الجنسية : "
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/nationality"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:gravity="right"
+                        android:elevation="1dp" />
+
+                </TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:text="دبي للنقل"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/companyName"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:layout_weight="0.10"
+                        android:gravity="right"/>
+
+                    <TextView
+                        android:text="اسم الشركة : "
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/company"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:gravity="right"
+                        android:elevation="1dp" />
+
+                </TableRow>
+            </TableLayout>
+
+            <ImageView
+                android:layout_width="115dp"
+                android:layout_height="171dp"
+                app:srcCompat="@drawable/profile_1x"
+                android:id="@+id/imageView4"
+                android:layout_gravity="right" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="1"
+            android:layout_marginTop="20dp"
+            android:layout_weight="0.32">
+
+
+            <TableLayout
+                android:layout_width="236dp"
+                android:layout_height="262dp">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                    <TextView
+                        android:text="حافلة"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/carType"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:layout_weight="0.10"
+                        android:gravity="right"/>
+                    <TextView
+                        android:text="نوع المركبة : "
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/carTypeET"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+
+                        android:elevation="1dp" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+                    <TextView
+                        android:text="frod"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/carCompanyET"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:layout_weight="0.10"
+                        android:gravity="right"/>
+                    <TextView
+                        android:text="اسم شركة السيارة : "
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/carCompany"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:elevation="1dp" />
+
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+
+                    <TextView
+                        android:text="expedition"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/carModel"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:layout_weight="0.10"
+                        android:gravity="right" />
+
+                    <TextView
+                        android:text="نوع الطراز  : "
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/carModelET"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:layout_weight="0.10"
+                        android:gravity="right" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+                    <TextView
+                        android:text="    2013 "
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/modelNum"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:layout_weight="0.10"
+                        android:gravity="right" />
+
+                    <TextView
+                        android:text="سنة الطراز : "
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/modelNumET"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:layout_weight="0.10"
+                        android:gravity="right" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+                    <TextView
+                        android:text="AKB123"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/PlateNumET"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:layout_weight="0.10"
+                        android:gravity="right" />
+
+                    <TextView
+                        android:text=" رقم اللوحة : "
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/PlateNum"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:layout_weight="0.10"
+                        android:gravity="right" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:text="أبيض"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/carColorET"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:layout_weight="0.10"
+                        android:gravity="right"/>
+                    <TextView
+                        android:text="اللون : "
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/colorCar"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:layout_weight="0.10"
+                        android:gravity="right" />
+                </TableRow>
+
+
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:text="20"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/capacityTV"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:layout_weight="0.10"
+                        android:gravity="right" />
+
+                    <TextView
+                        android:text="السعة : "
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/capacity"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:layout_weight="0.10"
+                        android:gravity="right" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:text="13"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/manufacturedTV"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:layout_weight="0.10"
+                        android:gravity="right" />
+                    <TextView
+                        android:text="سنة الصنع : "
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/manufactured"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:layout_weight="0.10"
+                        android:gravity="right" />
+                </TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:text="700"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/monthPriceET"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:layout_weight="0.10"
+                        android:gravity="right" />
+
+                    <TextView
+                        android:text="السعر الشهري : "
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/monthPrice"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:layout_weight="0.10"
+                        android:gravity="right" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:text="70"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/dayPriceET"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:layout_weight="0.10"
+                        android:gravity="right" />
+
+                    <TextView
+                        android:text="السعر اليومي : "
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/dayPrice"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:layout_weight="0.10"
+                        android:gravity="right" />
+
+                </TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:text="نعم"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/femaleTV"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:layout_weight="0.10"
+                        android:gravity="right"  />
+
+                    <TextView
+                        android:text="وجود مرافق : "
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/female"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:layout_weight="0.10"
+                        android:gravity="right" />
+                </TableRow>
+            </TableLayout>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                app:srcCompat="@drawable/mercedes"
+                android:id="@+id/carImage"
+                android:layout_gravity="right"
+                android:paddingLeft="10dp" />
+
+        </LinearLayout>
+
+
+
+
+
+
+        <TextView
+            android:text="التعليقات"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/commentTV"
+            android:gravity="right"
+            android:textColor="@color/colorPrimary"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:paddingTop="15dp"
+            android:paddingRight="30dp" />
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.89"
+            android:background="@color/grey_background"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <TextView
+                    android:text="1:30 PM"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/TimeComment"
+                    android:layout_weight="1"
+                    android:textColor="@color/gray"
+                    android:gravity="right"
+                    />
+
+                <TextView
+                    android:text="22\10\2016"
+                    android:layout_width="220dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/DateComment"
+                    android:layout_weight="1"
+                    android:textColor="@color/gray"
+                    android:gravity="right"
+
+                    />
+
+                <TextView
+                    android:text="الاسم : نورة"
+                    android:layout_width="250dp"                       android:layout_height="wrap_content"
+                    android:id="@+id/NameComment"
+                    android:layout_weight="1"
+                    android:textColor="@color/gray" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+                <TextView
+                    android:text="السائق كان منضبظ جدا ويأتي على الوقت  "
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/comment1"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:layout_weight="1"
+                    />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </TableLayout>
+
+        <TextView
+            android:text="إضافة تعليق جديد "
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/newCommentTV"
+            android:gravity="right"
+            android:textColor="@color/colorPrimary"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_weight="0.89"
+            android:paddingTop="15dp"
+            android:paddingRight="30dp" />
+
+        <AutoCompleteTextView
+            android:text="AutoCompleteTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/autoCompleteTextView"
+            android:layout_weight="0.89"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:textColor="?attr/colorButtonNormal"
+            android:gravity="right"
+            />
+
+
+
+    </LinearLayout>
+</ScrollView>
+
+
+</LinearLayout>
