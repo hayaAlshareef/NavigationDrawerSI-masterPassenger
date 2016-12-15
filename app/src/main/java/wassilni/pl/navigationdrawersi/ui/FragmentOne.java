@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -35,40 +36,19 @@ public class FragmentOne extends Fragment {
     String sJson;
     ListView requests;
     Request Objrequest;
-    //TextView requestNum;
-    //TextView driverName;
-   // TextView dropOffLocation;
-    //TextView dropOffTime;
-   // TextView statues;
     Button absent;
     Button unSubscribe;
     private int TRACK = 0;
     private JSONArray users = null;
-   // String reqN;
-    //String driverN;
-    //String dfLocation;
-    //String dftime;
-  //  String confirm;
     ArrayAdapter<Request> dataAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup containter,
-            Bundle savedInstanceState) {
-       View view = inflater.inflate(R.layout.fragment_one, containter, false);
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_one, containter, false);
 
-       /*requestNum=(TextView) view.findViewById(R.id.requestNumberRetrive);
-        driverName=(TextView) view.findViewById(R.id.DriverNameRetrive);
-        dropOffLocation=(TextView) view.findViewById(R.id.dropOffLRet);
-        dropOffTime=(TextView) view.findViewById(R.id.dropOffTRet);
-        statues=(TextView)view.findViewById(R.id.statusRet);
-        absent=(Button) view.findViewById(R.id.absent);
-        unSubscribe=(Button) view.findViewById(R.id.unSubscribe);*/
-
-
-
-        requests=(ListView) view.findViewById(R.id.listRequest);
-       listOfReq=new ArrayList<Request>();
-        //list();
+        listOfReq = new ArrayList<Request>();
+        requests = (ListView) view.findViewById(R.id.listRequest);
 
 
         getJSON("GetAllReq");
@@ -77,15 +57,6 @@ public class FragmentOne extends Fragment {
         return view;
     }
 
-    public void list(){
-
-        for(int i=0;i<=5;i++){
-          //  listOfReq.add("the number is"+i );
-
-        }
-
-
-    }
 
     public void getJSON(String url) {
         class GetJSON extends AsyncTask<String, Void, String> {
@@ -95,7 +66,7 @@ public class FragmentOne extends Fragment {
             protected void onPreExecute() {
                 super.onPreExecute();
                 loading = ProgressDialog.show(getActivity(), "Please Wait...", null, true, true);
-               // DriverN = new ArrayList<String>();
+
 
             }
 
@@ -104,12 +75,7 @@ public class FragmentOne extends Fragment {
                 String uri = "http://192.168.56.1/wassilni/GetAllReq.php";
                 String Exe = null;
                 String method = params[0];
-                //String comp;
-                //String Drivername;
-               /* if (method.equals("sendComplaint")) {
 
-                }
-                else*/
                 if (method.equals("GetAllReq")) {
                     BufferedReader bufferedReader = null;
                     try {
@@ -137,13 +103,7 @@ public class FragmentOne extends Fragment {
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 loading.dismiss();
-               // System.out.println(s);
-                // name=new String[users.length()];
-                //  textViewJSON.settText(s);
                 sJson = s;
-              //  Toast.makeText(getActivity(),s,Toast.LENGTH_SHORT).show();
-               // System.out.println(s);
-
                 try {
                     JSONObject jsonObject = new JSONObject(sJson);
                     users = jsonObject.getJSONArray(JSON_ARRAY);
@@ -153,56 +113,34 @@ public class FragmentOne extends Fragment {
 
 
                 try {
-                 //   int counter = 0;
-
                     JSONObject jsonObject;
 
                     while (TRACK < users.length()) {
                         jsonObject = users.getJSONObject(TRACK);
 
-                         if(jsonObject.getString("confirm").equals("y"))
-                         {
-                             //statues.setText();
-                             //confirm=statues.getText().toString().trim();
-                             Objrequest = new Request(jsonObject.getString("R_ID"),"أحمد",jsonObject.getString("R_dropoff_loc"),jsonObject.getString("r_time"),"مقبول");
-                             listOfReq.add(Objrequest);
-                             System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%yyyyyyy%%%%%%%%%%%");
-                         }
+                       if (jsonObject.getString("confirm").equals("y")) {
 
-                        else  if(jsonObject.getString("confirm").equals("n"))
-                         {
+                            Objrequest = new Request(jsonObject.getString("R_ID"), "أحمد", jsonObject.getString("R_dropoff_loc"), jsonObject.getString("r_time"), "مقبول");
+                            listOfReq.add(Objrequest);
+
+                  }  /* else if (jsonObject.getString("confirm").equals("n")) {
                             // statues.setText("مرفوض");
-                             //confirm=statues.getText().toString().trim();
-                             Objrequest = new Request(jsonObject.getString("R_ID"),"أحمد",jsonObject.getString("R_dropoff_loc"),jsonObject.getString("r_time"),"مرفوض");
-                             listOfReq.add(Objrequest);
-                             System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%nnnnnnnn%%%%%%%%%%%%%%%%%%%%%%%%%");
-                         }
-
-                        else  if(jsonObject.getString("confirm").equals("w"))
-                         {
-                             //statues.setText("قيد الإنتظار");
+                            //confirm=statues.getText().toString().trim();
+                            Objrequest = new Request(jsonObject.getString("R_ID"), "أحمد", jsonObject.getString("R_dropoff_loc"), jsonObject.getString("r_time"), "مرفوض");
+                            listOfReq.add(Objrequest);
+                            System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%nnnnnnnn%%%%%%%%%%%%%%%%%%%%%%%%%");
+                        } else if (jsonObject.getString("confirm").equals("w")) {
+                            //statues.setText("قيد الإنتظار");
                             // confirm=statues.getText().toString().trim();
-                             Objrequest = new Request(jsonObject.getString("R_ID"),"أحمد",jsonObject.getString("R_dropoff_loc"),jsonObject.getString("r_time"),"قيد الإنتظار");
-                             listOfReq.add(Objrequest);
-                             System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%wwwwwww%%%%%%%%%%%%%%%%%%%%%%%%%%");
+                            Objrequest = new Request(jsonObject.getString("R_ID"), "أحمد", jsonObject.getString("R_dropoff_loc"), jsonObject.getString("r_time"), "قيد الإنتظار");
+                            listOfReq.add(Objrequest);
+                            System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%wwwwwww%%%%%%%%%%%%%%%%%%%%%%%%%%");
 
-                         }
+                        }*/
 
-                        // else System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%else%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-
-
-
-                         // counter++;
-                          TRACK++;
-                        }
-//for (int i=0;i<listOfReq.size();i++){
-  //  System.out.println(listOfReq.get(i).getReqNum() + "test data");
-
-//}
-
-              // spinner_fn();
-                    requests.setAdapter(new mylistreq(getActivity(),R.layout.list_item_requests,listOfReq));
-
+                        TRACK++;
+                    }
+                    requests.setAdapter(new myList(getActivity(), listOfReq));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -219,107 +157,67 @@ public class FragmentOne extends Fragment {
     }
 
 
-private class mylistreq extends ArrayAdapter<Request>{
-   private int layout;
-ArrayList<Request> array;
-    public mylistreq(Context context, int resource, ArrayList<Request> objects) {
-        super(context, resource, objects);
-        layout=resource;
-        array=objects;
-    }
-
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        Viewlist viewlist=new Viewlist();
-       // if(convertView==null){
-          LayoutInflater inflater=LayoutInflater.from(getContext());
-            convertView=inflater.inflate(layout,parent,false);
-
-            for (int i = 0; i < listOfReq.size(); i++) {
-
-            viewlist.requestNum=(TextView) convertView.findViewById(R.id.requestNumberRetrive);
-             viewlist.driverName=(TextView) convertView.findViewById(R.id.DriverNameRetrive);
-            viewlist.dropOffLocation=(TextView) convertView.findViewById(R.id.dropOffLRet);
-            viewlist.dropOffTime=(TextView) convertView.findViewById(R.id.dropOffTRet);
-            viewlist.statues=(TextView)convertView.findViewById(R.id.statusRet);
-            viewlist.absent=(Button) convertView.findViewById(R.id.absent);
-            viewlist.unSubscribe=(Button) convertView.findViewById(R.id.unSubscribe);
-
-                viewlist.requestNum.setText(listOfReq.get(i).getReqNum());
-               System.out.println(viewlist.requestNum.getText() + " //test data");
-                viewlist.driverName.setText(listOfReq.get(i).getDriverN());
-                viewlist.dropOffLocation.setText(listOfReq.get(i).getDropOffL());
-                viewlist.dropOffTime.setText(listOfReq.get(i).getDropOffT());
-                viewlist.statues.setText(listOfReq.get(i).getConfirm());
-
-              //  convertView.setTag(viewlist);
-          //  }
-       }
-       // else convertView.getTag();
-
-
-
-
-        return convertView;
-   }
 }
+    class myList extends BaseAdapter {
+        ArrayList<Request> items;
+        Context context;
+        Request temp;
+        public myList(Context context,ArrayList<Request> Listitem) {
+            this.context=context;
+            items=Listitem;
+        }
+
+        @Override
+        public int getCount() {
+            return items.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return items.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, final View convertView, ViewGroup parent) {
+
+            LayoutInflater inflater= LayoutInflater.from(context);
+            View row=inflater.inflate(R.layout.list_item_requests,parent,false);
+            TextView requestNum=(TextView) row.findViewById(R.id.requestNumberRetrive);
+            TextView driverName=(TextView) row.findViewById(R.id.DriverNameRetrive);
+            TextView dropOffLocation=(TextView) row.findViewById(R.id.dropOffLRet);
+            TextView dropOffTime=(TextView) row.findViewById(R.id.dropOffTRet);
+            TextView statues=(TextView)row.findViewById(R.id.statusRet);
+            Button absent=(Button) row.findViewById(R.id.absent);
+            Button unSubscribe=(Button) row.findViewById(R.id.unSubscribe);
+
+            temp=items.get(position);
+
+            absent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    //Toast.makeText(context,temp.getReqNum(),Toast.LENGTH_SHORT).show(); //get request id to send absent to her driver
+                }
+            });
+            unSubscribe.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //Toast.makeText(context,temp.getReqNum(),Toast.LENGTH_SHORT).show(); //get request id to send unSubscribe to her driver
+                }
+            });
 
 
+            requestNum.setText(temp.getReqNum());
+            driverName.setText(temp.getDriverN());
+            dropOffLocation.setText(temp.getDropOffL());
+            dropOffTime.setText(temp.getDropOffT());
+            statues.setText(temp.getConfirm());
 
-    public class Viewlist {
-
-        TextView requestNum;
-        TextView driverName;
-        TextView dropOffLocation;
-        TextView dropOffTime;
-        TextView statues;
-        Button absent;
-        Button unSubscribe;
-
+            return row;
+        }
     }
-}
-
-
-
-
-
- /* public void spinner_fn() {
-
-
-        dataAdapter = new ArrayAdapter<Request>(getActivity(), R.layout.list_item_requests, 0,listOfReq);
-        requests.setAdapter(dataAdapter);
-
-        for (int i = 0; i < listOfReq.size(); i++) {
-            requestNum.setText(listOfReq.get(i).getReqNum());
-            driverName.setText(listOfReq.get(i).getDriverN());
-            dropOffLocation.setText(listOfReq.get(i).getDropOffL());
-            dropOffTime.setText(listOfReq.get(i).getDropOffT());
-            statues.setText(listOfReq.get(i).getConfirm());
-        }
-
-
-    }*/
-  /*  public class mylistreq extends ArrayAdapter<String> {
-
-        public mylistreq(Context context, int resource, List<String> objects) {
-            super(context, resource, objects);
-        }
-
-        public void spinner_fn() {
-
-
-            dataAdapter = new ArrayAdapter<Request>(getActivity(), R.layout.list_item_requests, listOfReq);
-            requests.setAdapter(dataAdapter);
-
-               requestNum=(TextView) convertView.findViewById(R.id.requestNumberRetrive);
-            driverName=(TextView) convertView.findViewById(R.id.DriverNameRetrive);
-            dropOffLocation=(TextView) convertView.findViewById(R.id.dropOffLRet);
-            dropOffTime=(TextView) convertView.findViewById(R.id.dropOffTRet);
-            statues=(TextView)convertView.findViewById(R.id.statusRet);
-            absent=(Button) convertView.findViewById(R.id.absent);
-            unSubscribe=(Button) convertView.findViewById(R.id.unSubscribe);
-
-
-        }
-    }*/

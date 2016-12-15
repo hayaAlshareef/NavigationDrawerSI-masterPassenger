@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         navigationItems = new ArrayList<>();
         navigationItems.add(new NavigationDrawerItem(getString(R.string.fragment_one), true));
         navigationItems.add(new NavigationDrawerItem(getString(R.string.fragment_two), true));
-       // navigationItems.add(new NavigationDrawerItem(getString(R.string.fragment_three), true));
+        navigationItems.add(new NavigationDrawerItem(getString(R.string.fragment_three), true));
         navigationItems.add(new NavigationDrawerItem(getString(R.string.fragment_four), true));
         navigationItems.add(new NavigationDrawerItem(getString(R.string.fragment_fifth), true));
         navigationItems.add(new NavigationDrawerItem(getString(R.string.fragment_about),
@@ -208,15 +208,15 @@ public class MainActivity extends AppCompatActivity {
                             .commit();
                 }
                 break;
-           /* case 2:
+            case 2:
                 if (!(getSupportFragmentManager().getFragments().get(0) instanceof FragmentThree)) {
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.contentFrame, Fragment
                                     .instantiate(MainActivity.this, Fragments.THREE.getFragment()))
                             .commit();
                 }
-                break;*/
-            case 2:
+                break;
+            case 3:
                 if (!(getSupportFragmentManager().getFragments().get(0) instanceof FragmentFour)) {
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.contentFrame, Fragment
@@ -224,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
                             .commit();
                 }
                 break;
-            case 3:
+            case 4:
                 if (!(getSupportFragmentManager().getFragments().get(0) instanceof FragmentFifth)) {
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.contentFrame, Fragment
@@ -232,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
                             .commit();
                 }
                 break;
-           case 4:
+           case 5:
                 if (!(getSupportFragmentManager().getFragments().get(0) instanceof FragmentAbout)) {
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.contentFrame, Fragment
