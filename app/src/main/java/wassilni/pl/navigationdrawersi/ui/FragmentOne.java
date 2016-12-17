@@ -13,6 +13,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -155,7 +156,12 @@ public class FragmentOne extends Fragment {
         super.onDestroyView();
 
     }
+public void display(String id){
 
+    Toast.makeText(getActivity(),id,Toast.LENGTH_SHORT).show();
+
+
+}
 
 }
     class myList extends BaseAdapter {
@@ -200,8 +206,7 @@ public class FragmentOne extends Fragment {
             absent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    //Toast.makeText(context,temp.getReqNum(),Toast.LENGTH_SHORT).show(); //get request id to send absent to her driver
+                    Toast.makeText(context,temp.getReqNum(),Toast.LENGTH_SHORT).show(); //get request id to send absent to her driver
                 }
             });
             unSubscribe.setOnClickListener(new View.OnClickListener() {
