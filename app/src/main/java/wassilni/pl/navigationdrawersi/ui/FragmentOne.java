@@ -52,7 +52,7 @@ public class FragmentOne extends Fragment {
         requests = (ListView) view.findViewById(R.id.listRequest);
 
 
-        getJSON("GetAllReq");
+        //getJSON("GetAllReq");
 
 
         return view;
@@ -73,7 +73,7 @@ public class FragmentOne extends Fragment {
 
             @Override
             protected String doInBackground(String... params) {
-                String uri = "http://192.168.56.1/wassilni/GetAllReq.php";
+                String uri = "http://wassilni.com/db/GetAllReq.php";
                 String Exe = null;
                 String method = params[0];
 
@@ -105,6 +105,7 @@ public class FragmentOne extends Fragment {
                 super.onPostExecute(s);
                 loading.dismiss();
                 sJson = s;
+                System.out.println(" JSON S IS :::::::::::::;"+s);
                 try {
                     JSONObject jsonObject = new JSONObject(sJson);
                     users = jsonObject.getJSONArray(JSON_ARRAY);

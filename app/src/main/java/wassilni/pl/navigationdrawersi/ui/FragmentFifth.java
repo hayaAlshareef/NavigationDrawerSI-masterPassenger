@@ -30,7 +30,7 @@ public class FragmentFifth extends Fragment {
 
     String jsonString;
     public static final String MY_JSON ="GetAllPass";//MY_JSON
-    String url="http://192.168.56.1/wassilni/GetAllPass.php";
+    String url="http://wassilni.com/db/GetAllPass.php";
 
     String sJson;
    // TextView name , email , id;
@@ -166,6 +166,7 @@ public class FragmentFifth extends Fragment {
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 loading.dismiss();
+                System.out.println("##################"+s);
                 //  textViewJSON.settText(s);
                 sJson=s;
                 //Toast.makeText(getActivity(),s,Toast.LENGTH_SHORT).show();

@@ -43,7 +43,7 @@ public class backgroundTask extends AsyncTask<String ,Void,String> {
     @Override
     protected String doInBackground(String... voids) {
         String req_url= "http://192.168.56.1/wassilni/addPass.php";//register url
-        String login_url="http://192.168.56.1/wassilni/Login.php";//login url
+        String login_url="http://wassilni.com/db/loginPassenger.php";//login url
         String delete_url="http://192.168.56.1/wassilni/DelPass.php";
         String sendComplaint_url="http://192.168.56.1/wassilni/addComplaint.php";
         String fName ,lName , email , password , phone , school;
@@ -91,7 +91,7 @@ public class backgroundTask extends AsyncTask<String ,Void,String> {
         }
         else if (method.equals("login")){
 
-
+System.out.println("$$$$$$$$$$$$$$$   In Login !!!!!");
             String login_name=voids[1];
             String login_pass=voids[2];
             try{

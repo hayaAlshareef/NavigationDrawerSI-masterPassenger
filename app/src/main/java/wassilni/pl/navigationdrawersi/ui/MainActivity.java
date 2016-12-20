@@ -1,10 +1,15 @@
 package wassilni.pl.navigationdrawersi.ui;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.Menu;
@@ -12,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -238,6 +244,23 @@ public class MainActivity extends AppCompatActivity {
                             .replace(R.id.contentFrame, Fragment
                                     .instantiate(MainActivity.this, Fragments.ABOUT.getFragment()))
                             .commit();
+
+                    new AlertDialog.Builder(this)
+                            .setTitle("تأكيد تسجيل الخروج")
+                            .setMessage("هل أنت متأكد من تسجيل الخروج؟")
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    Toast.makeText(getApplicationContext(),"تم تسجيل الخروج بنجاح",Toast.LENGTH_SHORT).show();
+                                    SharedPreferences sp= getSharedPreferences("session", Context.MODE_APPEND);
+                                    SharedPreferences.Editor editor= sp.edit();
+                                    editor=editor.clear();
+                                    editor.clear();
+                                    editor.commit();
+                                    startActivity(new Intent(getApplicationContext(),login.class));
+                                }})
+                            .setNegativeButton(android.R.string.no, null).show();
                 }
                 break;
         }

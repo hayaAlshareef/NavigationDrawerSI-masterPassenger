@@ -11,6 +11,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -40,12 +41,13 @@ public class passengerPickupLocation extends FragmentActivity implements OnMapRe
     private LocationManager locationManager;
     private LocationListener listener;
     private LatLng userLocation;
-    private LatLng currentLocation;
+    private LatLng currentLocation=null;
     boolean useGPS = true;
     private Button gpsButton;
     //private TextView locStatus;
     private Marker m;
-
+TextView tvInfo;
+    public String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +57,16 @@ public class passengerPickupLocation extends FragmentActivity implements OnMapRe
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        tvInfo=(TextView)findViewById(R.id.tvInfo);
 
+        Intent i= getIntent();
+        type=i.getStringExtra("Type");
+        if(type.equalsIgnoreCase("pickup"))
+        {
+            tvInfo.setText("الرجاء تحديد مكان البدء");
+        }
+        else
+            tvInfo.setText("الرجاء تحديد مكان الوصول");
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
@@ -96,12 +107,27 @@ public class passengerPickupLocation extends FragmentActivity implements OnMapRe
                     //                                          int[] grantResults)
                     // to handle the case where the user grants the permission. See the documentation
                     // for ActivityCompat#requestPermissions for more details.
+                    Toast.makeText(getApplicationContext(),"الرجاء تفعيل أذونات الموقع من الإعدادات",Toast.LENGTH_LONG).show();
+                    ActivityCompat.requestPermissions(passengerPickupLocation.this, new String[] {  android.Manifest.permission.ACCESS_COARSE_LOCATION  },
+                            0 );//*/
                     return;
                 }
                 locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, listener);
-
-                userLocation = currentLocation;
-                setMarker();
+        if(currentLocation==null)
+        {
+            Toast.makeText(getApplicationContext(),"الرجاء الإنتظار حتى يتم الإتصال بخدمة الموقع",Toast.LENGTH_SHORT).show();
+        }
+                else {
+    userLocation = currentLocation;
+    setMarker();
+    if (type.equalsIgnoreCase("pickup")) {
+        FragmentTwo.pickupET.setText(extractLatLng(userLocation));
+        Toast.makeText(getApplicationContext(), "تم تحديد مكان البدء", Toast.LENGTH_LONG).show();
+    } else {
+        FragmentTwo.dropoffET.setText(extractLatLng(userLocation));
+        Toast.makeText(getApplicationContext(), "تم تحديد مكان الوصول", Toast.LENGTH_LONG).show();
+    }
+}
             }
 
         });
@@ -125,9 +151,9 @@ public class passengerPickupLocation extends FragmentActivity implements OnMapRe
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng Riyadh = new LatLng(24.687433, 46.584464);
+        LatLng Riyadh = new LatLng(24.6796205, 46.6981272);
         //mMap.addMarker(new MarkerOptions().position(Riyadh).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(Riyadh, 14));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(Riyadh, 10));
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -147,11 +173,21 @@ public class passengerPickupLocation extends FragmentActivity implements OnMapRe
                 public void onMapClick(LatLng point) {
                  //   Log.d("passengerPic", "in map onCLICKLISTNER @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
                     // TODO Auto-generated method stub
-                    double lat = point.latitude;
-                    double lng = point.longitude;
+                    //double lat = point.latitude;
+                    //double lng = point.longitude;
 
                     userLocation=point;
                     setMarker();
+                    if(type.equalsIgnoreCase("pickup"))
+                    {
+                        FragmentTwo.pickupET.setText(extractLatLng(userLocation));
+                        Toast.makeText(getApplicationContext(),"تم تحديد مكان البدء",Toast.LENGTH_LONG).show();
+                    }
+                    else
+                    {
+                        FragmentTwo.dropoffET.setText(extractLatLng(userLocation));
+                        Toast.makeText(getApplicationContext(),"تم تحديد مكان الوصول",Toast.LENGTH_LONG).show();
+                    }
                 }
             });
 
@@ -166,9 +202,16 @@ public class passengerPickupLocation extends FragmentActivity implements OnMapRe
         {
             if (userLocation != null) {
                 m = mMap.addMarker(new MarkerOptions().position(userLocation));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 12));
                 //locStatus.setText(userLocation.toString());
             } else
                 Toast.makeText(getApplicationContext(), "Please specify your pickup location", Toast.LENGTH_SHORT).show();
         }
+    }
+    public static String extractLatLng(LatLng s){
+        String str=s.toString().substring(s.toString().indexOf('(',0)+1,s.toString().indexOf(')',0));
+        str= str.replaceAll("\\s+","");
+
+        return str;
     }
 }
