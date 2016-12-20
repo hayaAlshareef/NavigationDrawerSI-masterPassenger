@@ -244,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
                             .replace(R.id.contentFrame, Fragment
                                     .instantiate(MainActivity.this, Fragments.ABOUT.getFragment()))
                             .commit();
-
+                    /* This code is used to logout AND to delete session file. */
                     new AlertDialog.Builder(this)
                             .setTitle("تأكيد تسجيل الخروج")
                             .setMessage("هل أنت متأكد من تسجيل الخروج؟")

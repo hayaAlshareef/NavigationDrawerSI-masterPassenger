@@ -190,7 +190,7 @@
                 android:text="@string/savechanges"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/registerB"
+                android:id="@+id/saveB"
                 android:background="@color/blue_button"
                 android:textSize="24sp"
                 android:layout_gravity="center"

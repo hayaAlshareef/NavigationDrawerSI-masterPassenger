@@ -1,15 +1,23 @@
 package wassilni.pl.navigationdrawersi.ui;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,6 +28,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import Objects.MyApp;
 import wassilni.pl.navigationdrawersi.R;
 
 /**
@@ -44,6 +53,7 @@ public class FragmentFifth extends Fragment {
     private static final String school= "P_school";
 
     EditText et_fName ,et_lName , et_email , et_password, et_checkPassword ,et_phone , et_school;
+    Button saveB;
     String id;
 
     private int TRACK = 0;
@@ -54,6 +64,7 @@ public class FragmentFifth extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_fifth, container, false);
 
+        saveB=(Button) view.findViewById(R.id.saveB);
 
         et_fName = (EditText) view.findViewById(R.id.fistNameET);
         et_lName = (EditText)view.findViewById(R.id.lastNameET);
@@ -63,9 +74,36 @@ public class FragmentFifth extends Fragment {
         et_phone = (EditText)view.findViewById(R.id.phoneET);
         et_school = (EditText)view.findViewById(R.id.school);
         TextView d =(TextView)view.findViewById(R.id.deletPassenger);
+
+        setValues();
+
        d.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
+
+               new AlertDialog.Builder(getContext())
+                       .setTitle("تأكيد حذف الحساب")
+                       .setMessage("هل أنت متأكد من حذف حسابك؟")
+                       .setIcon(android.R.drawable.ic_dialog_alert)
+                       .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                           public void onClick(DialogInterface dialog, int whichButton) {
+                               Toast.makeText(getContext(),"تم حذف حسابك",Toast.LENGTH_SHORT).show();
+                               SharedPreferences sp= getContext().getSharedPreferences("session", Context.MODE_APPEND);
+                               SharedPreferences.Editor editor= sp.edit();
+                               editor=editor.clear();
+                               editor.clear();
+                               editor.commit();
+                               /*
+                               * Here put the code for deleting the account !!!!!!!!!!!!
+                               * */
+                               String method = "delete";
+                               backgroundTask bc = new backgroundTask(getActivity());
+                               bc.execute(method,id);
+
+                           }})
+                       .setNegativeButton(android.R.string.no, null).show();
+
               // switch (v.getId()) {
                 //   case R.id.registerB:
                        // Intent e=new Intent(getActivity(),editpage.class);
@@ -73,12 +111,27 @@ public class FragmentFifth extends Fragment {
                     //   break;
                   // case R.id.deletPassenger:
 
-                       String method = "delete";
-                       backgroundTask bc = new backgroundTask(getActivity());
-                       bc.execute(method,id);
+
                     //   break;
            }
        });
+
+        saveB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                /* Delete session because it contains the old data.*/
+                SharedPreferences sp= getContext().getSharedPreferences("session", Context.MODE_APPEND);
+                SharedPreferences.Editor editor= sp.edit();
+                editor=editor.clear();
+                editor.clear();
+                editor.commit();
+                Toast.makeText(getActivity(),"تم حذف ملف التعريف, يتوجب عليك تسجيل الدخول مجدداً",Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getActivity(),login.class));
+
+            }
+        });
+
 
         getJSON(url);
       //  Button edit=(Button)view.findViewById(R.id.editinfo);
@@ -166,7 +219,7 @@ public class FragmentFifth extends Fragment {
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 loading.dismiss();
-                System.out.println("##################"+s);
+                Log.d("Fragment 5 --","##################"+s);
                 //  textViewJSON.settText(s);
                 sJson=s;
                 //Toast.makeText(getActivity(),s,Toast.LENGTH_SHORT).show();
@@ -211,6 +264,15 @@ public class FragmentFifth extends Fragment {
         }*/
   //  }
 
+    public void setValues()
+    {
+        et_fName.setText(MyApp.passenger_from_session.getFName());
+        et_lName.setText(MyApp.passenger_from_session.getLName());
+        et_email.setText(MyApp.passenger_from_session.getEmail());
+        et_phone.setText(MyApp.passenger_from_session.getPhone());
+        et_school.setText(MyApp.passenger_from_session.getSchool());
+
+    }
 }
 
 

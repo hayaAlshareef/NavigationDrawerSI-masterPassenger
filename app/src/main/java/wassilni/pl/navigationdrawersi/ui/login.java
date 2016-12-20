@@ -142,6 +142,7 @@ public class login extends AppCompatActivity implements DatePickerDialog.OnDateS
     public void SessionSetup() {
         sharedPreferences = getSharedPreferences("session", Context.MODE_APPEND);
 
+
         class Task extends AsyncTask<String, Void, String> {
             ProgressDialog loggingin;
 
@@ -159,13 +160,12 @@ public class login extends AppCompatActivity implements DatePickerDialog.OnDateS
                 if (sharedPreferences.contains("ID"))//means that the XML file isn't empty.
                 {//retrieve session , and set the variable MyApp.passenger_from_session
                     Passenger.retrieveSession(sharedPreferences);
-System.out.println("فييييييه سييييييييييششششششششششننننننننن موجوده");
+                //System.out.println("فييييييه سييييييييييششششششششششننننننننن موجوده");
                     flag = "succeed";
                 } else // there's no session saved, then create one!
                 {
                     flag = "failed";
                     // 1.prompt for login, using Toast
-                    createSession();
                 }
                 System.out.println("$#$#$#$#$#$#$#$#$#$#$#$#$$#$#$#$#$#$#$ "+flag);
                 return flag;
@@ -191,7 +191,6 @@ System.out.println("فييييييه سييييييييييشششششششششش�
         Task t=new Task();
         //t.execute(id+"");
         t.execute();
-
     }
 
 
