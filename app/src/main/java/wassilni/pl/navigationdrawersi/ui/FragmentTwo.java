@@ -1,13 +1,20 @@
 package wassilni.pl.navigationdrawersi.ui;
 
+import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -21,18 +28,22 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.concurrent.ExecutionException;
 
 import Objects.MyApp;
 import wassilni.pl.navigationdrawersi.R;
 
-public class FragmentTwo extends Fragment {
+public class FragmentTwo extends Fragment implements View.OnClickListener {
 
    // @InjectView(R.id.circleLayout)
     //LinearLayout circleLayout;
-   Button pickupB,dropoffB,searchB;
+   Button pickupB,dropoffB,searchB,dateStartB,dateEndB;
     public static EditText pickupET,dropoffET,sDateET,eDateET,timeET;
-
+    static boolean CheckButton;//to know witch pickup date the user click
     public String sDate;
     public String eDate;
     public String time;
@@ -46,6 +57,10 @@ public class FragmentTwo extends Fragment {
           searchB=(Button) view.findViewById(R.id.searchb);
           pickupB=(Button) view.findViewById(R.id.pickupB);
           dropoffB=(Button) view.findViewById(R.id.dropoffB);
+        dateStartB=(Button) view.findViewById(R.id.datepickerB);
+         dateEndB=(Button) view.findViewById(R.id.datepickerB1);
+        dateStartB.setOnClickListener(this);
+        dateEndB.setOnClickListener(this);
         sDateET=(EditText) view.findViewById(R.id.StartingDateET);
         eDateET=(EditText) view.findViewById(R.id.endingDateTE);
         timeET=(EditText) view.findViewById(R.id.timeET);
@@ -126,6 +141,62 @@ public class FragmentTwo extends Fragment {
         return result;
     }
 
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.datepickerB || v.getId() == R.id.datepickerB1) {
+
+            if (v.getId() == R.id.datepickerB) {
+                CheckButton = true;
+                System.out.println(CheckButton);
+            } else if (v.getId() == R.id.datepickerB1) {
+                CheckButton = false;
+                System.out.println(CheckButton);
+            }
+            DialogFragment newFragment = new SelectDateFragment();
+            newFragment.show(getFragmentManager(), "DatePicker");
+
+
+        }
+
+    }
+
+
+    @SuppressLint("ValidFragment")
+    public static class SelectDateFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+        int yy, mm, dd;
+        String date;
+        @RequiresApi(api = Build.VERSION_CODES.N)
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            final android.icu.util.Calendar calendar = android.icu.util.Calendar.getInstance();
+            yy = calendar.get(android.icu.util.Calendar.YEAR);
+            mm = calendar.get(android.icu.util.Calendar.MONTH);
+            dd = calendar.get(android.icu.util.Calendar.DAY_OF_MONTH);
+            return new DatePickerDialog(getActivity(), this, yy, mm, dd);
+        }
+
+        @Override
+        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+            Calendar calendar = new GregorianCalendar(year, month, dayOfMonth);
+
+
+            populateSetDate(calendar);
+        }
+
+        public void populateSetDate(final Calendar calendar) {
+            Date newDate = calendar.getTime();
+            SimpleDateFormat spf = new SimpleDateFormat("yyyy-dd-MM");
+            date = spf.format(newDate);
+
+            if (CheckButton == true)
+                sDateET.setText(date);
+            else
+                eDateET.setText(date);
+
+        }
+
+    }}
+
     class Background extends AsyncTask<String,Void,String>
     {
         @Override
@@ -195,8 +266,11 @@ public class FragmentTwo extends Fragment {
             super.onPreExecute();
         }
 
+
+
+
     }// end class AsyncTask
 
 
 
-}
+

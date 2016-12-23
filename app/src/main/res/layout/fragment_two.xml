@@ -100,7 +100,7 @@
                     android:layout_height="31dp"
                     android:layout_gravity="bottom"
                     android:background="@drawable/calendar"
-                    android:elevation="0dp"
+
                     android:gravity="right" />
 
                 <android.support.design.widget.TextInputLayout
