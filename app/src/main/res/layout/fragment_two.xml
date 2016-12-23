@@ -3,11 +3,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+    android:id="@+id/fragmentTwo"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/fragmentTwo"
-    android:background="@color/gray_shadow">
+    android:background="@color/gray_shadow"
+    android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -16,243 +16,252 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <TextView
-                android:text="ابحث عن رحلة"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
                 android:id="@+id/textView6"
-                android:textColor="@color/black"
-                android:textSize="24sp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:elevation="1dp"
+                android:gravity="center"
+                android:paddingBottom="10dp"
                 android:paddingTop="10dp"
-                android:paddingBottom="10dp" />
+                android:text="ابحث عن رحلة"
+                android:textColor="@color/black"
+                android:textSize="24sp" />
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:text="تاريخ البدء"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/startingDateTV"
-                android:textColor="@color/cast_intro_overlay_background_color"
-                android:textSize="18sp"
-                android:layout_marginTop="0dp" />
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:orientation="vertical">
 
-                <Button
-                    android:layout_width="40dp"
-                    android:layout_height="31dp"
-                    android:id="@+id/datepickerB"
-                    android:background="@drawable/calendar"
-                    android:elevation="0dp"
-                    android:gravity="right"
-                    android:layout_gravity="bottom" />
-                <android.support.design.widget.TextInputLayout
+                <TextView
+                    android:id="@+id/startingDateTV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColorHint="@android:color/darker_gray">
+                    android:layout_marginTop="0dp"
+                    android:text="تاريخ البدء"
+                    android:textColor="@color/cast_intro_overlay_background_color"
+                    android:textSize="18sp" />
 
-                    <EditText
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/datepickerB"
+                        android:layout_width="40dp"
+                        android:layout_height="31dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/calendar"
+                        android:elevation="0dp"
+                        android:gravity="right" />
+
+                    <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textPersonName"
-                        android:ems="10"
-                        android:id="@+id/StringDateET"
-                        android:textColor="?attr/colorButtonNormal"
-                        android:gravity="right"
-                        android:hint="تاريخ بداية فترة العمل"
-                        android:foregroundGravity="right"
-                        android:background="@android:drawable/editbox_background_normal"
-                        android:layout_weight="1"
-                        android:textColorHint="@android:color/darker_gray"/>
-                </android.support.design.widget.TextInputLayout>
+                        android:textColorHint="@android:color/darker_gray">
+
+                        <EditText
+                            android:id="@+id/StartingDateET"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@android:drawable/editbox_background_normal"
+                            android:ems="10"
+                            android:foregroundGravity="right"
+                            android:gravity="right"
+                            android:hint="تاريخ بداية فترة العمل"
+                            android:inputType="textPersonName"
+                            android:textColor="?attr/colorButtonNormal"
+                            android:textColorHint="@android:color/darker_gray" />
+                    </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
             </LinearLayout>
-            </LinearLayout>
+
             <TextView
-                android:text="تاريخ الإنتهاء"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/endingDateTV"
-                android:textColor="@color/cast_intro_overlay_background_color"
-                android:textSize="18sp"
-                android:layout_marginTop="18dp" />
-            <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:text="تاريخ الإنتهاء"
+                android:textColor="@color/cast_intro_overlay_background_color"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
                 <Button
+                    android:id="@+id/datepickerB1"
                     android:layout_width="40dp"
                     android:layout_height="31dp"
-                    android:id="@+id/datepickerB1"
+                    android:layout_gravity="bottom"
                     android:background="@drawable/calendar"
                     android:elevation="0dp"
-                    android:gravity="right"
-                    android:layout_gravity="bottom" />
+                    android:gravity="right" />
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColorHint="@android:color/darker_gray">
+
                     <EditText
+                        android:id="@+id/endingDateTE"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@android:drawable/editbox_background_normal"
+                        android:ems="10"
+                        android:foregroundGravity="right"
+                        android:gravity="right"
+                        android:hint="تاريخ نهاية فترة العمل"
                         android:inputType="textPersonName"
                         android:textColor="?attr/colorButtonNormal"
-                        android:ems="10"
-                        android:id="@+id/endingDateTE"
-                        android:background="@android:drawable/editbox_background_normal"
-                        android:gravity="right"
-                        android:foregroundGravity="right"
-                        android:hint="تاريخ نهاية فترة العمل"
-                        android:textColorHint="@android:color/darker_gray"
-                        android:layout_weight="1" />
+                        android:textColorHint="@android:color/darker_gray" />
                 </android.support.design.widget.TextInputLayout>
 
             </LinearLayout>
 
             <TextView
-                android:text="مكان البدء"
+                android:id="@+id/pickupTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/pickupTV"
+                android:layout_marginTop="18dp"
+                android:text="مكان البدء"
                 android:textColor="@color/cast_intro_overlay_background_color"
-                android:textSize="18sp"
-                android:layout_marginTop="18dp" />
+                android:textSize="18sp" />
 
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textColorHint="@android:color/darker_gray">
+
                 <LinearLayout
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
                     <Button
+                        android:id="@+id/pickupB"
                         android:layout_width="40dp"
                         android:layout_height="31dp"
-                        android:id="@+id/pickupB"
+                        android:layout_gravity="bottom"
                         android:background="@drawable/geo"
                         android:elevation="0dp"
-                        android:gravity="right"
-                        android:layout_gravity="bottom" />
+                        android:gravity="right" />
+
                     <EditText
+                        android:id="@+id/pickupET"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@android:drawable/editbox_background_normal"
+                        android:ems="10"
+                        android:foregroundGravity="right"
+                        android:gravity="right"
+                        android:hint="نقطة البداية"
                         android:inputType="textPersonName"
                         android:textColor="?attr/colorButtonNormal"
-                        android:ems="10"
-                        android:id="@+id/pickupET"
-                        android:background="@android:drawable/editbox_background_normal"
-                        android:gravity="right"
-                        android:foregroundGravity="right"
-                        android:hint="نقطة البداية"
-                        android:textColorHint="@android:color/darker_gray"
-                        android:layout_weight="1" />
+                        android:textColorHint="@android:color/darker_gray" />
                 </LinearLayout>
             </android.support.design.widget.TextInputLayout>
 
             <TextView
-                android:text="مكان الإنتهاء"
+                android:id="@+id/dropoffTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/dropoffTV"
+                android:layout_marginTop="18dp"
+                android:text="مكان الإنتهاء"
                 android:textColor="@color/cast_intro_overlay_background_color"
-                android:textSize="18sp"
-                android:layout_marginTop="18dp" />
+                android:textSize="18sp" />
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textColorHint="@android:color/darker_gray">
+
                 <LinearLayout
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
                     <Button
+                        android:id="@+id/dropoffB"
                         android:layout_width="40dp"
                         android:layout_height="31dp"
-                        android:id="@+id/dropoffB"
+                        android:layout_gravity="bottom"
                         android:background="@drawable/geo"
                         android:elevation="0dp"
-                        android:gravity="right"
-                        android:layout_gravity="bottom" />
+                        android:gravity="right" />
+
                     <EditText
+                        android:id="@+id/dropOffLET"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@android:drawable/editbox_background_normal"
+                        android:ems="10"
+                        android:foregroundGravity="right"
+                        android:gravity="right"
+                        android:hint="نقطة النهاية"
                         android:inputType="textPersonName"
                         android:textColor="?attr/colorButtonNormal"
-                        android:ems="10"
-                        android:id="@+id/dropOffLET"
-                        android:background="@android:drawable/editbox_background_normal"
-                        android:gravity="right"
-                        android:foregroundGravity="right"
-                        android:hint="نقطة النهاية"
-                        android:textColorHint="@android:color/darker_gray"
-                        android:layout_weight="1" />
+                        android:textColorHint="@android:color/darker_gray" />
                 </LinearLayout>
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textColorHint="@android:color/darker_gray" >
+                android:textColorHint="@android:color/darker_gray">
+                <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="وقت الذهاب"
+                    android:textColor="@color/cast_intro_overlay_background_color"
+                    android:textSize="18sp"
+                    android:layout_marginTop="10dp"/>
+
                 <EditText
+                    android:id="@+id/timeET"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:ems="7"
-                    android:id="@+id/monthPriceET"
-                    android:textColorLink="?attr/colorButtonNormal"
-                    android:textColor="?attr/colorButtonNormal"
-                    android:gravity="start"
                     android:background="@android:drawable/editbox_background_normal"
+                    android:ems="7"
+                    android:gravity="start"
                     android:hint="وقت الذهاب"
+                    android:inputType="text"
+                    android:textColor="?attr/colorButtonNormal"
                     android:textColorHint="@android:color/darker_gray"
-                    android:layout_marginTop="10dp" />
+                    android:textColorLink="?attr/colorButtonNormal" />
+
+</LinearLayout>
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textColorHint="@android:color/darker_gray">
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:ems="7"
-                    android:id="@+id/dayPriceET"
-                    android:textColorLink="?attr/colorButtonNormal"
-                    android:textColor="?attr/colorButtonNormal"
-                    android:gravity="start"
-                    android:background="@android:drawable/editbox_background_normal"
-                    android:hint="وقت العودة - يمكن نكنسلة"
-                    android:textColorHint="@android:color/darker_gray"
-                    android:layout_marginTop="10dp"  />
-            </android.support.design.widget.TextInputLayout>
+                android:textColorHint="@android:color/darker_gray"></android.support.design.widget.TextInputLayout>
 
             <Button
-                android:text="بحث"
+                android:id="@+id/searchb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/searchb"
-                android:background="@color/blue_button"
-                android:textSize="24sp"
                 android:layout_gravity="center"
+                android:layout_marginBottom="30dp"
                 android:layout_marginTop="30dp"
+                android:background="@color/blue_button"
                 android:onClick="userReg"
-                android:layout_marginBottom="30dp" />
+                android:text="بحث"
+                android:textSize="24sp" />
 
         </LinearLayout>
     </ScrollView>
