@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.net.InetAddress;
 
 import Objects.Car;
@@ -34,5 +36,18 @@ public class MyApp extends Application {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public static LatLng getLatlng(String point)
+    {
+        String [] sp;
+        LatLng result;
+        String latlng;
+        latlng = point;
+        latlng=latlng.substring(latlng.indexOf('(')+1, latlng.indexOf(')'));
+        //System.out.println(latlng);
+        sp=latlng.split("\\s+");
+        result= new LatLng(Double.parseDouble(sp[0]),Double.parseDouble(sp[1]));
+        return result;
     }
 }

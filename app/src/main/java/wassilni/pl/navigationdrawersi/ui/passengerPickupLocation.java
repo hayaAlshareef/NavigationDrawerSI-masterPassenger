@@ -153,7 +153,7 @@ TextView tvInfo;
         // Add a marker in Sydney and move the camera
         LatLng Riyadh = new LatLng(24.6796205, 46.6981272);
         //mMap.addMarker(new MarkerOptions().position(Riyadh).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(Riyadh, 10));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(Riyadh, 12));
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -202,7 +202,7 @@ TextView tvInfo;
         {
             if (userLocation != null) {
                 m = mMap.addMarker(new MarkerOptions().position(userLocation));
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 12));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 16));
                 //locStatus.setText(userLocation.toString());
             } else
                 Toast.makeText(getApplicationContext(), "Please specify your pickup location", Toast.LENGTH_SHORT).show();

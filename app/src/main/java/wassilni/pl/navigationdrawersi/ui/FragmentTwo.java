@@ -74,11 +74,7 @@ public class FragmentTwo extends Fragment implements View.OnClickListener {
         searchB.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
-                 if((sDateET.getText().toString()!="") &&
-                         (eDateET.getText().toString()!= "") &&
-                         (timeET.getText().toString()!="") &&
-                         (pickupET.getText().toString()!="")&&
-                         (dropoffET.getText().toString()!="")) {
+                 if(sDateET.getText().toString()!="")  {// if not empty -----------------------------------------------------------
                      String json=getFields();
                      if(json!="")
                      {
@@ -121,6 +117,9 @@ public class FragmentTwo extends Fragment implements View.OnClickListener {
 
     public String getFields()
     {
+        /*
+        * I think i need to re-format DATE , And TIME !!!!!!!
+        * either in php , or here before sending them to the PHP page.*/
         //if all fields has values
         sDate = sDateET.getText().toString();
         eDate = eDateET.getText().toString();
@@ -138,6 +137,7 @@ public class FragmentTwo extends Fragment implements View.OnClickListener {
             e.printStackTrace();
         }
         System.out.println("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  "+sDate+"\t"+eDate+"\t"+time+"\t"+pLoc+"\t"+dLoc);
+        //2016-12-28	2017-01-20	11:00:00	24.678747461415842,46.688804626464844	24.726262143865004,46.63715735077858
         return result;
     }
 
@@ -185,7 +185,7 @@ public class FragmentTwo extends Fragment implements View.OnClickListener {
 
         public void populateSetDate(final Calendar calendar) {
             Date newDate = calendar.getTime();
-            SimpleDateFormat spf = new SimpleDateFormat("yyyy-dd-MM");
+            SimpleDateFormat spf = new SimpleDateFormat("yyyy-MM-dd");
             date = spf.format(newDate);
 
             if (CheckButton == true)
@@ -220,8 +220,9 @@ public class FragmentTwo extends Fragment implements View.OnClickListener {
                     HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                     httpURLConnection.setRequestMethod("POST");
                     httpURLConnection.setDoInput(true);
-                    OutputStream os = httpURLConnection.getOutputStream();
-                    BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+                    httpURLConnection.setDoOutput(true);
+                    OutputStream outputStream=httpURLConnection.getOutputStream();
+                    BufferedWriter bufferedWriter= new BufferedWriter(new OutputStreamWriter (outputStream,"UTF-8"));
                     //[0]type  [1]value
                     String data;
                     //if(params[0].equalsIgnoreCase("ID"))
@@ -234,7 +235,7 @@ public class FragmentTwo extends Fragment implements View.OnClickListener {
                     bufferedWriter.write(data);
                     bufferedWriter.flush();
                     bufferedWriter.close();
-                    os.close();
+                    outputStream.close();
                     //System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ in backgroundTask 222222");
                     bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
                     StringBuilder sb = new StringBuilder();
@@ -249,14 +250,14 @@ public class FragmentTwo extends Fragment implements View.OnClickListener {
                     String result = sb.toString().trim();
                     //System.out.println(result);
                     //System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ in backgroundTask after parsing data");
-                    System.out.println("result in fragment 4******* "+result);
+                    System.out.println("result in fragment 2******* "+result);
                     return result;
                 } catch (IOException e) {
                     e.printStackTrace();
                     return null;
                 }
             }
-            System.out.println("######################################### Intermetttttttt");
+            System.out.println("######################################### Internetttttttt");
             return "InternetFailed";
         }
 
