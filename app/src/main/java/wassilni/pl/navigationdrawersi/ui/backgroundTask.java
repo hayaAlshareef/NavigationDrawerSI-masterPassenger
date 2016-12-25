@@ -42,15 +42,17 @@ public class backgroundTask extends AsyncTask<String ,Void,String> {
 
     @Override
     protected String doInBackground(String... voids) {
-        String req_url= "http://192.168.56.1/wassilni/addPass.php";//register url
+        String req_url= "http://wassilni.com/db/addPass.php";//register url
         String login_url="http://wassilni.com/db/loginPassenger.php";//login url
-        String delete_url="http://192.168.56.1/wassilni/DelPass.php";
-        String sendComplaint_url="http://192.168.56.1/wassilni/addComplaint.php";
-        String fName ,lName , email , password , phone , school;
+        String delete_url="http://wassilni.com/db/DelPass.php";//delete
+        String sendComplaint_url="http://wassilni.com/db/addComplaint.php"; //send complaint
+        String update_url="http://wassilni.com/db/UpdatePass.php"; // update passenger info
         String method = voids[0];
         Log.d("Background","before comparison @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         if(method.equals("register"))
         {
+            String fName ,lName , email , password , phone , school;
+
             fName =voids[1];
             lName =voids[2];
             email =voids[3]; 
@@ -162,9 +164,10 @@ System.out.println("$$$$$$$$$$$$$$$   In Login !!!!!");
         else if(method.equals("sendComplaint")){
             String D_ID=voids[1];
             String complaint=voids[2];
+            Log.d("Background","complaint"+ complaint);
             String passenger_ID=voids[3];
-            //String date=voids[4];
             String time=voids[4];
+            String sender="P";
             try{
                 URL url = new URL(sendComplaint_url);
                 HttpURLConnection httpURLConnection =(HttpURLConnection) url.openConnection();
@@ -177,6 +180,7 @@ System.out.println("$$$$$$$$$$$$$$$   In Login !!!!!");
                         URLEncoder.encode("passenger_ID","UTF-8")+"="+URLEncoder.encode(passenger_ID,"UTF-8")+"&"+
                        // URLEncoder.encode("date","UTF-8")+"="+URLEncoder.encode(date,"UTF-8")+"&"+
                         URLEncoder.encode("time","UTF-8")+"="+URLEncoder.encode(time,"UTF-8")+"&"+
+                        URLEncoder.encode("sender","UTF-8")+"="+URLEncoder.encode(sender,"UTF-8")+"&"+
                         URLEncoder.encode("complaint","UTF-8")+"="+URLEncoder.encode(complaint,"UTF-8");
                 bufferedWriter.write(data);
                 bufferedWriter.flush();
@@ -199,7 +203,46 @@ System.out.println("$$$$$$$$$$$$$$$   In Login !!!!!");
                 e.printStackTrace();
             }
 
-        }
+        }// end sendComplaint if
+        else if (method.equals("update")){
+            String id, fName ,lName , email , password , phone , school;
+            id=voids[1];
+            fName =voids[2];
+            lName =voids[3];
+            email =voids[4];
+            password =voids[5];
+            phone =voids[6];
+            school =voids[7];
+            try {
+                URL url = new URL(update_url);
+                HttpURLConnection httpURLConnection =(HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream os = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter= new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));
+                String data =URLEncoder.encode("id","UTF-8")+"="+URLEncoder.encode(id,"UTF-8")+"&"+
+                        URLEncoder.encode("fName","UTF-8")+"="+URLEncoder.encode(fName,"UTF-8")+"&"+
+                        URLEncoder.encode("lName","UTF-8")+"="+URLEncoder.encode(lName,"UTF-8")+"&"+
+                        URLEncoder.encode("email","UTF-8")+"="+URLEncoder.encode(email,"UTF-8")+"&"+
+                        URLEncoder.encode("Password","UTF-8")+"="+URLEncoder.encode(password,"UTF-8")+"&"+
+                        URLEncoder.encode("phone","UTF-8")+"="+URLEncoder.encode(phone,"UTF-8")+"&"+
+                        URLEncoder.encode("school","UTF-8")+"="+URLEncoder.encode(school,"UTF-8");
+
+                bufferedWriter.write(data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                os.close();
+                httpURLConnection.disconnect();
+                return "update success";
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } // end update if
 
         return null;}
     @Override

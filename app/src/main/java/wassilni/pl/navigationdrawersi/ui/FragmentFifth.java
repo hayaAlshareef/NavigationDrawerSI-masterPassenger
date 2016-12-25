@@ -27,6 +27,9 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.concurrent.ExecutionException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import Objects.MyApp;
 import wassilni.pl.navigationdrawersi.R;
@@ -52,7 +55,9 @@ public class FragmentFifth extends Fragment {
     private static final String PHONE= "P_phone";
     private static final String school= "P_school";
 
-    EditText et_fName ,et_lName , et_email , et_password, et_checkPassword ,et_phone , et_school;
+    EditText et_fName ,et_lName , et_email ,et_currentPassword , et_password, et_checkPassword ,et_phone , et_school;
+
+    String sName ,lName , email , password , currentPassword,passwordCheck , phone , Editschool;
     Button saveB;
     String id;
 
@@ -70,6 +75,7 @@ public class FragmentFifth extends Fragment {
         et_lName = (EditText)view.findViewById(R.id.lastNameET);
         et_email = (EditText)view.findViewById(R.id.emailET);
         et_password = (EditText)view.findViewById(R.id.passwordET);
+        et_currentPassword=(EditText)view.findViewById(R.id.passwordCurrentET);
         et_checkPassword = (EditText)view.findViewById(R.id.passwordCheckET);
         et_phone = (EditText)view.findViewById(R.id.phoneET);
         et_school = (EditText)view.findViewById(R.id.school);
@@ -119,31 +125,146 @@ public class FragmentFifth extends Fragment {
         saveB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                /* Delete session because it contains the old data.*/
-                SharedPreferences sp= getContext().getSharedPreferences("session", Context.MODE_APPEND);
-                SharedPreferences.Editor editor= sp.edit();
-                editor=editor.clear();
-                editor.clear();
-                editor.commit();
-                Toast.makeText(getActivity(),"تم حذف ملف التعريف, يتوجب عليك تسجيل الدخول مجدداً",Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(getActivity(),login.class));
+             /* check new data, if the new data is success, update the current data */
+                update();
 
             }
         });
 
 
-        getJSON(url);
-      //  Button edit=(Button)view.findViewById(R.id.editinfo);
-          /*  edit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent e=new Intent(getActivity(),editpage.class);
-                    startActivity(e);
-                }
-            });*/
+       // getJSON(url);
        return view;
 
+    }
+
+    private void update() {
+       intitialize();// intitialize the input to string var
+        if (!validate()) {
+            // Toast.makeText(this,"خطأ في التسجيل",Toast.LENGTH_SHORT).show();
+        } else {
+            // Toast.makeText(this,"اكتمل التسجيل",Toast.LENGTH_SHORT).show();
+            //onSigunSuccess();
+            if (!check()) {
+                //    Toast.makeText(this,"خطأ في التسجيل",Toast.LENGTH_SHORT).show();
+
+            } else {
+                //  Toast.makeText(this, "اكتمل التسجيل", Toast.LENGTH_SHORT).show();
+                onupdateSuccess();
+
+            }
+        }
+    }
+    public void onupdateSuccess(){
+
+       // Intent i=new Intent(getApplicationContext(), MainActivity.class);
+       // startActivity(i);
+        String res= "";
+        String method="update";
+        backgroundTask bc=new backgroundTask(getActivity());
+        try {
+            System.out.print("P_ID: "+id+" fname: " + sName+" lname: " +lName+ " email: "+ email+" passwoed: "+ password+ " phone: "+phone+ " school: "+Editschool);
+            res=bc.execute(method, id, sName, lName, email, password, phone, Editschool).get();
+
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        if(res.contains("update")) {
+         /* Delete session because it contains the old data.*/
+        SharedPreferences sp= getContext().getSharedPreferences("session", Context.MODE_APPEND);
+        SharedPreferences.Editor editor= sp.edit();
+        editor=editor.clear();
+        editor.clear();
+        editor.commit();
+        Toast.makeText(getActivity(),"تم حذف ملف التعريف, يتوجب عليك تسجيل الدخول مجدداً",Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(getActivity(),login.class));
+        }
+    }
+    public boolean validate(){
+        boolean valid=true;
+        if(sName.isEmpty() || sName.length()>=32){ //to validate the first name
+            et_fName.setError("أدخل اسم صحيح!!");
+            valid=false;
+        }
+        else if(lName.isEmpty() || lName.length()>=32){ //to validate the last name
+            et_lName.setError("أدخل اسم صحيح!!");
+            valid=false;
+        }
+
+        else if(email.isEmpty() || email.length()>=32){ //to validate the email
+            et_email.setError("أدخل البريد الإلكتروني!!");
+            valid=false;
+        }
+        else if(phone.isEmpty() || phone.length()!=10){ //to validate the phone number
+            et_phone.setError("أدخل اسم صحيح!!");
+            valid=false;
+        }
+        else if(password.isEmpty() || password.length() >=10){ //to validate the password
+            et_password.setError("أدخل كلمة مرور مناسبة!!");
+            valid=false;
+        }
+        else if(passwordCheck.isEmpty() || passwordCheck.length() >=10){ //to validate the confirmpassword
+            et_checkPassword.setError("أدخل كلمة مرور مناسبة!!");
+            valid=false;
+        }
+
+        return valid;
+    }
+
+    private void intitialize(){
+        //Reset errors
+        //et_fName.setError(null);
+       // et_lName.setError(null);
+        //et_email.setError(null);
+       // et_password.setError(null);
+       // et_checkPassword.setError(null);
+       // et_phone.setError(null);
+
+        //convert edittext to string
+        sName =et_fName.getText().toString().trim();
+        lName =et_lName.getText().toString().trim();
+        email =et_email.getText().toString().trim();
+        phone =et_phone.getText().toString().trim();
+        password =et_password.getText().toString().trim();
+        passwordCheck =et_checkPassword.getText().toString().trim();
+        Editschool=et_school.getText().toString().trim();
+
+    }
+
+    private boolean check(){
+        boolean validate1=true;
+        if(!isPasswordMatching(password,passwordCheck)){
+            et_password.setError("كلمة المرور غير متوافقة!");
+            et_checkPassword.setError("كلمة المرور غير متوافقة!");
+
+            validate1=false;
+        }
+        else if(!isEmailValid(email)){
+            et_email.setError("ليس بريد إلكتروني!");
+            validate1=false;
+        }
+
+        return validate1;
+
+    }
+
+    public boolean isPasswordMatching(String pass, String cPass) {
+        boolean val=true;
+        Pattern pattern = Pattern.compile(pass, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(cPass);
+
+        if (!matcher.matches()) {
+            // do your Toast("passwords are not matching");
+            val=false;
+
+        }
+
+        return val;
+    }
+
+    private boolean isEmailValid(String email) {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
 
@@ -234,12 +355,12 @@ public class FragmentFifth extends Fragment {
 
                try {
                     JSONObject jsonObject = users.getJSONObject(TRACK);
-                    id=jsonObject.getString(ID);
-                    et_fName.setText(jsonObject.getString(FName));
-                    et_lName.setText(jsonObject.getString(LName));
-                    et_email.setText(jsonObject.getString(EMAIL));
-                    et_phone.setText(jsonObject.getString(PHONE));
-                    et_school.setText(jsonObject.getString(school));
+                   // id=jsonObject.getString(ID);
+                   // et_fName.setText(jsonObject.getString(FName));
+                    //et_lName.setText(jsonObject.getString(LName));
+                    //et_email.setText(jsonObject.getString(EMAIL));
+                    //et_phone.setText(jsonObject.getString(PHONE));
+                    //et_school.setText(jsonObject.getString(school));
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -266,6 +387,8 @@ public class FragmentFifth extends Fragment {
 
     public void setValues()
     {
+        id=MyApp.passenger_from_session.getID()+"";
+        //currentPassword=MyApp.passenger_from_session; //current password
         et_fName.setText(MyApp.passenger_from_session.getFName());
         et_lName.setText(MyApp.passenger_from_session.getLName());
         et_email.setText(MyApp.passenger_from_session.getEmail());

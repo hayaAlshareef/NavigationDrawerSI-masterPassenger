@@ -1,28 +1,6 @@
 package Objects;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.SharedPreferences;
 import android.location.Location;
-import android.os.AsyncTask;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.util.concurrent.ExecutionException;
-
-import wassilni.pl.navigationdrawersi.ui.login;
 
 /**
  * Created by Najla AlHazzani on 11/19/2016.
@@ -54,6 +32,12 @@ public class Driver{
 
 
     public Driver (){}//default constructor.
+
+    public Driver(int id,String name){
+        ID=id;
+        FName=name;
+
+    }
 
     public Driver(int ID, String passwrod, String email, String FName, String LName, String phone, String company, String license, String nationality, char femaleCompanion, String ID_Iqama, String age, double rating, char confirmed, Car car) {
         this.ID = ID;

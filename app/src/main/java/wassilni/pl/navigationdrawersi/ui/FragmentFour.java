@@ -24,12 +24,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import Objects.Driver;
+import Objects.MyApp;
 import wassilni.pl.navigationdrawersi.R;
 
 
@@ -49,8 +56,8 @@ public class FragmentFour extends Fragment {
     String Complaint;
     EditText complaint;
     ArrayList<String> DriverN;
-    ArrayList<GetDriversName> driveresInfo;
-    GetDriversName driverObject;
+    ArrayList<Driver> driveresInfo;
+    Driver driverObject;
     final Calendar calendar = Calendar.getInstance();
     private static final String JSON_ARRAY = "result";
 
@@ -67,7 +74,7 @@ public class FragmentFour extends Fragment {
         View view = inflater.inflate(R.layout.fragment_four, container, false);
 
         DriversName = (Spinner) view.findViewById(R.id.spinner);
-        driveresInfo = new ArrayList<GetDriversName>();
+        driveresInfo = new ArrayList<Driver>();
         complaint = (EditText) view.findViewById(R.id.edit_texto);
         send = (Button) view.findViewById(R.id.send);
 
@@ -119,7 +126,7 @@ public class FragmentFour extends Fragment {
 
             @Override
             protected String doInBackground(String... params) {
-                String uri = "http://192.168.56.1/wassilni/PassengerComplaint.php";
+                String uri = "http://wassilni.com/db/PassengerComplaint.php";
                 String Exe = null;
                 String method = params[0];
                 //String comp;
@@ -136,13 +143,27 @@ public class FragmentFour extends Fragment {
                 if (method.equals("getComplaint")) {
                     BufferedReader bufferedReader = null;
                     try {
+                        String P_ID = MyApp.passenger_from_session.getID()+"";
                         URL url = new URL(uri);
                         HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                        con.setRequestMethod("POST");
+                        con.setDoOutput(true);
+                        con.setDoInput(true);
+                        OutputStream outputStream=con.getOutputStream();
+                        BufferedWriter bufferedWriter= new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
+                        String data= URLEncoder.encode("P_ID","UTF-8")+"="+URLEncoder.encode(P_ID,"UTF-8");
+                        bufferedWriter.write(data);
+                        bufferedWriter.flush();
+                        bufferedWriter.close();
+                        outputStream.close();
+                        InputStream Is=con.getInputStream();
+                        bufferedReader=new BufferedReader(new InputStreamReader(Is,"iso-8859-1"));
+                       // bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
                         StringBuilder sb = new StringBuilder();
 
-                        bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
 
-                        String json;
+                        String json="";
                         while ((json = bufferedReader.readLine()) != null) {
                             sb.append(json + "\n");
                         }
@@ -162,6 +183,7 @@ public class FragmentFour extends Fragment {
                 loading.dismiss();
                 // name=new String[users.length()];
                 //  textViewJSON.settText(s);
+                System.out.println("in FragmentFour getJson"+s);
                 sJson = s;
                 //Toast.makeText(getActivity(),s,Toast.LENGTH_SHORT).show();
 
@@ -177,7 +199,7 @@ public class FragmentFour extends Fragment {
                     int counter = 1;
                     name = new String[users.length() + 1];
                     JSONObject jsonObject;
-                    driverObject = new GetDriversName("0", "شكوى عامة");
+                    driverObject = new Driver(0, "شكوى عامة");
                     driveresInfo.add(driverObject);
                     name[0] = "شكوى عامة";
                     while (TRACK < users.length()) {
@@ -185,7 +207,7 @@ public class FragmentFour extends Fragment {
                         String fName = jsonObject.getString("D_F_Name");
                         String lName = jsonObject.getString("D_L_Name");
                         name[counter] = fName + " " + lName;
-                        driverObject = new GetDriversName(jsonObject.getString("D_ID"), name[counter]);
+                        driverObject = new Driver(Integer.parseInt(jsonObject.getString("D_ID")), name[counter]);
                         driveresInfo.add(driverObject);
                         counter++;
                         TRACK++;
@@ -222,16 +244,16 @@ public class FragmentFour extends Fragment {
 
                 if (!driverSelected.isEmpty()) {
                     for (int i = 0; i < driveresInfo.size(); i++) {
-                        if (driveresInfo.get(i).getDriverName().contains(driverSelected)) {
-                            ID_Driver = driveresInfo.get(i).getDriverID();
-                            Complaint = complaint.getText().toString().trim();
-                           // Toast.makeText(getActivity(), ID_Driver+Complaint,Toast.LENGTH_SHORT).show();
+                        if (driveresInfo.get(i).getFName().contains(driverSelected)) {
+                            ID_Driver = driveresInfo.get(i).getID()+"";
 
-                            //String method="sendComplaint";
-                            //getJSON(method);
+                           // Toast.makeText(getActivity(), ID_Driver+" "+Complaint,Toast.LENGTH_SHORT).show();
+
+
                             send.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
+                                    Complaint = complaint.getText().toString().trim();
                                     SendComplaint(ID_Driver, Complaint);
                                 }
                             });
@@ -258,8 +280,9 @@ public class FragmentFour extends Fragment {
         final String methods = "sendComplaint";
        // String date = setCurrentDate();
         String time=setCurrentTime();
-        String Pass_id="3"; // login session
+        String Pass_id=MyApp.passenger_from_session.getID()+""; // from session
         backgroundTask b = new backgroundTask(getActivity());
+        System.out.println("in fragment four : "+id + comp + Pass_id + time);
         b.execute(methods, id, comp,Pass_id,time);
 
     }
