@@ -30,7 +30,7 @@ public class Passenger {
     private int ID;
     private String FName;
     private String LName;
-    //private String Passwrod;
+    private String Passwrod;
     private String Email;
     private String Phone;
     private String School;
@@ -188,15 +188,18 @@ public class Passenger {
             String p_id= "P_ID";// the string must be the same as the key name in the php file
             String FName = "P_F_Name";// the string must be the same as the key name in the php file
             String LName= "P_L_Name";// the string must be the same as the key name in the php file
+            String pass= "Password";// the string must be the same as the key name in the php file
             String phoneNum = "P_Phone";// the string must be the same as the key name in the php file
             String email= "P_Email";// the string must be the same as the key name in the php file
             String school= "school";// the string must be the same as the key name in the php file
 
             p.setID(jsonObject.getInt(p_id));
+            System.out.println(p.getID());
             p.setEmail(jsonObject.getString(email));
             //System.out.println("***************************************************"+jsonObject.getString(email));
             p.setFName(jsonObject.getString(FName));
             p.setLName(jsonObject.getString(LName));
+            p.setPasswrod(jsonObject.getString(pass));
             p.setPhone(jsonObject.getString(phoneNum));
             p.setSchool(jsonObject.getString(school));
 
@@ -219,6 +222,7 @@ public class Passenger {
         pass.setEmail(spRetrieve.getString("Email", ""));
         pass.setFName(spRetrieve.getString("FName", ""));
         pass.setLName(spRetrieve.getString("LName", ""));
+        pass.setPasswrod(spRetrieve.getString("password", ""));
         pass.setPhone(spRetrieve.getString("Phone", ""));
         pass.setSchool(spRetrieve.getString("School", ""));
 
@@ -242,6 +246,7 @@ public class Passenger {
         editor.putString("Email", MyApp.passenger_from_DB.getEmail());
         editor.putString("FName", MyApp.passenger_from_DB.getFName());
         editor.putString("LName", MyApp.passenger_from_DB.getLName());
+        editor.putString("pass", MyApp.passenger_from_DB.getPasswrod());
         editor.putString("Phone", MyApp.passenger_from_DB.getPhone());
         editor.putString("School", MyApp.passenger_from_DB.getSchool());
 
@@ -279,6 +284,10 @@ public class Passenger {
     public void setLName(String LName) {
         this.LName = LName;
     }
+
+    public String getPasswrod() {return Passwrod;}
+
+    public void setPasswrod(String passwrod) {Passwrod = passwrod;}
 
     public String getEmail() {
         return Email;
