@@ -7,13 +7,13 @@ package wassilni.pl.navigationdrawersi.ui;
 public class Request {
 
     private int reqNum;
-    private int DriverN;
+    private String DriverN;
     private String dropOffL;
     private String dropOffT;
     private String confirm;
 
 
-    public Request(int reqNum, int driverName, String dropOffL, String dropOffT, String confirm) {
+    public Request(int reqNum, String driverName, String dropOffL, String dropOffT, String confirm) {
         this.reqNum = reqNum;
         DriverN = driverName;
         this.dropOffL = dropOffL;
@@ -30,11 +30,11 @@ public class Request {
         this.reqNum = reqNum;
     }
 
-    public int getDriverN() {
+    public String getDriverN() {
         return DriverN;
     }
 
-    public void setDriverN(int driverName) {
+    public void setDriverN(String driverName) {
         DriverN = driverName;
     }
 

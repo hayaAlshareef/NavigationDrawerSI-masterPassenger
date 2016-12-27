@@ -2,9 +2,11 @@ package wassilni.pl.navigationdrawersi.ui;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +31,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 import Objects.MyApp;
 import wassilni.pl.navigationdrawersi.R;
@@ -41,7 +44,8 @@ public class FragmentThree extends Fragment {
     String sJson;
     private static final String JSON_ARRAY ="result";// the string must be the same as the name of the json object in the php file
     private static final String R_ID = "R_ID";// the string must be the same as the key name in the php file
-    private static final String D_ID ="D_ID";
+    private static final String D_F_Name ="D_F_Name";
+    private static final String D_L_Name ="D_L_Name";
     private static final String R_dropoff_loc="R_dropoff_loc";
     private static final String r_time="r_time";
     private static final String confirm="confirm";
@@ -69,22 +73,23 @@ public class FragmentThree extends Fragment {
 
             JSONObject jsonObject;
             String id[] = new String[users.length()];
-            String dropOffL, time,confirms;
+            String DFName,DLName,dropOffL, time,confirms;
             int DID;
             for (int i = 0; i < users.length(); i++) {
                 jsonObject = users.getJSONObject(TRACK);
                 i_ID = Integer.parseInt(jsonObject.getString(R_ID));
-                DID=Integer.parseInt(jsonObject.getString(D_ID));
+                DFName=jsonObject.getString(D_F_Name);
+                DLName=jsonObject.getString(D_L_Name);
                 dropOffL = jsonObject.getString(R_dropoff_loc);
                 time = jsonObject.getString(r_time);
                 confirms = jsonObject.getString(confirm);
                 id[i] = jsonObject.getString(R_ID);
                 if(confirms.equals("w")){
-                    Request s = new Request(i_ID,DID,dropOffL, time,"قيد الإنتظار");
+                    Request s = new Request(i_ID,DFName + " " +DLName,dropOffL, time,"قيد الإنتظار");
                     RequestArrayList.add(s);//add the object to array list
                 }
                 else if(confirms.equals("n")){
-                    Request s = new Request(i_ID,DID,dropOffL, time,"مرفوض");
+                    Request s = new Request(i_ID,DFName + " " +DLName,dropOffL, time,"مرفوض");
                     RequestArrayList.add(s);//add the object to array list
                 }
                 TRACK++;
@@ -283,8 +288,8 @@ public class FragmentThree extends Fragment {
 
             ids[position]=temp.getReqNum();//to take the id for the request
 
-
-            absent.setOnClickListener(new View.OnClickListener() {
+            absent.setVisibility(View.INVISIBLE);
+           /* absent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
@@ -296,13 +301,13 @@ public class FragmentThree extends Fragment {
 
                     // System.out.println("id in saidd passenger "+ids[position]);
                 }
-            });
+            });*/
             unSubscribe.setText("إلغاء الطلب");
             unSubscribe.setOnClickListener(new View.OnClickListener()
             {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context,"unsubscribe"+ids[position],Toast.LENGTH_SHORT).show(); //get request id to send unSubscribe to her driver
+                   // Toast.makeText(context,"unsubscribe"+ids[position],Toast.LENGTH_SHORT).show(); //get request id to send unSubscribe to her driver
                     // query and parseJSON, then go to mapActivity.
 
                     //  System.out.println("schedula id "+ids[position]);
@@ -322,15 +327,55 @@ public class FragmentThree extends Fragment {
                     // } catch (ExecutionException e) {
                     //    e.printStackTrace();
                     // }
+                    new AlertDialog.Builder(getContext())
+                            .setTitle("تأكيد إلغاء الطلب")
+                            .setMessage("هل أنت متأكد من إلغاء طلبك؟")
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                               /*
+                               * Here put the code for deleting the request !!!!!!!!!!!!
+                               * */
+                                    String res= "";
+                                    String method = "delReq";
+                                    backgroundTask bc = new backgroundTask(getActivity());
+                                    try {
+                                        res=bc.execute(method,ids[position]+"").get();
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    } catch (ExecutionException e) {
+                                        e.printStackTrace();
+                                    }
+                                    if(res.equals("request Deleted Successfully")){
+                                        Toast.makeText(getContext(),"تم إلغاء طلبك",Toast.LENGTH_SHORT).show();
+                                    }
+                                    else{
+                                        Toast.makeText(getContext(),"حدث خطأ أثناء إلغاء طلبك , الرجاء المحاولة في وقت أخر",Toast.LENGTH_SHORT).show();
+
+                                    }
+                                }})
+                            .setNegativeButton(android.R.string.no, null).show();
+
 
                 }
             });
 
             requestNum.setText(temp.getReqNum()+"");
-            driverName.setText(temp.getDriverN()+"");
+            driverName.setText(temp.getDriverN());
             dropOffLocation.setText(temp.getDropOffL());
             dropOffTime.setText(temp.getDropOffT());
-            statues.setText(temp.getConfirm());
+            String statue=temp.getConfirm();
+            if(statue.equals("مرفوض")){
+                statues.setText(temp.getConfirm());
+                statues.setTextColor(getResources().getColor(R.color.red_light));
+                unSubscribe.setVisibility(View.INVISIBLE);
+            }
+            else if(statue.equals("قيد الإنتظار")){
+                statues.setText(temp.getConfirm());
+                statues.setTextColor(getResources().getColor(R.color.blue_dark));
+            }
+
 
 
 

@@ -47,6 +47,7 @@ public class backgroundTask extends AsyncTask<String ,Void,String> {
         String delete_url="http://wassilni.com/db/DelPass.php";//delete
         String sendComplaint_url="http://wassilni.com/db/addComplaint.php"; //send complaint
         String update_url="http://wassilni.com/db/UpdatePass.php"; // update passenger info
+        String DelReq_url="http://wassilni.com/db/DelReq.php"; // delete request
         String method = voids[0];
         Log.d("Background","before comparison @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         if(method.equals("register"))
@@ -243,6 +244,38 @@ System.out.println("$$$$$$$$$$$$$$$   In Login !!!!!");
             }
 
         } // end update if
+        else if(method.equals("delReq")){
+            String R_ID=voids[1];
+            try{
+                URL url = new URL(DelReq_url);
+                HttpURLConnection httpURLConnection =(HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream=httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter= new BufferedWriter(new OutputStreamWriter (outputStream,"UTF-8"));
+                String data=URLEncoder.encode("R_ID","UTF-8")+"="+URLEncoder.encode(R_ID,"UTF-8");
+                bufferedWriter.write(data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream Is=httpURLConnection.getInputStream();
+                BufferedReader bufferedReader=new BufferedReader(new InputStreamReader(Is,"iso-8859-1"));
+                String response="";
+                String line="";
+                while ((line=bufferedReader.readLine())!=null){
+                    response+=line;
+                }
+                bufferedReader.close();
+                Is.close();
+                httpURLConnection.disconnect();
+                return response;
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
         return null;}
     @Override

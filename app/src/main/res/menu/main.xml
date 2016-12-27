@@ -5,6 +5,6 @@
     <item android:id="@+id/menuRight"
         android:title="@string/action_settings"
         android:orderInCategory="100"
-        android:icon="@drawable/ic_navigation_drawer"
+        android:icon="@drawable/menu"
         app:showAsAction="always" />
 </menu>

@@ -2,9 +2,11 @@ package wassilni.pl.navigationdrawersi.ui;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +32,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 import Objects.MyApp;
 import wassilni.pl.navigationdrawersi.R;
@@ -46,7 +49,8 @@ public class FragmentOne extends Fragment {
     private static final String R_ID = "R_ID";// the string must be the same as the key name in the php file
     //private static final String time= "time";// the string must be the same as the key name in the php file
     //private static final String endDate = "endDate";
-    private static final String D_ID ="D_ID";
+    private static final String D_F_Name ="D_F_Name";
+    private static final String D_L_Name ="D_L_Name";
     private static final String R_dropoff_loc="R_dropoff_loc";
     private static final String r_time="r_time";
     private static final String confirm="confirm";
@@ -83,19 +87,20 @@ public class FragmentOne extends Fragment {
             JSONObject jsonObject;
           /*  String fullName = jsonObject.getString(FName)+" "+jsonObject.getString(LName);*/
             String id[] = new String[users.length()];
-            String RID, dropOffL, time,confirms;
+            String DFName,DLName, dropOffL, time,confirms;
             int DID;
             for (int i = 0; i < users.length(); i++) {
                 jsonObject = users.getJSONObject(TRACK);
                 i_ID = Integer.parseInt(jsonObject.getString(R_ID));
-                DID=Integer.parseInt(jsonObject.getString(D_ID));
+                DFName=jsonObject.getString(D_F_Name);
+                DLName=jsonObject.getString(D_L_Name);
                 dropOffL = jsonObject.getString(R_dropoff_loc);
                 time = jsonObject.getString(r_time);
                 confirms = jsonObject.getString(confirm);
 
                 id[i] = jsonObject.getString(R_ID);
                 if(confirms.equals("y")){
-                    Request s = new Request(i_ID,DID,dropOffL, time,"مقبول");
+                    Request s = new Request(i_ID,DFName + " " +DLName ,dropOffL, time,"مقبول");
                     RequestArrayList.add(s);//add the object to array list
                 }
                 TRACK++;
@@ -346,44 +351,52 @@ public class FragmentOne extends Fragment {
                     // System.out.println("id in saidd passenger "+ids[position]);
                 }
             });
-            unSubscribe.setText("إلغاء الطلب");
+            unSubscribe.setText("إلغاء الإشتراك");
             unSubscribe.setOnClickListener(new View.OnClickListener()
             {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context,ids[position],Toast.LENGTH_SHORT).show(); //get request id to send unSubscribe to her driver
-                    // query and parseJSON, then go to mapActivity.
+                    new AlertDialog.Builder(getContext())
+                            .setTitle("تأكيد إلغاء الإشتراك")
+                            .setMessage("هل أنت متأكد من إلغاءإشتراكك؟")
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
-                    //  System.out.println("schedula id "+ids[position]);
-                    // Background b= new Background();
-                    // try {
-                    //   String result=b.execute(ids[position]+"").get();
-                    // if(!result.equalsIgnoreCase("InternetFailed")){
-                    //    Intent i=new Intent(getActivity(), MapsActivity.class);
-                    //   i.putExtra("json",result);//json will be parsed in the map activity.
-                    //   startActivity(i);
-                    //this.finish();
-                    //  }
-                    // else
-                    //  Toast.makeText(getActivity(),"ارجو التأكد من توصيل الانترنت",Toast.LENGTH_LONG).show();
-                    // } catch (InterruptedException e) {
-                    //  e.printStackTrace();
-                    // } catch (ExecutionException e) {
-                    //    e.printStackTrace();
-                    // }
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                               /*
+                               * Here put the code for deleting the request !!!!!!!!!!!!
+                               * */
+                                    String res= "";
+                                    String method = "delReq";
+                                    backgroundTask bc = new backgroundTask(getActivity());
+                                    try {
+                                        res=bc.execute(method,ids[position]+"").get();
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    } catch (ExecutionException e) {
+                                        e.printStackTrace();
+                                    }
+                                    if(res.equals("request Deleted Successfully")){
+                                        Toast.makeText(getContext(),"تم إلغاء الإشتراك",Toast.LENGTH_SHORT).show();
+                                    }
+                                    else{
+                                        Toast.makeText(getContext(),"حدث خطأ أثناء إلغاء الإشتراك , الرجاء المحاولة في وقت أخر",Toast.LENGTH_SHORT).show();
+
+                                    }
+                                }})
+                            .setNegativeButton(android.R.string.no, null).show();
+
 
                 }
             });
 
 
-
-            //S_id.setText(temp.getS_ID()+"");
-            //workTime.setText(temp.getTime());
             requestNum.setText(temp.getReqNum()+"");
-            driverName.setText(temp.getDriverN()+"");
+            driverName.setText(temp.getDriverN());
             dropOffLocation.setText(temp.getDropOffL());
             dropOffTime.setText(temp.getDropOffT());
             statues.setText(temp.getConfirm());
+            statues.setTextColor(getResources().getColor(R.color.green_dark));
 
             return row;
         }

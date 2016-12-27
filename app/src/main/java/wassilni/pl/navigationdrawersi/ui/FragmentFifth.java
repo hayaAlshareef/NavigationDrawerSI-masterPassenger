@@ -103,9 +103,20 @@ public class FragmentFifth extends Fragment {
                                /*
                                * Here put the code for deleting the account !!!!!!!!!!!!
                                * */
+                               String res= "";
                                String method = "delete";
                                backgroundTask bc = new backgroundTask(getActivity());
-                               bc.execute(method,id);
+                               try {
+                                   res=bc.execute(method,id).get();
+                               } catch (InterruptedException e) {
+                                   e.printStackTrace();
+                               } catch (ExecutionException e) {
+                                   e.printStackTrace();
+                               }
+                               if(res.equals("Passenger Deleted Successfully")){
+                                   startActivity(new Intent(getActivity(),login.class));
+                               }
+
 
                            }})
                        .setNegativeButton(android.R.string.no, null).show();
