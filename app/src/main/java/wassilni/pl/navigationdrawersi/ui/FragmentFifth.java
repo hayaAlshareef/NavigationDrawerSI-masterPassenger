@@ -100,6 +100,10 @@ public class FragmentFifth extends Fragment {
                                editor=editor.clear();
                                editor.clear();
                                editor.commit();
+                               MyApp.passenger_from_session=null;
+                               Toast.makeText(getActivity(),"تم حذف الحساب",Toast.LENGTH_SHORT).show();
+                               startActivity(new Intent(getActivity(),login.class));
+                               getActivity().finish();
                                /*
                                * Here put the code for deleting the account !!!!!!!!!!!!
                                * */
@@ -137,7 +141,16 @@ public class FragmentFifth extends Fragment {
             @Override
             public void onClick(View v) {
              /* check new data, if the new data is success, update the current data */
+                SharedPreferences sp= getActivity().getSharedPreferences("session", Context.MODE_APPEND);
+                SharedPreferences.Editor editor= sp.edit();
+                editor=editor.clear();
+                editor.clear();
+                editor.commit();
                 update();
+                MyApp.passenger_from_session=null;
+                Toast.makeText(getActivity(),"تم حذف ملف التعريف, يتوجب عليك تسجيل الدخول مجددا.",Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getActivity(),login.class));
+                getActivity().finish();
 
             }
         });

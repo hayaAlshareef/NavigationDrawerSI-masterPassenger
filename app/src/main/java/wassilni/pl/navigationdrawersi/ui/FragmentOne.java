@@ -3,6 +3,7 @@ package wassilni.pl.navigationdrawersi.ui;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -66,8 +67,17 @@ public class FragmentOne extends Fragment {
         RequestArrayList = new ArrayList<Request>();
         listView=(ListView)view.findViewById(R.id.listRequest);
 
+        if (MyApp.passenger_from_session != null){// if there is data in the session
+            getJSON(url);
+            System.out.println((MyApp.passenger_from_session!=null)? "********************* not null" : "************** null!");
+        }
+        else {
+            System.out.println((MyApp.passenger_from_session != null) ? "ee********************* not null" : "ee************** null!");
+            startActivity(new Intent(getActivity(), login.class));
+            //getActivity().finish();
+        }
 
-      getJSON(url);
+
 
         // ButterKnife.inject(this, view);
         //((GradientDrawable) circleLayout.getBackground())

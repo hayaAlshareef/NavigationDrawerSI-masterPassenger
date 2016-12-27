@@ -33,7 +33,7 @@ public class login extends AppCompatActivity implements DatePickerDialog.OnDateS
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        sharedPreferences = getSharedPreferences("session", Context.MODE_APPEND);
         setContentView(R.layout.activity_login);
         Button login=(Button) findViewById(R.id.loginbutton);
         TextView register=(TextView) findViewById(R.id.signin) ;
@@ -66,7 +66,7 @@ public class login extends AppCompatActivity implements DatePickerDialog.OnDateS
         });
 
 
-        SessionSetup();
+        //SessionSetup();
     } //end onCreat method
 
 
@@ -101,6 +101,7 @@ public class login extends AppCompatActivity implements DatePickerDialog.OnDateS
     {
         Intent i = new Intent(login.this, MainActivity.class);
         startActivity(i);
+        finish();
     }
     private void intitialize(){
         login_name =et_loginName.getText().toString().trim();
@@ -139,8 +140,8 @@ public class login extends AppCompatActivity implements DatePickerDialog.OnDateS
         }
     }
 
-    public void SessionSetup() {
-        sharedPreferences = getSharedPreferences("session", Context.MODE_APPEND);
+    /*public void SessionSetup() {
+
 
 
         class Task extends AsyncTask<String, Void, String> {
@@ -191,7 +192,7 @@ public class login extends AppCompatActivity implements DatePickerDialog.OnDateS
         Task t=new Task();
         //t.execute(id+"");
         t.execute();
-    }
+    }*/
 
 
     public void createSession()

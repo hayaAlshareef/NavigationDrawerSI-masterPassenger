@@ -22,6 +22,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import Objects.MyApp;
+import Objects.Passenger;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnItemClick;
@@ -35,7 +37,7 @@ import wassilni.pl.navigationdrawersi.ui.navigationdrawer.NavigationDrawerView;
 
 
 public class MainActivity extends AppCompatActivity {
-
+    public SharedPreferences sharedPreferences;
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
 
     private int currentSelectedPosition = 0;
@@ -63,10 +65,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
-
+        sharedPreferences = getSharedPreferences("session", Context.MODE_APPEND);
         mTitle = mDrawerTitle = getTitle();
 
-
+SessionSetup();
 
 
         Timber.tag("LifeCycles");
@@ -258,7 +260,9 @@ public class MainActivity extends AppCompatActivity {
                                     editor=editor.clear();
                                     editor.clear();
                                     editor.commit();
+                                    MyApp.passenger_from_session=null;
                                     startActivity(new Intent(getApplicationContext(),login.class));
+                                    finish();
                                 }})
                             .setNegativeButton(android.R.string.no, null).show();
                 }
@@ -267,4 +271,41 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+        public void SessionSetup() {
+
+                String flag = "";
+                if (sharedPreferences.contains("ID"))//means that the XML file isn't empty.
+                {//retrieve session , and set the variable MyApp.passenger_from_session
+                    Passenger.retrieveSession(sharedPreferences);
+                //System.out.println("فييييييه سييييييييييششششششششششننننننننن موجوده");
+                    flag = "succeed";
+                } else // there's no session saved, then create one!
+                {
+                    flag = "failed";
+                    // 1.prompt for login, using Toast
+                }
+                System.out.println("$#$#$#$#$#$#$#$#$#$#$#$#$$#$#$#$#$#$#$ "+flag);
+
+
+
+                if (flag.equalsIgnoreCase("succeed")) {
+                    Toast.makeText(getApplicationContext(), "مرحبا مجدداً!", Toast.LENGTH_LONG).show();
+                    System.out.println("@@@@@@@@@@@\t "+ MyApp.passenger_from_session.getEmail());
+                    //direct user to next page.
+                } else {
+                    //prompt to logiin
+                    Toast.makeText(getApplicationContext(), "لا يوجد ملف تعريف, الرجاء تسجيل الدخول", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getApplicationContext(),login.class));
+                    finish();
+                }
+
+            }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(getIntent());
+    }
 }
+
+
