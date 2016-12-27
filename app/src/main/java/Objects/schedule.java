@@ -103,4 +103,10 @@ public class schedule {
     public void setDayPrice(int dayPrice) {
         this.dayPrice = dayPrice;
     }
+
+    public String toString (){
+
+
+        return S_ID+" "+montPrice+" "+dayPrice;
+    }
 }

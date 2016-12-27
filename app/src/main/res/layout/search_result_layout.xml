@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_shadow">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingRight="20dp"
+        android:paddingLeft="20dp">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/cast_intro_overlay_background_color"
+                android:textSize="18sp"
+                android:layout_weight="0.04"
+                android:gravity="right"
+
+                android:id="@+id/DriverNameTV" />
+
+            <TextView
+                android:text="اسم السائق "
+                android:layout_width="180dp"
+                android:layout_height="29dp"
+                android:id="@+id/DriverName"
+                android:gravity="right"
+                android:textSize="18sp"
+                android:textColor="@color/cast_intro_overlay_background_color"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/cast_intro_overlay_background_color"
+                android:textSize="18sp"
+                android:layout_weight="0.04"
+                android:gravity="right"
+
+                android:id="@+id/CarNameTV" />
+
+            <TextView
+                android:text="اسم السيارة "
+                android:layout_width="180dp"
+                android:layout_height="29dp"
+                android:id="@+id/CarName"
+                android:gravity="right"
+                android:textSize="18sp"
+                android:textColor="@color/cast_intro_overlay_background_color"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/cast_intro_overlay_background_color"
+                android:textSize="18sp"
+                android:layout_weight="0.04"
+                android:gravity="right"
+
+                android:id="@+id/MonthPriceTV" />
+
+            <TextView
+                android:text="السعر الشهري "
+                android:layout_width="180dp"
+                android:layout_height="29dp"
+                android:id="@+id/MonthPrice"
+                android:gravity="right"
+                android:textSize="18sp"
+                android:textColor="@color/cast_intro_overlay_background_color"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="10dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/cast_intro_overlay_background_color"
+                android:textSize="18sp"
+                android:layout_weight="0.04"
+                android:gravity="right"
+
+                android:id="@+id/DayPriceTV" />
+
+            <TextView
+                android:text="السعر اليومي "
+                android:layout_width="180dp"
+                android:layout_height="29dp"
+                android:id="@+id/DayPrice"
+                android:gravity="right"
+                android:textSize="18sp"
+                android:textColor="@color/cast_intro_overlay_background_color"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+
+
+
+        </TableRow>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#ccc"
+            android:paddingTop="20dp" />
+    </TableLayout>
+
+</RelativeLayout>
