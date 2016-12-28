@@ -3,8 +3,13 @@ package wassilni.pl.navigationdrawersi.ui;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.concurrent.ExecutionException;
+
+import Objects.MyApp;
 import wassilni.pl.navigationdrawersi.R;
 
 public class DriverProfile extends AppCompatActivity {
@@ -13,12 +18,14 @@ public class DriverProfile extends AppCompatActivity {
     TextView TV_Name, TV_phoneNum,TV_model, TV_age, TV_nationality, TV_companyNam,
             TV_carColor, TV_carType, TV_carComp, TV_plateNum, TV_capacity,
             TV_manufactured, TV_female,TV_tripTime,TV_dayPrice,TV_monthPrice;
+    String D_ID,S_ID,P_ID;
+    Intent in ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_profile);
-
+        in = getIntent();
         TV_Name=(TextView)findViewById(R.id.driveNameET);
         TV_phoneNum=(TextView)findViewById(R.id.driverNumET);
         TV_age=(TextView)findViewById(R.id.diverAgeET);
@@ -35,7 +42,38 @@ public class DriverProfile extends AppCompatActivity {
         TV_tripTime=(TextView)findViewById(R.id.tripTimeET);
         TV_dayPrice=(TextView)findViewById(R.id.dayPriceET);
         TV_monthPrice=(TextView)findViewById(R.id.monthPriceET);
+        Button request=(Button) findViewById(R.id.request);
+        P_ID= MyApp.passenger_from_session.getID()+"";
+        System.out.println(P_ID+"pppppppppppp");
         showData();
+        request.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                S_ID=in.getStringExtra("S_ID");
+                D_ID=in.getStringExtra("D_ID");
+
+                String picL,dropL,time,startD,endD;
+                picL=FragmentTwo.pLoc;
+                dropL=FragmentTwo.pLoc;
+                time=FragmentTwo.time;
+                startD=FragmentTwo.sDate;
+                endD=FragmentTwo.eDate;
+                String method="addReq";
+                String res= "";
+                backgroundTask bc=new backgroundTask(getApplication());
+                try {
+                    res= bc.execute(method,S_ID,P_ID,picL,dropL,time,startD,endD,D_ID).get();
+                    //if()
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+              /*  Intent i=new Intent(getApplicationContext(),DriverProfile.class);
+                startActivity(i);*/
+            }
+        });
+
 
 
     }
@@ -47,7 +85,7 @@ public class DriverProfile extends AppCompatActivity {
         * no need to retrieve the data from the DB, instead get it from session.
         * using the global variable MyApp.driver_form_session
         * */
-        Intent in = getIntent();
+
         String capacity =(String) in.getStringExtra("carCapacity");
         TV_Name.setText( in.getStringExtra("DriverName"));
         TV_phoneNum.setText( in.getStringExtra("DriverPhone"));
@@ -72,6 +110,7 @@ public class DriverProfile extends AppCompatActivity {
         TV_tripTime.setText(in.getStringExtra("tripTime"));
         TV_dayPrice.setText(in.getStringExtra("DayPrice"));
         TV_monthPrice.setText(in.getStringExtra("MonthPrice"));
+        TV_plateNum.setText(in.getStringExtra("Plate"));
         /*} catch (JSONException e) {
             e.printStackTrace();
         }*/

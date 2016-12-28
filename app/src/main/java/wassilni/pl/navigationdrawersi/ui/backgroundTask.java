@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -48,6 +49,7 @@ public class backgroundTask extends AsyncTask<String ,Void,String> {
         String sendComplaint_url="http://wassilni.com/db/addComplaint.php"; //send complaint
         String update_url="http://wassilni.com/db/UpdatePass.php"; // update passenger info
         String DelReq_url="http://wassilni.com/db/DelReq.php"; // delete request
+        String addReq_url="http://wassilni.com/db/AddReq.php";
         String method = voids[0];
         Log.d("Background","before comparison @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         if(method.equals("register"))
@@ -140,6 +142,53 @@ System.out.println("$$$$$$$$$$$$$$$   In Login !!!!!");
                 OutputStream outputStream=httpURLConnection.getOutputStream();
                 BufferedWriter bufferedWriter= new BufferedWriter(new OutputStreamWriter (outputStream,"UTF-8"));
                 String data=URLEncoder.encode("id","UTF-8")+"="+URLEncoder.encode(id,"UTF-8");
+                bufferedWriter.write(data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream Is=httpURLConnection.getInputStream();
+                BufferedReader bufferedReader=new BufferedReader(new InputStreamReader(Is,"iso-8859-1"));
+                String response="";
+                String line="";
+                while ((line=bufferedReader.readLine())!=null){
+                    response+=line;
+                }
+                bufferedReader.close();
+                Is.close();
+                httpURLConnection.disconnect();
+                return response;
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }//end delete if
+        else if (method.equals("addReq")) {
+            String S_ID=voids[1];
+            String P_ID=voids[2];
+            String picLocation = voids[3];
+            String dropLocation = voids[4];
+            String time = voids[5];
+            String startD = voids[6];
+            String endD = voids[7];
+            String D_ID = voids[8];
+            try{
+                URL url = new URL(addReq_url);
+                HttpURLConnection httpURLConnection =(HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream=httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter= new BufferedWriter(new OutputStreamWriter (outputStream,"UTF-8"));
+                String data=URLEncoder.encode("S_ID","UTF-8")+"="+URLEncoder.encode(S_ID,"UTF-8")+"&"+
+                        URLEncoder.encode("P_ID","UTF-8")+"="+URLEncoder.encode(P_ID,"UTF-8")+"&"+
+                        URLEncoder.encode("D_ID","UTF-8")+"="+URLEncoder.encode(D_ID,"UTF-8")+"&"+
+                        URLEncoder.encode("R_pickup_loc","UTF-8")+"="+URLEncoder.encode(picLocation,"UTF-8")+"&"+
+                        URLEncoder.encode("R_dropoff_loc","UTF-8")+"="+URLEncoder.encode(dropLocation,"UTF-8")+"&"+
+                        URLEncoder.encode("r_time","UTF-8")+"="+URLEncoder.encode(time,"UTF-8")+"&"+
+                        URLEncoder.encode("R_starting_Date","UTF-8")+"="+URLEncoder.encode(startD,"UTF-8")+"&"+
+                        URLEncoder.encode("R_ending_Date","UTF-8")+"="+URLEncoder.encode(endD,"UTF-8");
                 bufferedWriter.write(data);
                 bufferedWriter.flush();
                 bufferedWriter.close();

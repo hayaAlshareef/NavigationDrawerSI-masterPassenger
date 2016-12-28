@@ -41,14 +41,7 @@ public class Search extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        Button request=(Button) findViewById(R.id.request);
-        request.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i=new Intent(getApplicationContext(),DriverProfile.class);
-                startActivity(i);
-            }
-        });
+
         listView=(ListView)findViewById(R.id.listSchedule);
         Intent i=getIntent();
         String result=i.getStringExtra("json");
@@ -87,6 +80,9 @@ public class Search extends AppCompatActivity {
                 i.putExtra("MonthPrice", s.montPrice+"");
                 i.putExtra("Female",d.getFemaleCompanion()+"");
                 i.putExtra("tripTime",s.getTime());
+                i.putExtra("D_ID",d.getID()+"");
+                i.putExtra("S_ID",s.getS_ID()+"");
+                i.putExtra("Plate",d.getCar().getPlate());
 
 
                 startActivity(i);

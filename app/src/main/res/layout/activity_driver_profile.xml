@@ -18,7 +18,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:layout_marginBottom="10dp"
+            android:paddingBottom="10dp">
 
 
             <LinearLayout
@@ -30,14 +32,16 @@
 
                 <TableLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp">
 
 
                     <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="right|start"
-                        android:gravity="right">
+                        android:gravity="right"
+                        android:layout_marginTop="10dp">
 
                         <TextView
                             android:text="معلومات الرحلة  "
@@ -369,7 +373,10 @@
                                 android:textColor="@color/black"
                                 android:textSize="18sp"
                                 android:layout_weight="0.10"
-                                android:gravity="right" />
+                                android:layout_marginTop="10dp"
+                                android:gravity="right"
+                                android:layout_marginRight="40dp"
+                                android:layout_marginEnd="40dp" />
 
                             <TextView
                                 android:text="السعة : "
@@ -378,7 +385,7 @@
                                 android:id="@+id/capacity"
                                 android:textColor="@color/black"
                                 android:textSize="18sp"
-                                android:gravity="right" />
+                                android:layout_marginTop="10dp" />
                         </TableRow>
 
                     <TableRow
@@ -396,6 +403,7 @@
                             android:textColor="@color/black"
                             android:textSize="18sp"
                             android:layout_weight="0.10"
+                            android:layout_marginTop="10dp"
                             android:gravity="right"
                             android:layout_marginRight="40dp"
                             android:layout_marginEnd="40dp"/>
@@ -406,8 +414,7 @@
                             android:id="@+id/carTypeET"
                             android:textColor="@color/black"
                             android:textSize="18sp"
-
-                            android:elevation="1dp"
+                            android:layout_marginTop="10dp"
                              />
 
                     </TableRow>
@@ -424,7 +431,10 @@
                                 android:textColor="@color/black"
                                 android:textSize="18sp"
                                 android:layout_weight="0.10"
-                                android:gravity="right" />
+                                android:layout_marginTop="10dp"
+                                android:gravity="right"
+                                android:layout_marginRight="40dp"
+                                android:layout_marginEnd="40dp" />
                             <TextView
                                 android:text="سنة الصنع :"
                                 android:layout_width="match_parent"
@@ -432,7 +442,7 @@
                                 android:id="@+id/manufactured"
                                 android:textColor="@color/black"
                                 android:textSize="18sp"
-                                android:gravity="right" />
+                                android:layout_marginTop="10dp" />
                         </TableRow>
 
                     <TableRow
@@ -448,7 +458,10 @@
                                 android:textColor="@color/black"
                                 android:textSize="18sp"
                                 android:layout_weight="0.10"
-                                android:gravity="right"  />
+                                android:layout_marginTop="10dp"
+                                android:gravity="right"
+                                android:layout_marginRight="40dp"
+                                android:layout_marginEnd="40dp" />
 
                             <TextView
                                 android:text="وجود مرافق : "
@@ -457,7 +470,7 @@
                                 android:id="@+id/female"
                                 android:textColor="@color/black"
                                 android:textSize="18sp"
-                                android:gravity="right" />
+                                android:layout_marginTop="10dp" />
                         </TableRow>
 
                     <TableRow
@@ -473,7 +486,10 @@
                                 android:textColor="@color/black"
                                 android:textSize="18sp"
                                 android:layout_weight="0.10"
-                                android:gravity="right" />
+                                android:layout_marginTop="10dp"
+                                android:gravity="right"
+                                android:layout_marginRight="40dp"
+                                android:layout_marginEnd="40dp" />
 
                             <TextView
                                 android:text="طراز السيارة:"
@@ -482,7 +498,7 @@
                                 android:id="@+id/modelNumET"
                                 android:textColor="@color/black"
                                 android:textSize="18sp"
-                                android:gravity="right" />
+                                android:layout_marginTop="10dp" />
 
                     </TableRow>
 
@@ -496,10 +512,13 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/PlateNumET"
-                                android:textColor="@color/black"
-                                android:textSize="18sp"
-                                android:layout_weight="0.10"
-                                android:gravity="right" />
+                            android:textColor="@color/black"
+                            android:textSize="18sp"
+                            android:layout_weight="0.10"
+                            android:layout_marginTop="10dp"
+                            android:gravity="right"
+                            android:layout_marginRight="40dp"
+                            android:layout_marginEnd="40dp" />
 
                             <TextView
                                 android:text=" رقم اللوحة : "
@@ -508,7 +527,7 @@
                                 android:id="@+id/PlateNum"
                                 android:textColor="@color/black"
                                 android:textSize="18sp"
-                                android:gravity="right" />
+                                android:layout_marginTop="10dp" />
 
                     </TableRow>
 
@@ -523,10 +542,13 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/carColorET"
-                                android:textColor="@color/black"
-                                android:textSize="18sp"
-                                android:layout_weight="0.10"
-                                android:gravity="right"/>
+                            android:textColor="@color/black"
+                            android:textSize="18sp"
+                            android:layout_weight="0.10"
+                            android:layout_marginTop="10dp"
+                            android:gravity="right"
+                            android:layout_marginRight="40dp"
+                            android:layout_marginEnd="40dp"/>
                             <TextView
                                 android:text="اللون : "
                                 android:layout_width="match_parent"
@@ -534,7 +556,7 @@
                                 android:id="@+id/colorCar"
                                 android:textColor="@color/black"
                                 android:textSize="18sp"
-                                android:gravity="right" />
+                                android:layout_marginTop="10dp" />
                         </TableRow>
 
                     <TableRow
@@ -548,10 +570,13 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/carCompanyET"
-                                android:textColor="@color/black"
-                                android:textSize="18sp"
-                                android:layout_weight="0.10"
-                                android:gravity="right"/>
+                            android:textColor="@color/black"
+                            android:textSize="18sp"
+                            android:layout_weight="0.10"
+                            android:layout_marginTop="10dp"
+                            android:gravity="right"
+                            android:layout_marginRight="40dp"
+                            android:layout_marginEnd="40dp"/>
                             <TextView
                                 android:text="اسم شركة السيارة : "
                                 android:layout_width="match_parent"
@@ -559,13 +584,14 @@
                                 android:id="@+id/carCompany"
                                 android:textColor="@color/black"
                                 android:textSize="18sp"
-                                android:elevation="1dp" />
+                                android:layout_marginTop="10dp" />
 
 
                         </TableRow>
 
 
                 </TableLayout>
+
                 <!--
                 Import the image first
                 -->
@@ -577,6 +603,17 @@
                        android:layout_gravity="right" />
    -->
             </LinearLayout>
+
+            <Button
+                android:text="@string/requestbutton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/blue_button"
+                android:textSize="24sp"
+                android:id="@+id/request"
+                android:layout_weight="0.32"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp" />
 
 
             <!--
@@ -683,7 +720,6 @@
                             android:gravity="right"
                             />
             !-->
-
 
         </LinearLayout>
     </ScrollView>

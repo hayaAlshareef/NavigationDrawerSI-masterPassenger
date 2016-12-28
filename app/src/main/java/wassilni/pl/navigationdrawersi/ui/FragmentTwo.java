@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,9 +14,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -34,26 +38,35 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.concurrent.ExecutionException;
 
-import Objects.MyApp;
+import Objects.*;
+import Objects.Request;
 import wassilni.pl.navigationdrawersi.R;
 
-public class FragmentTwo extends Fragment implements View.OnClickListener {
+public class FragmentTwo extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
    // @InjectView(R.id.circleLayout)
     //LinearLayout circleLayout;
    Button pickupB,dropoffB,searchB,dateStartB,dateEndB;
-    public static EditText pickupET,dropoffET,sDateET,eDateET,timeET;
+    public static EditText pickupET,dropoffET,sDateET,eDateET;
+    EditText pickupAdd,dropoffAdd;
     static boolean CheckButton;//to know witch pickup date the user click
-    public String sDate;
-    public String eDate;
-    public String time;
-    public String pLoc;
-    public String dLoc;
+    public static String sDate;
+    public static String eDate;
+    public static String time,hourS, mintS;
+    public static String pLoc,pAdd;
+    public static String dLoc,dAdd;
+    private Objects.Request r ;
+    Spinner hourSpinner, mintSpinner;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup containter,
             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_two, containter, false);
+        hourSpinner = (Spinner) view.findViewById(R.id.spinnerHour);
+        hourSpinner.setOnItemSelectedListener(this);
+        mintSpinner = (Spinner) view.findViewById(R.id.spinnerMint);
+        mintSpinner.setOnItemSelectedListener(this);
+
           searchB=(Button) view.findViewById(R.id.searchb);
           pickupB=(Button) view.findViewById(R.id.pickupB);
           dropoffB=(Button) view.findViewById(R.id.dropoffB);
@@ -63,11 +76,13 @@ public class FragmentTwo extends Fragment implements View.OnClickListener {
         dateEndB.setOnClickListener(this);
         sDateET=(EditText) view.findViewById(R.id.StartingDateET);
         eDateET=(EditText) view.findViewById(R.id.endingDateTE);
-        timeET=(EditText) view.findViewById(R.id.timeET);
+
         pickupET=(EditText) view.findViewById(R.id.pickupET);
         dropoffET=(EditText) view.findViewById(R.id.dropOffLET);
         pickupET.setEnabled(false);
         dropoffET.setEnabled(false);
+        pickupAdd=(EditText) view.findViewById(R.id.pickupAddET);
+        dropoffAdd=(EditText) view.findViewById(R.id.dropoffAddET);
         ///to open search page --- before user click this button , user must be enter all requierd fields then we will send it to next page to get result
         // user can select one or two from result then click requiest : 1-the requ display it in fragment one page(with wait status) , 2-the req send it to rhe driver
         //in the search page the user can view any driver page
@@ -123,9 +138,12 @@ public class FragmentTwo extends Fragment implements View.OnClickListener {
         //if all fields has values
         sDate = sDateET.getText().toString();
         eDate = eDateET.getText().toString();
-        time = timeET.getText().toString();
+        time =hourS+":"+mintS+":"+"00";
         pLoc = pickupET.getText().toString();
         dLoc = dropoffET.getText().toString();
+        pAdd=pickupAdd.getText().toString().trim();
+        dAdd=dropoffAdd.getText().toString().trim();
+     //   r=new Request(sDate,eDate, pLoc,time,dLoc,pAdd,dAdd);
         String result="";
         Background b =new Background();
         try {
@@ -157,6 +175,27 @@ public class FragmentTwo extends Fragment implements View.OnClickListener {
 
 
         }
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+        Spinner spinner = (Spinner) parent;
+        TextView myText = (TextView) view;
+      /*  ((TextView) adapterView.getChildAt(0)).setTextColor(Color.BLACK);
+        ((TextView) adapterView.getChildAt(0)).setTextSize(18);*/
+        if(spinner.getId()==R.id.spinnerHour){
+            hourS = (String) myText.getText();
+        }
+        else if(spinner.getId()==R.id.spinnerMint){
+            mintS = (String) myText.getText();
+        }
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
 
     }
 

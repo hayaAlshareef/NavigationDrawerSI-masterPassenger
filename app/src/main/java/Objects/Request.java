@@ -17,6 +17,9 @@ public class Request {
     private Location PickupLoc;// or LatLng
     private Location DropoffLoc;// or LatLng
     private String State;
+    private String pickupAdd;
+    private String dropoffAdd;
+
 
 
     //**************************************** Constructor(S) ▼▼▼▼▼
@@ -29,6 +32,17 @@ public class Request {
         PickupLoc = pickupLoc;
         DropoffLoc = dropoffLoc;
         State = state;
+    }
+
+    public Request(Date startingDate, Date endingDate, Location pickupLoc, Time time, Location dropoffLoc, String state, String pickupAdd, String dropoffAdd) {
+        StartingDate = startingDate;
+        EndingDate = endingDate;
+        PickupLoc = pickupLoc;
+        this.time = time;
+        DropoffLoc = dropoffLoc;
+        State = state;
+        this.pickupAdd = pickupAdd;
+        this.dropoffAdd = dropoffAdd;
     }
 
     //  **************************************** service method HERE ▼▼▼▼▼
@@ -58,4 +72,68 @@ public class Request {
     }
 
     //**************************************** SETTERS &&& GETTERS HERE ▼▼▼▼▼
+
+    public String getPickupAdd() {
+        return pickupAdd;
+    }
+
+    public void setPickupAdd(String pickupAdd) {
+        this.pickupAdd = pickupAdd;
+    }
+
+    public String getDropoffAdd() {
+        return dropoffAdd;
+    }
+
+    public void setDropoffAdd(String dropoffAdd) {
+        this.dropoffAdd = dropoffAdd;
+    }
+
+    public Date getStartingDate() {
+        return StartingDate;
+    }
+
+    public void setStartingDate(Date startingDate) {
+        StartingDate = startingDate;
+    }
+
+    public Date getEndingDate() {
+        return EndingDate;
+    }
+
+    public void setEndingDate(Date endingDate) {
+        EndingDate = endingDate;
+    }
+
+    public Time getTime() {
+        return time;
+    }
+
+    public void setTime(Time time) {
+        this.time = time;
+    }
+
+    public Location getPickupLoc() {
+        return PickupLoc;
+    }
+
+    public void setPickupLoc(Location pickupLoc) {
+        PickupLoc = pickupLoc;
+    }
+
+    public Location getDropoffLoc() {
+        return DropoffLoc;
+    }
+
+    public void setDropoffLoc(Location dropoffLoc) {
+        DropoffLoc = dropoffLoc;
+    }
+
+    public String getState() {
+        return State;
+    }
+
+    public void setState(String state) {
+        State = state;
+    }
 }
