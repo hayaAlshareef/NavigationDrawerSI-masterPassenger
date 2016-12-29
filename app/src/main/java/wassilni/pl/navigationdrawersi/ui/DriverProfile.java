@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import java.util.concurrent.ExecutionException;
 
-import Objects.MyApp;
+import Objects.*;
 import wassilni.pl.navigationdrawersi.R;
 
 public class DriverProfile extends AppCompatActivity {
@@ -52,17 +52,23 @@ public class DriverProfile extends AppCompatActivity {
                 S_ID=in.getStringExtra("S_ID");
                 D_ID=in.getStringExtra("D_ID");
 
-                String picL,dropL,time,startD,endD;
+                String picL,dropL,time,startD,endD,pickAdd,dropAdd;
+                FragmentTwo fragmentTwo=new FragmentTwo();
+                Request r =fragmentTwo.getRequest();
+
                 picL=FragmentTwo.pLoc;
-                dropL=FragmentTwo.pLoc;
+                dropL=FragmentTwo.dLoc;
                 time=FragmentTwo.time;
                 startD=FragmentTwo.sDate;
                 endD=FragmentTwo.eDate;
+                pickAdd=FragmentTwo.pAdd;
+                dropAdd=FragmentTwo.dAdd;
                 String method="addReq";
                 String res= "";
                 backgroundTask bc=new backgroundTask(getApplication());
                 try {
-                    res= bc.execute(method,S_ID,P_ID,picL,dropL,time,startD,endD,D_ID).get();
+
+                    res= bc.execute(method,S_ID,P_ID,picL,dropL,time,startD,endD,pickAdd,dropAdd,D_ID).get();
                     //if()
                 } catch (InterruptedException e) {
                     e.printStackTrace();

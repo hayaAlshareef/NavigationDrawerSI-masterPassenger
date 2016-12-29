@@ -5,9 +5,9 @@
     <string name="action_settings">Settings</string>
 
 
-    <string name="fragment_one">الصفحة الرئيسية</string>
+    <string name="fragment_one">الإشتراكات</string>
     <string name="fragment_two">ابحث عن رحلة</string>
-    <string name="fragment_three">طلباتي</string>
+    <string name="fragment_three">طلبات قيد التفعيل</string>
     <string name="fragment_four">تقديم شكوى</string>
     <string name="fragment_fifth">بياناتي</string>
     <string name="fragment_about">تسجيل خروج</string>

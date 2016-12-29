@@ -47,6 +47,8 @@ public class FragmentThree extends Fragment {
     private static final String D_F_Name ="D_F_Name";
     private static final String D_L_Name ="D_L_Name";
     private static final String R_dropoff_loc="R_dropoff_loc";
+    private static final String picAdd ="pickAdd";
+    private static final String dropAdd="dropAdd";
     private static final String r_time="r_time";
     private static final String confirm="confirm";
     private int TRACK = 0;
@@ -73,23 +75,24 @@ public class FragmentThree extends Fragment {
 
             JSONObject jsonObject;
             String id[] = new String[users.length()];
-            String DFName,DLName,dropOffL, time,confirms;
+            String DFName,DLName,dropOffL, time,confirms,pickupAdd;
             int DID;
             for (int i = 0; i < users.length(); i++) {
                 jsonObject = users.getJSONObject(TRACK);
                 i_ID = Integer.parseInt(jsonObject.getString(R_ID));
                 DFName=jsonObject.getString(D_F_Name);
                 DLName=jsonObject.getString(D_L_Name);
-                dropOffL = jsonObject.getString(R_dropoff_loc);
+                dropOffL = jsonObject.getString(dropAdd);
                 time = jsonObject.getString(r_time);
                 confirms = jsonObject.getString(confirm);
                 id[i] = jsonObject.getString(R_ID);
+                pickupAdd=jsonObject.getString(picAdd);
                 if(confirms.equals("w")){
-                    Request s = new Request(i_ID,DFName + " " +DLName,dropOffL, time,"قيد الإنتظار");
+                    Request s = new Request(i_ID,DFName + " " +DLName,dropOffL,time,pickupAdd, "قيد الإنتظار");
                     RequestArrayList.add(s);//add the object to array list
                 }
                 else if(confirms.equals("n")){
-                    Request s = new Request(i_ID,DFName + " " +DLName,dropOffL, time,"مرفوض");
+                    Request s = new Request(i_ID,DFName + " " +DLName,dropOffL, time,pickupAdd,"مرفوض");
                     RequestArrayList.add(s);//add the object to array list
                 }
                 TRACK++;
@@ -280,6 +283,7 @@ public class FragmentThree extends Fragment {
             TextView dropOffLocation=(TextView) row.findViewById(R.id.dropOffLRet);
             TextView dropOffTime=(TextView) row.findViewById(R.id.dropOffTRet);
             TextView statues=(TextView)row.findViewById(R.id.statusRet);
+            TextView pickuppAdd=(TextView)row.findViewById(R.id.pickup);
             Button absent=(Button) row.findViewById(R.id.absent);
             Button unSubscribe=(Button) row.findViewById(R.id.unSubscribe);
 
@@ -366,6 +370,7 @@ public class FragmentThree extends Fragment {
             dropOffLocation.setText(temp.getDropOffL());
             dropOffTime.setText(temp.getDropOffT());
             String statue=temp.getConfirm();
+            pickuppAdd.setText(temp.getPickupAdd());
             if(statue.equals("مرفوض")){
                 statues.setText(temp.getConfirm());
                 statues.setTextColor(getResources().getColor(R.color.red_light));

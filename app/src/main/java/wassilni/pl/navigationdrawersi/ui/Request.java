@@ -1,26 +1,98 @@
 package wassilni.pl.navigationdrawersi.ui;
 
+import java.sql.Time;
+
 /**
  * Created by haya on 12/11/2016.
  */
+
 
 public class Request {
 
     private int reqNum;
     private String DriverN;
+    private String startDate;
+    private String endDate;
     private String dropOffL;
     private String dropOffT;
     private String confirm;
+    private String time ;
+    private String pickupAdd;
+    private String dropoffAdd;
+    private String pickupL;
 
 
-    public Request(int reqNum, String driverName, String dropOffL, String dropOffT, String confirm) {
+//**************************************** Constructor(S) ▼▼▼▼▼
+
+
+    public Request(String startDate, String endDate, String pickupL ,String dropOffL, String time, String pickupAdd, String dropoffAdd) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.dropOffL = dropOffL;
+        this.pickupL = pickupL;
+        this.time = time;
+        this.pickupAdd = pickupAdd;
+        this.dropoffAdd = dropoffAdd;
+    }
+
+    public Request(int reqNum, String driverName, String dropOffL, String dropOffT,String pickupAdd, String confirm) {
         this.reqNum = reqNum;
         DriverN = driverName;
         this.dropOffL = dropOffL;
         this.dropOffT = dropOffT;
         this.confirm = confirm;
+        this.pickupAdd=pickupAdd;
     }
 
+
+            /**     getters and setters  **/
+
+            public String getStartDate() {
+                return startDate;
+            }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getPickupL() {
+        return pickupL;
+    }
+
+    public void setPickupL(String pickupL) {
+        this.pickupL = pickupL;
+    }
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getPickupAdd() {
+        return pickupAdd;
+    }
+
+    public void setPickupAdd(String pickupAdd) {
+        this.pickupAdd = pickupAdd;
+    }
+
+    public String getDropoffAdd() {
+        return dropoffAdd;
+    }
+
+    public void setDropoffAdd(String dropoffAdd) {
+        this.dropoffAdd = dropoffAdd;
+    }
 
     public int getReqNum() {
         return reqNum;

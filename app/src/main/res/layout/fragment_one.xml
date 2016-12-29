@@ -18,7 +18,7 @@
         android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="normal|bold"
-        android:text="الطلبات الحالية"
+        android:text="الإشتراكات"
         android:paddingBottom="20dp"
         android:layout_gravity="center"/>
 

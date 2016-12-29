@@ -172,7 +172,9 @@ System.out.println("$$$$$$$$$$$$$$$   In Login !!!!!");
             String time = voids[5];
             String startD = voids[6];
             String endD = voids[7];
-            String D_ID = voids[8];
+            String pickAdd = voids[8];
+            String dropAdd=voids[9];
+            String D_ID=voids[10];
             try{
                 URL url = new URL(addReq_url);
                 HttpURLConnection httpURLConnection =(HttpURLConnection) url.openConnection();
@@ -188,6 +190,8 @@ System.out.println("$$$$$$$$$$$$$$$   In Login !!!!!");
                         URLEncoder.encode("R_dropoff_loc","UTF-8")+"="+URLEncoder.encode(dropLocation,"UTF-8")+"&"+
                         URLEncoder.encode("r_time","UTF-8")+"="+URLEncoder.encode(time,"UTF-8")+"&"+
                         URLEncoder.encode("R_starting_Date","UTF-8")+"="+URLEncoder.encode(startD,"UTF-8")+"&"+
+                        URLEncoder.encode("picAdd","UTF-8")+"="+URLEncoder.encode(pickAdd,"UTF-8")+"&"+
+                        URLEncoder.encode("dropAdd","UTF-8")+"="+URLEncoder.encode(dropAdd,"UTF-8")+"&"+
                         URLEncoder.encode("R_ending_Date","UTF-8")+"="+URLEncoder.encode(endD,"UTF-8");
                 bufferedWriter.write(data);
                 bufferedWriter.flush();

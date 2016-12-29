@@ -19,7 +19,7 @@
         android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="normal|bold"
-        android:text="طلباتي"
+        android:text="طلبات قيد التفعيل"
         android:paddingBottom="20dp"
         android:layout_gravity="center"/>
 

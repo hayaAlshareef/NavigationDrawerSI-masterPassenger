@@ -2,6 +2,8 @@ package Objects;
 
 import android.location.Location;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.sql.Date;
 import java.sql.Time;
 
@@ -14,8 +16,8 @@ public class Request {
     private Date StartingDate;
     private Date EndingDate;
     private Time time;
-    private Location PickupLoc;// or LatLng
-    private Location DropoffLoc;// or LatLng
+    private LatLng PickupLoc;// or LatLng
+    private LatLng DropoffLoc;// or LatLng
     private String State;
     private String pickupAdd;
     private String dropoffAdd;
@@ -25,7 +27,7 @@ public class Request {
     //**************************************** Constructor(S) ▼▼▼▼▼
     public Request() {}//default Constructor.
 
-    public Request(Date startingDate, Date endingDate, Time time, Location pickupLoc, Location dropoffLoc, String state) {
+    public Request(Date startingDate, Date endingDate, Time time, LatLng pickupLoc, LatLng dropoffLoc, String state) {
         StartingDate = startingDate;
         EndingDate = endingDate;
         this.time = time;
@@ -34,7 +36,7 @@ public class Request {
         State = state;
     }
 
-    public Request(Date startingDate, Date endingDate, Location pickupLoc, Time time, Location dropoffLoc, String state, String pickupAdd, String dropoffAdd) {
+    public Request(Date startingDate, Date endingDate, LatLng pickupLoc, Time time, LatLng dropoffLoc, String state, String pickupAdd, String dropoffAdd) {
         StartingDate = startingDate;
         EndingDate = endingDate;
         PickupLoc = pickupLoc;
@@ -113,19 +115,19 @@ public class Request {
         this.time = time;
     }
 
-    public Location getPickupLoc() {
+    public LatLng getPickupLoc() {
         return PickupLoc;
     }
 
-    public void setPickupLoc(Location pickupLoc) {
+    public void setPickupLoc(LatLng pickupLoc) {
         PickupLoc = pickupLoc;
     }
 
-    public Location getDropoffLoc() {
+    public LatLng getDropoffLoc() {
         return DropoffLoc;
     }
 
-    public void setDropoffLoc(Location dropoffLoc) {
+    public void setDropoffLoc(LatLng dropoffLoc) {
         DropoffLoc = dropoffLoc;
     }
 

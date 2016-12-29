@@ -55,6 +55,8 @@ public class FragmentOne extends Fragment {
     private static final String R_dropoff_loc="R_dropoff_loc";
     private static final String r_time="r_time";
     private static final String confirm="confirm";
+    private static final String picAdd ="pickAdd";
+    private static final String dropAdd="dropAdd";
     private int TRACK = 0;
     private JSONArray users = null;
     String RID;
@@ -97,20 +99,21 @@ public class FragmentOne extends Fragment {
             JSONObject jsonObject;
           /*  String fullName = jsonObject.getString(FName)+" "+jsonObject.getString(LName);*/
             String id[] = new String[users.length()];
-            String DFName,DLName, dropOffL, time,confirms;
+            String DFName,DLName, dropOffL, time,confirms,picupL;
             int DID;
             for (int i = 0; i < users.length(); i++) {
                 jsonObject = users.getJSONObject(TRACK);
                 i_ID = Integer.parseInt(jsonObject.getString(R_ID));
                 DFName=jsonObject.getString(D_F_Name);
                 DLName=jsonObject.getString(D_L_Name);
-                dropOffL = jsonObject.getString(R_dropoff_loc);
+                dropOffL = jsonObject.getString(dropAdd);
                 time = jsonObject.getString(r_time);
                 confirms = jsonObject.getString(confirm);
+                picupL=jsonObject.getString(picAdd);
 
                 id[i] = jsonObject.getString(R_ID);
                 if(confirms.equals("y")){
-                    Request s = new Request(i_ID,DFName + " " +DLName ,dropOffL, time,"مقبول");
+                    Request s = new Request(i_ID,DFName + " " +DLName ,dropOffL,time,picupL, "مقبول");
                     RequestArrayList.add(s);//add the object to array list
                 }
                 TRACK++;
@@ -340,6 +343,7 @@ public class FragmentOne extends Fragment {
             TextView dropOffLocation=(TextView) row.findViewById(R.id.dropOffLRet);
             TextView dropOffTime=(TextView) row.findViewById(R.id.dropOffTRet);
             TextView statues=(TextView)row.findViewById(R.id.statusRet);
+            TextView pickuppAdd=(TextView)row.findViewById(R.id.pickup);
             Button absent=(Button) row.findViewById(R.id.absent);
             Button unSubscribe=(Button) row.findViewById(R.id.unSubscribe);            temp=items.get(position);
 
@@ -407,6 +411,7 @@ public class FragmentOne extends Fragment {
             dropOffTime.setText(temp.getDropOffT());
             statues.setText(temp.getConfirm());
             statues.setTextColor(getResources().getColor(R.color.green_dark));
+            pickuppAdd.setText(temp.getPickupAdd());
 
             return row;
         }

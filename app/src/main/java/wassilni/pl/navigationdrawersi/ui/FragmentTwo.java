@@ -32,14 +32,14 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.concurrent.ExecutionException;
 
-import Objects.*;
-import Objects.Request;
+import Objects.MyApp;
 import wassilni.pl.navigationdrawersi.R;
 
 public class FragmentTwo extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
@@ -55,7 +55,7 @@ public class FragmentTwo extends Fragment implements View.OnClickListener, Adapt
     public static String time,hourS, mintS;
     public static String pLoc,pAdd;
     public static String dLoc,dAdd;
-    private Objects.Request r ;
+    private Request r ;
     Spinner hourSpinner, mintSpinner;
 
     @Override
@@ -76,7 +76,6 @@ public class FragmentTwo extends Fragment implements View.OnClickListener, Adapt
         dateEndB.setOnClickListener(this);
         sDateET=(EditText) view.findViewById(R.id.StartingDateET);
         eDateET=(EditText) view.findViewById(R.id.endingDateTE);
-
         pickupET=(EditText) view.findViewById(R.id.pickupET);
         dropoffET=(EditText) view.findViewById(R.id.dropOffLET);
         pickupET.setEnabled(false);
@@ -143,7 +142,10 @@ public class FragmentTwo extends Fragment implements View.OnClickListener, Adapt
         dLoc = dropoffET.getText().toString();
         pAdd=pickupAdd.getText().toString().trim();
         dAdd=dropoffAdd.getText().toString().trim();
-     //   r=new Request(sDate,eDate, pLoc,time,dLoc,pAdd,dAdd);
+
+
+        r=new Request(sDate,eDate, pLoc,dLoc,time,pAdd,dAdd);
+        System.out.println(pAdd+" adddddddres"+r.getPickupL());
         String result="";
         Background b =new Background();
         try {
@@ -234,7 +236,13 @@ public class FragmentTwo extends Fragment implements View.OnClickListener, Adapt
 
         }
 
-    }}
+    }
+
+    public Request getRequest(){
+
+        return r;
+    }
+}
 
     class Background extends AsyncTask<String,Void,String>
     {

@@ -1,5 +1,9 @@
 <resources>
 
+
+
+    <style name="customRatingBar"
+        parent="Theme.AppCompat"/>
     <!-- Base application theme. -->
     <style name="AppCompat" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. Theme.Navigationdrawersi-->
