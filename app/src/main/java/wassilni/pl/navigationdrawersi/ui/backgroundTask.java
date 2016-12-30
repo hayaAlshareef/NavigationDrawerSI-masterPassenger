@@ -50,6 +50,7 @@ public class backgroundTask extends AsyncTask<String ,Void,String> {
         String update_url="http://wassilni.com/db/UpdatePass.php"; // update passenger info
         String DelReq_url="http://wassilni.com/db/DelReq.php"; // delete request
         String addReq_url="http://wassilni.com/db/AddReq.php";
+        String addRating_url="http://wassilni.com/db/addRating.php";
         String method = voids[0];
         Log.d("Background","before comparison @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         if(method.equals("register"))
@@ -329,6 +330,43 @@ System.out.println("$$$$$$$$$$$$$$$   In Login !!!!!");
                 e.printStackTrace();
             }
         }
+        if(method.equals("addRating"))
+        {
+            String ratingValue=voids[1];
+            String D_ID=voids[2];
+
+            try{
+                URL url = new URL(addRating_url);
+                HttpURLConnection httpURLConnection =(HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream=httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter= new BufferedWriter(new OutputStreamWriter (outputStream,"UTF-8"));
+                String data=URLEncoder.encode("rating","UTF-8")+"="+URLEncoder.encode(ratingValue,"UTF-8")+"&"+
+                        URLEncoder.encode("D_ID","UTF-8")+"="+URLEncoder.encode(D_ID,"UTF-8");
+                bufferedWriter.write(data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream Is=httpURLConnection.getInputStream();
+                BufferedReader bufferedReader=new BufferedReader(new InputStreamReader(Is,"iso-8859-1"));
+                String response="";
+                String line="";
+                while ((line=bufferedReader.readLine())!=null){
+                    response+=line;
+                }
+                bufferedReader.close();
+                Is.close();
+                httpURLConnection.disconnect();
+                return response;
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
 
         return null;}
     @Override
@@ -350,7 +388,7 @@ System.out.println("$$$$$$$$$$$$$$$   In Login !!!!!");
          else {
           // alertDialog.setMessage(result);
            // alertDialog.show();
-            Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
+            //Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
            if(result.equals("Login success ... welcome ")){
 
                 Intent i=new Intent(appCompatActivity.getApplicationContext(), FragmentOne.class);

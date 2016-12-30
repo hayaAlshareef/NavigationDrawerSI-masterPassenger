@@ -20,6 +20,8 @@ public class Request {
     private String pickupAdd;
     private String dropoffAdd;
     private String pickupL;
+    private String D_ID;
+
 
 
 //**************************************** Constructor(S) ▼▼▼▼▼
@@ -44,8 +46,18 @@ public class Request {
         this.pickupAdd=pickupAdd;
     }
 
+    public Request(int reqNum,String D_ID, String driverName, String dropOffL, String dropOffT,String pickupAdd, String confirm) {
+        this.reqNum = reqNum;
+        DriverN = driverName;
+        this.dropOffL = dropOffL;
+        this.dropOffT = dropOffT;
+        this.confirm = confirm;
+        this.pickupAdd=pickupAdd;
+        this.D_ID=D_ID;
+    }
 
-            /**     getters and setters  **/
+
+    /**     getters and setters  **/
 
             public String getStartDate() {
                 return startDate;
@@ -133,4 +145,8 @@ public class Request {
     public void setConfirm(String confirm) {
         this.confirm = confirm;
     }
+
+    public String getD_ID() {return D_ID; }
+
+    public void setD_ID(String d_ID) {  D_ID = d_ID; }
 }

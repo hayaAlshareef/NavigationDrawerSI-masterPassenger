@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,7 +45,7 @@ public class FragmentOne extends Fragment {
 //GetAllReq
 
     public static final String MY_JSON ="getRequest";//MY_JSON
-    String url="http://wassilni.com/db/GetAllReq.php";
+    String url_getReq="http://wassilni.com/db/GetAllReq.php";
     String sJson;
     String pathurl="http://wassilni.comdbdriverGetPassengers.php";
     private static final String JSON_ARRAY ="result";// the string must be the same as the name of the json object in the php file
@@ -57,12 +59,17 @@ public class FragmentOne extends Fragment {
     private static final String confirm="confirm";
     private static final String picAdd ="pickAdd";
     private static final String dropAdd="dropAdd";
+    private static final String D_ID="D_ID";
+    private static final String Rating="Ratting";
     private int TRACK = 0;
     private JSONArray users = null;
+    private JSONArray rating = null;
     String RID;
     ListView listView;
     int ids[];
+    String D_IDs[];
     ArrayList<Request> RequestArrayList;
+    RatingBar ratingBar;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_one, container, false);
@@ -70,7 +77,9 @@ public class FragmentOne extends Fragment {
         listView=(ListView)view.findViewById(R.id.listRequest);
 
         if (MyApp.passenger_from_session != null){// if there is data in the session
-            getJSON(url);
+           // getJSON(url,"secound");
+            GetJSON gj = new GetJSON();
+            gj.execute(url_getReq,"getReq");
             System.out.println((MyApp.passenger_from_session!=null)? "********************* not null" : "************** null!");
         }
         else {
@@ -79,14 +88,6 @@ public class FragmentOne extends Fragment {
             //getActivity().finish();
         }
 
-
-
-        // ButterKnife.inject(this, view);
-        //((GradientDrawable) circleLayout.getBackground())
-        //  .setColor(getResources().getColor(R.color.material_blue));
-
-        // Button pathB1=(Button) view.findViewById(R.id.register);//لازم ننعدل
-        // pathB1.setOnClickListener(this);
         return view;
     }
 
@@ -99,8 +100,8 @@ public class FragmentOne extends Fragment {
             JSONObject jsonObject;
           /*  String fullName = jsonObject.getString(FName)+" "+jsonObject.getString(LName);*/
             String id[] = new String[users.length()];
-            String DFName,DLName, dropOffL, time,confirms,picupL;
-            int DID;
+            String DFName,DLName, dropOffL, time,confirms,picupL,D_id;
+
             for (int i = 0; i < users.length(); i++) {
                 jsonObject = users.getJSONObject(TRACK);
                 i_ID = Integer.parseInt(jsonObject.getString(R_ID));
@@ -110,45 +111,20 @@ public class FragmentOne extends Fragment {
                 time = jsonObject.getString(r_time);
                 confirms = jsonObject.getString(confirm);
                 picupL=jsonObject.getString(picAdd);
-
+                D_id=jsonObject.getString(D_ID);
                 id[i] = jsonObject.getString(R_ID);
                 if(confirms.equals("y")){
-                    Request s = new Request(i_ID,DFName + " " +DLName ,dropOffL,time,picupL, "مقبول");
+                    Request s = new Request(i_ID,D_id,DFName + " " +DLName ,dropOffL,time,picupL, "مقبول");
                     RequestArrayList.add(s);//add the object to array list
                 }
                 TRACK++;
             }
-            //custmerAdapter adapter = new custmerAdapter(getActivity(), RequestArrayList);
-            ids=new int [TRACK];
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, id);
-            // listView.setAdapter(arrayAdapter);
-            listView.setAdapter(new myList(getActivity(),  RequestArrayList));
-         /*   listView.setOnItemClickListener(new OnItemClickListener()
-            {
-                @Override
-                public void onItemClick(AdapterView<?> arg0, View arg1,int position, long arg3)
-                {
-                    // query and parseJSON, then go to mapActivity.
-                    int sched_id=i_ID;
-                    Background b= new Background();
-                    try {
-                        String result=b.execute(sched_id+"").get();
-                        if(!result.equalsIgnoreCase("InternetFailed")){
-                            Intent i=new Intent(getActivity(), MapsActivity.class);
-                            i.putExtra("json",result);//json will be parsed in the map activity.
-                            startActivity(i);
-                            //this.finish();
-                        }
-                        else
-                            Toast.makeText(getActivity(),"ارجو التأكد من توصيل الانترنت",Toast.LENGTH_LONG).show();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                    }
 
-                }
-            });*/
+            ids=new int [TRACK];
+            D_IDs=new String[TRACK];
+
+            listView.setAdapter(new myList(getActivity(),  RequestArrayList));
+
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -156,14 +132,6 @@ public class FragmentOne extends Fragment {
 
     }
 
-
-    //@Override
-    //public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-    // String timeS= scheduleArrayList.get(position).getTime();
-    //  Toast.makeText(getActivity(),""+ timeS,Toast.LENGTH_SHORT).show();
-
-    //  }
 
 
     //extract the jason object
@@ -175,6 +143,14 @@ public class FragmentOne extends Fragment {
             e.printStackTrace();
         }
     }
+
+
+
+
+
+
+
+
 
 
     class Background extends AsyncTask<String,Void,String>
@@ -248,9 +224,10 @@ public class FragmentOne extends Fragment {
 
 
 
-    private void getJSON(String url) {
-        class GetJSON extends AsyncTask<String, Void, String> {
+  //  private void getJSON(String url,String method) {
+        class GetJSON extends AsyncTask<String ,Void,String> {
             ProgressDialog loading;
+      String method;
 
             @Override
             protected void onPreExecute() {
@@ -262,36 +239,74 @@ public class FragmentOne extends Fragment {
             protected String doInBackground(String... params) {
 
                 String uri = params[0];
+                 method=params[1];
 
-                BufferedReader bufferedReader = null;
-                try {
-                    String P_ID = MyApp.passenger_from_session.getID()+"";
-                    URL url = new URL(uri);//take the url for the php in case we want to retrives the driver schedule
-                    HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                    httpURLConnection.setRequestMethod("POST");
-                    httpURLConnection.setDoOutput(true);
-                    httpURLConnection.setDoInput(true);
-                    OutputStream outputStream=httpURLConnection.getOutputStream();
-                    BufferedWriter bufferedWriter= new BufferedWriter(new OutputStreamWriter (outputStream,"UTF-8"));
-                    String data= URLEncoder.encode("P_ID","UTF-8")+"="+URLEncoder.encode(P_ID,"UTF-8");
-                    bufferedWriter.write(data);
-                    bufferedWriter.flush();
-                    bufferedWriter.close();
-                    outputStream.close();
-                    InputStream Is=httpURLConnection.getInputStream();
-                    bufferedReader=new BufferedReader(new InputStreamReader(Is,"iso-8859-1"));
-                    String response="";
-                    String line="";
-                    while ((line=bufferedReader.readLine())!=null){
-                        response+=line;
-                    }
-                    bufferedReader.close();
-                    Is.close();
-                    httpURLConnection.disconnect();
-                    return response;
-                }catch(Exception e){
-                    e.printStackTrace();
-                }
+               if(method.equals("getReq")) {
+                   BufferedReader bufferedReader = null;
+                   try {
+                       String P_ID = MyApp.passenger_from_session.getID() + "";
+                       URL url = new URL(uri);//take the url for the php in case we want to retrives the driver schedule
+                       HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                       httpURLConnection.setRequestMethod("POST");
+                       httpURLConnection.setDoOutput(true);
+                       httpURLConnection.setDoInput(true);
+                       OutputStream outputStream = httpURLConnection.getOutputStream();
+                       BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                       String data = URLEncoder.encode("P_ID", "UTF-8") + "=" + URLEncoder.encode(P_ID, "UTF-8");
+                       bufferedWriter.write(data);
+                       bufferedWriter.flush();
+                       bufferedWriter.close();
+                       outputStream.close();
+                       InputStream Is = httpURLConnection.getInputStream();
+                       bufferedReader = new BufferedReader(new InputStreamReader(Is, "iso-8859-1"));
+                       String response = "";
+                       String line = "";
+                       while ((line = bufferedReader.readLine()) != null) {
+                           response += line;
+                       }
+                       bufferedReader.close();
+                       Is.close();
+                       httpURLConnection.disconnect();
+                       return response;
+                   } catch (Exception e) {
+                       e.printStackTrace();
+                   }
+               }
+                else if(method.equals("getRatting")){
+
+
+                   String did=params[2];
+                   BufferedReader bufferedReader = null;
+                   try {
+                       String P_ID = MyApp.passenger_from_session.getID() + "";
+                       URL url = new URL(uri);//take the url for the php in case we want to retrives the driver schedule
+                       HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                       httpURLConnection.setRequestMethod("POST");
+                       httpURLConnection.setDoOutput(true);
+                       httpURLConnection.setDoInput(true);
+                       OutputStream outputStream = httpURLConnection.getOutputStream();
+                       BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                       String data = URLEncoder.encode("D_ID", "UTF-8") + "=" + URLEncoder.encode(did, "UTF-8");
+                       bufferedWriter.write(data);
+                       bufferedWriter.flush();
+                       bufferedWriter.close();
+                       outputStream.close();
+                       InputStream Is = httpURLConnection.getInputStream();
+                       bufferedReader = new BufferedReader(new InputStreamReader(Is, "iso-8859-1"));
+                       String response = "";
+                       String line = "";
+                       while ((line = bufferedReader.readLine()) != null) {
+                           response += line;
+                       }
+                       bufferedReader.close();
+                       Is.close();
+                       httpURLConnection.disconnect();
+                       return response;
+                   } catch (Exception e) {
+                       e.printStackTrace();
+                   }
+
+               }
                 return null;
             }
 
@@ -300,14 +315,15 @@ public class FragmentOne extends Fragment {
                 super.onPostExecute(s);
                 loading.dismiss();
                 sJson=s;
-                //Toast.makeText(getActivity(),s,Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(getActivity(),s,Toast.LENGTH_SHORT).show();
+                if(method.equals("getReq")){
                 extractJSON();
-                showData();
+                showData();}
+
             }
         }
-        GetJSON gj = new GetJSON();
-        gj.execute(url);
-    }//end getJson class
+
+ //   }//end getJson class
 
     class myList extends BaseAdapter  {
         ArrayList<Request> items;
@@ -333,6 +349,9 @@ public class FragmentOne extends Fragment {
             return position;
         }
         int req_id;
+        String ratingValue;
+
+
 
         @Override
         public View getView(final int position, final View convertView, ViewGroup parent) {
@@ -345,11 +364,44 @@ public class FragmentOne extends Fragment {
             TextView statues=(TextView)row.findViewById(R.id.statusRet);
             TextView pickuppAdd=(TextView)row.findViewById(R.id.pickup);
             Button absent=(Button) row.findViewById(R.id.absent);
-            Button unSubscribe=(Button) row.findViewById(R.id.unSubscribe);            temp=items.get(position);
+            Button unSubscribe=(Button) row.findViewById(R.id.unSubscribe);
+             ratingBar=(RatingBar)row.findViewById(R.id.ratingBar1);
+
+
+            temp=items.get(position);
 
             req_id=temp.getReqNum();
 
             ids[position]=temp.getReqNum();//to take the id for the request
+
+            D_IDs[position]=temp.getD_ID();
+
+
+
+            ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                @Override
+                public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                    final String methods = "addRating";
+
+                    ratingValue=rating+"";
+                    backgroundTask b = new backgroundTask(getActivity());
+                    try {
+                        String result =  b.execute(methods, ratingValue,D_IDs[position]).get();
+                        if(result.contains("Rating Added Successfully")){
+
+                            Toast.makeText(getContext()," شكرا لتقيميك للسائق",Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
+
+                    System.out.println(ratingValue+" rrrrrrratting ");
+                }
+            });
+
+
 
 
             absent.setOnClickListener(new View.OnClickListener() {
@@ -412,7 +464,6 @@ public class FragmentOne extends Fragment {
             statues.setText(temp.getConfirm());
             statues.setTextColor(getResources().getColor(R.color.green_dark));
             pickuppAdd.setText(temp.getPickupAdd());
-
             return row;
         }
 

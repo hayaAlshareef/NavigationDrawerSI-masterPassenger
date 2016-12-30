@@ -1,25 +1,52 @@
 package wassilni.pl.navigationdrawersi.ui;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.concurrent.ExecutionException;
 
 import Objects.*;
 import wassilni.pl.navigationdrawersi.R;
+
+import static android.provider.MediaStore.Audio.AudioColumns.TRACK;
 
 public class DriverProfile extends AppCompatActivity {
 
 
     TextView TV_Name, TV_phoneNum,TV_model, TV_age, TV_nationality, TV_companyNam,
             TV_carColor, TV_carType, TV_carComp, TV_plateNum, TV_capacity,
-            TV_manufactured, TV_female,TV_tripTime,TV_dayPrice,TV_monthPrice;
+            TV_manufactured, TV_female,TV_tripTime,TV_dayPrice,TV_monthPrice,TV_NumberOfRater;
     String D_ID,S_ID,P_ID;
     Intent in ;
+    String url_getRating ="http://wassilni.com/db/getRating.php";
+    String sJson;
+    private static final String JSON_ARRAY ="result";// the string must be the same as the name of the json object in the php file
+    private static final String d_ID="D_ID";
+    private static final String Rating="Ratting";
+    private static final String numberRater="numberOfRetter";
+    RatingBar ratingBar;
+    private JSONArray rating = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,13 +71,18 @@ public class DriverProfile extends AppCompatActivity {
         TV_monthPrice=(TextView)findViewById(R.id.monthPriceET);
         Button request=(Button) findViewById(R.id.request);
         P_ID= MyApp.passenger_from_session.getID()+"";
-        System.out.println(P_ID+"pppppppppppp");
+        TV_NumberOfRater=(TextView)findViewById(R.id.numberOfRaeter);
+        ratingBar= (RatingBar)findViewById(R.id.ratingBar);
+        ratingBar.setClickable(false);
         showData();
+        S_ID=in.getStringExtra("S_ID");
+        D_ID=in.getStringExtra("D_ID");
+        GetJSON gj = new GetJSON();
+        gj.execute(url_getRating);
         request.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                S_ID=in.getStringExtra("S_ID");
-                D_ID=in.getStringExtra("D_ID");
+
 
                 String picL,dropL,time,startD,endD,pickAdd,dropAdd;
                 FragmentTwo fragmentTwo=new FragmentTwo();
@@ -69,6 +101,7 @@ public class DriverProfile extends AppCompatActivity {
                 try {
 
                     res= bc.execute(method,S_ID,P_ID,picL,dropL,time,startD,endD,pickAdd,dropAdd,D_ID).get();
+
                     //if()
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -77,8 +110,11 @@ public class DriverProfile extends AppCompatActivity {
                 }
               /*  Intent i=new Intent(getApplicationContext(),DriverProfile.class);
                 startActivity(i);*/
+
             }
         });
+
+
 
 
 
@@ -122,6 +158,103 @@ public class DriverProfile extends AppCompatActivity {
         }*/
 
 
+
+
+    }
+
+    private void extractJSONRatting(){
+        try {
+            JSONObject jsonObject = new JSONObject(sJson);
+            rating = jsonObject.getJSONArray(JSON_ARRAY);
+
+            setRatingValue();
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void setRatingValue() {
+
+
+        Float RatingV;
+        JSONObject jsonObject;
+
+        for (int i = 0; i < rating.length(); i++) {
+            try {
+                jsonObject = rating.getJSONObject(0);
+
+
+                RatingV = Float.parseFloat(jsonObject.getString(Rating));
+
+
+                ratingBar.setRating(RatingV);
+                TV_NumberOfRater.setText(TV_NumberOfRater.getText() + jsonObject.getString(numberRater));
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    class GetJSON extends AsyncTask<String ,Void,String> {
+        ProgressDialog loading;
+        String method;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+         loading = ProgressDialog.show(DriverProfile.this, "Please Wait...",null,true,true);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String uri = params[0];
+
+                BufferedReader bufferedReader = null;
+                try {
+                    URL url = new URL(uri);//take the url for the php in case we want to retrives the driver schedule
+                    HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                    httpURLConnection.setRequestMethod("POST");
+                    httpURLConnection.setDoOutput(true);
+                    httpURLConnection.setDoInput(true);
+                    OutputStream outputStream = httpURLConnection.getOutputStream();
+                    BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                    String data = URLEncoder.encode("D_ID", "UTF-8") + "=" + URLEncoder.encode(D_ID, "UTF-8");
+                    bufferedWriter.write(data);
+                    bufferedWriter.flush();
+                    bufferedWriter.close();
+                    outputStream.close();
+                    InputStream Is = httpURLConnection.getInputStream();
+                    bufferedReader = new BufferedReader(new InputStreamReader(Is, "iso-8859-1"));
+                    String response = "";
+                    String line = "";
+                    while ((line = bufferedReader.readLine()) != null) {
+                        response += line;
+                    }
+                    bufferedReader.close();
+                    Is.close();
+                    httpURLConnection.disconnect();
+                    return response;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+           loading.dismiss();
+            sJson=s;
+         //    Toast.makeText(getApplicationContext(),s,Toast.LENGTH_SHORT).show();
+            extractJSONRatting();
+
+        }
     }
 
 }
