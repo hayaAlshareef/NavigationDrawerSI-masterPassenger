@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -59,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
     private CharSequence mTitle;
     private CharSequence mDrawerTitle;
     private List<NavigationDrawerItem> navigationItems;
+    TextView userName;
+    TextView email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +115,15 @@ SessionSetup();
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_action_ab_transparent);
 
       // getSupportActionBar().setIcon(R.drawable.ic_action_ab_transparent);
-
+        userName=(TextView) findViewById(R.id.drawerUserName);
+        email=(TextView) findViewById(R.id.drawerUserEmail);
+//if((!MyApp.passenger_from_session.getFName().equals(null))) {
+   // userName.setText(MyApp.passenger_from_session.getFName() + " " + MyApp.passenger_from_session.getLName());
+   // email.setText(MyApp.passenger_from_session.getEmail());
+//}else{
+   // userName.setText("");
+   // email.setText("");
+//}
         selectItem(currentSelectedPosition);
 
     }
@@ -152,7 +163,13 @@ SessionSetup();
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
+        if((!MyApp.passenger_from_session.getFName().equals(null))) {
+            userName.setText(MyApp.passenger_from_session.getFName() + " " + MyApp.passenger_from_session.getLName());
+            email.setText(MyApp.passenger_from_session.getEmail());
+        }else{
+            userName.setText("");
+            email.setText("");
+        }
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         } else if (item.getItemId() == R.id.menuRight) {
@@ -170,6 +187,7 @@ SessionSetup();
 
     @OnItemClick(R.id.leftDrawerListView)
     public void OnItemClick(int position, long id) {
+
         if (mDrawerLayout.isDrawerOpen(mLinearDrawerLayout)) {
             mDrawerLayout.closeDrawer(mLinearDrawerLayout);
             onNavigationDrawerItemSelected(position);

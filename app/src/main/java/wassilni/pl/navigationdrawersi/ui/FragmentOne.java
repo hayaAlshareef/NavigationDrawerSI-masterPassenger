@@ -6,13 +6,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -408,11 +406,11 @@ public class FragmentOne extends Fragment {
                 @Override
                 public void onClick(View v) {
 
-                    Toast.makeText(context,ids[position],Toast.LENGTH_SHORT).show(); //get request id to send absent to her driver
-                    // Intent i=new Intent(getActivity(), passenger.class);
-                    //String sID=ids[position]+"";
-                    //i.putExtra("S_ID",sID);//json will be parsed in the map activity.
-                    //startActivity(i);
+                  //  Toast.makeText(context,ids[position],Toast.LENGTH_SHORT).show(); //get request id to send absent to her driver
+                     Intent i=new Intent(getActivity(), Absent.class);
+                    String rID=ids[position]+"";
+                    i.putExtra("R_ID",rID);//json will be parsed in the Absent activity.
+                    startActivity(i);
 
                     // System.out.println("id in saidd passenger "+ids[position]);
                 }

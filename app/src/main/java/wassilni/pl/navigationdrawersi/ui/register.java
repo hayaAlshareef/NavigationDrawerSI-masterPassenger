@@ -1,28 +1,24 @@
 package wassilni.pl.navigationdrawersi.ui;
 
-import android.app.DatePickerDialog;
-import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.concurrent.ExecutionException;
 
 import wassilni.pl.navigationdrawersi.R;
 
 
-public class register extends AppCompatActivity  implements DatePickerDialog.OnDateSetListener,AdapterView.OnItemSelectedListener {
+public class register extends AppCompatActivity  implements View.OnClickListener ,AdapterView.OnItemSelectedListener, TextWatcher {
     //  Spinner spinNationality;
     EditText et_fName ,et_lName , et_email , et_password, et_checkPassword ,et_phone , et_school ;
     String sName ,lName , email , password , passwordCheck , phone , school;
@@ -33,6 +29,7 @@ public class register extends AppCompatActivity  implements DatePickerDialog.OnD
 
 
            Button login=(Button) findViewById(R.id.registerB);
+            login.setOnClickListener(this);
             //spinNationality=(Spinner)findViewById(R.id.spinner);
            // spinNationality.setOnItemSelectedListener(this);
             et_fName = (EditText)findViewById(R.id.fistNameET);
@@ -42,87 +39,78 @@ public class register extends AppCompatActivity  implements DatePickerDialog.OnD
             et_checkPassword = (EditText)findViewById(R.id.passwordCheckET);
             et_phone = (EditText)findViewById(R.id.phoneET);
             et_school = (EditText)findViewById(R.id.school);
-          //  et_nationality = (EditText)findViewById(R.id.NationalityET);
-           // et_driverNum = (EditText)findViewById(R.id.driveNumET);
 
-            // LinearLayout viewGroup1 = (LinearLayout) findViewById(R.id.viewGroup);
-           // checkFieldsRequired(viewGroup1);
-
-            login.setOnClickListener(new View.OnClickListener(){
-
-                @Override
-                public void onClick(View view) {
-                    register();//call to validate the inputs
-                }
-            });
-
+            et_fName.addTextChangedListener(this);
+            et_lName.addTextChangedListener(this);
+            et_email.addTextChangedListener(this);
+            et_password.addTextChangedListener(this);
+            et_checkPassword.addTextChangedListener(this);
+            et_phone.addTextChangedListener(this);
+            et_school.addTextChangedListener(this);
         }//end onCreate method
 
 
 
-        private void register() {
-            intitialize();// intitialize the input to string var
-            if (!validate()) {
-                // Toast.makeText(this,"خطأ في التسجيل",Toast.LENGTH_SHORT).show();
-            } else {
-                // Toast.makeText(this,"اكتمل التسجيل",Toast.LENGTH_SHORT).show();
-                //onSigunSuccess();
-                if (!check()) {
-                    //    Toast.makeText(this,"خطأ في التسجيل",Toast.LENGTH_SHORT).show();
+    public void userReg() {
+        intitialize();
+      //  boolean flage=true;
+        if(android.util.Patterns.EMAIL_ADDRESS.matcher(et_email.getText().toString()).matches())
+        {
 
-                } else {
-                  //  Toast.makeText(this, "اكتمل التسجيل", Toast.LENGTH_SHORT).show();
-                    onSigunSuccess();
+
+            String method="checkEmail";
+            backgroundTask backgroundTask = new backgroundTask(this);
+            try {
+                String r ;
+                r= backgroundTask.execute(method,et_email.getText().toString()).get();
+                if(r.equals("The email is taken")){
+                    et_email.setError("الايميل سبق التسجيل به ");
+                    Toast.makeText(this,"الايميل سبق التسجيل به",Toast.LENGTH_SHORT).show();
+                    //flage=false;
+                }
+                else{
+                    regiset();
 
                 }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
             }
         }
-        public void onSigunSuccess(){
-           // Intent i=new Intent(getApplicationContext(), MainActivity.class);
-            //startActivity(i);
-            String method="register";
-            backgroundTask bc=new backgroundTask(this);
-            bc.execute(method,sName,lName,email,password,phone,school);
-        }
-        public boolean validate(){
-            boolean valid=true;
-            if(sName.isEmpty() || sName.length()>=32){ //to validate the first name
-                et_fName.setError("أدخل اسم صحيح!!");
-                valid=false;
-            }
-            else if(lName.isEmpty() || lName.length()>=32){ //to validate the last name
-                et_lName.setError("أدخل اسم صحيح!!");
-                valid=false;
+
+
+    }
+public void regiset(){
+
+    if(!validateInput())
+    {
+
+        Toast.makeText(this,"خطأ في التسجيل",Toast.LENGTH_SHORT).show();
+    }
+    else{
+
+        String method="register";
+        backgroundTask bc=new backgroundTask(this);
+        String result;//to take the result form the php and check if it register or no
+        try {
+            result=bc.execute(method, sName, lName, email, password, phone, school).get();
+            if(result.contains("Passenger Added Successfully")){
+                Toast.makeText(this,"لقد تم التسجيل بنجاح",Toast.LENGTH_SHORT).show();
+                Intent i=new Intent(this,login.class);
+                startActivity(i);
             }
 
-            else if(email.isEmpty() || email.length()>=32){ //to validate the email
-                et_email.setError("أدخل البريد الإلكتروني!!");
-                valid=false;
-            }
-            else if(phone.isEmpty() || phone.length()!=10){ //to validate the phone number
-                et_phone.setError("أدخل اسم صحيح!!");valid=false;
-            }
-            else if(password.isEmpty() || password.length() >=10){ //to validate the password
-                et_password.setError("أدخل كلمة مرور مناسبة!!");
-                valid=false;
-            }
-            else if(passwordCheck.isEmpty() || passwordCheck.length() >=10){ //to validate the confirmpassword
-                et_checkPassword.setError("أدخل كلمة مرور مناسبة!!");
-                valid=false;
-            }
-
-            return valid;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
         }
+
+    }
+}
 
         private void intitialize(){
-            //Reset errors
-            et_fName.setError(null);
-            et_lName.setError(null);
-            et_email.setError(null);
-            et_password.setError(null);
-            et_checkPassword.setError(null);
-            et_phone.setError(null);
-
             //convert edittext to string
             sName =et_fName.getText().toString().trim();
             lName =et_lName.getText().toString().trim();
@@ -134,57 +122,81 @@ public class register extends AppCompatActivity  implements DatePickerDialog.OnD
 
         }
 
-    private boolean check(){
-        boolean validate1=true;
-        if(!isPasswordMatching(password,passwordCheck)){
-            et_password.setError("كلمة المرور غير متوافقة!");
-            et_checkPassword.setError("كلمة المرور غير متوافقة!");
+    private boolean validateInput(){
 
-            validate1=false;
-        }
-        else if(!isEmailValid(email)){
-            et_email.setError("ليس بريد إلكتروني!");
-            validate1=false;
-        }
+        boolean result =true;
 
-        return validate1;
-
-    }
-
-    public boolean isPasswordMatching(String pass, String cPass) {
-        boolean val=true;
-        Pattern pattern = Pattern.compile(pass, Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(cPass);
-
-        if (!matcher.matches()) {
-            // do your Toast("passwords are not matching");
-            val=false;
+        if(et_fName.getText().toString().length()==0)     //size as per your requirement
+        {
+            et_fName.setError("يجب عليك تعبية هذه الخانة ");
+            result=false;
 
         }
+        if(et_lName.getText().toString().length()==0)     //size as per your requirement
+        {
+            et_lName.setError("يجب عليك تعبية هذه الخانة ");
+            result=false;
 
-        return val;
+        }
+        if(et_school.getText().toString().length()==0)     //size as per your requirement
+        {
+            et_school.setError("يجب عليك تعبية هذه الخانة ");
+            result=false;
+
+        }
+        if(et_email.getText().toString().length()==0)     //size as per your requirement
+        {
+            et_email.setError("يجب عليك تعبية هذه الخانة ");
+            result=false;
+
+        }
+        if(et_password.getText().toString().length()==0)     //size as per your requirement
+        {
+            et_password.setError("يجب عليك تعبية هذه الخانة ");
+            result=false;
+
+        }
+        if(et_checkPassword.getText().toString().length()==0)     //size as per your requirement
+        {
+            et_checkPassword.setError("يجب عليك تعبية هذه الخانة ");
+            result=false;
+
+        }
+        if(et_phone.getText().toString().length()!=10)     //size as per your requirement
+        {
+            et_phone.setError("رقم الجوال يجب ان يكون 10 خانات ");
+            result=false;
+
+        }
+
+        if(!android.util.Patterns.EMAIL_ADDRESS.matcher(et_email.getText().toString()).matches())     //size as per your requirement
+        {
+            et_email.setError("فورمات الايميل غير صحيح ");
+            result=false;
+
+        }
+
+
+        if(et_password.getText().toString().length()<6)
+        {
+            et_password.setError("الرقم السري يجب أن يكون أطول من 6 خانات");
+            result=false;
+        }
+        if(et_checkPassword.getText().toString().length()<6){
+
+            et_checkPassword.setError("الرقم السري يجب أن يكون أطول من 6 خانات");
+            result=false;
+
+        }
+        else if (!et_password.getText().toString().equals(et_checkPassword.getText().toString())){
+            et_password.setError("التأكد من كلمة المرور يجب أن يكون مطابق لكلمة المرور ");
+            result=false;
+
+        }
+
+
+        return result;
     }
-
-    private boolean isEmailValid(String email) {
-        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
-    }
-     /*   public boolean checkFieldsRequired(ViewGroup viewGroup){
-
-            int count = viewGroup.getChildCount();
-            for (int i = 0; i < count; i++) {
-                View view = viewGroup.getChildAt(i);
-                if (view instanceof ViewGroup)
-                    checkFieldsRequired((ViewGroup) view);
-                else if (view instanceof EditText) {
-                    EditText edittext = (EditText) view;
-                    if (edittext.getText().toString().trim().equals("")) {
-                        edittext.setError("Required!");
-                    }
-                }
-            }
-
-            return false;
-        }*/
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -198,43 +210,24 @@ public class register extends AppCompatActivity  implements DatePickerDialog.OnD
     public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
-
-    public void datePicker(View v)
-    {
-        login.DatePickerFragment f = new login.DatePickerFragment();
-        f.show(getSupportFragmentManager(),"date");
-
+    public void onClick(View v) {
+        userReg();
     }
-
-    private void setDate(final Calendar calendar){
-
-      //  final DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
-       // ((EditText) findViewById(R.id.datepickerET)).setText(dateFormat.format(calendar.getTime()));
-
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        validateInput();
     }
 
     @Override
-    public void onDateSet(DatePicker view, int year, int month, int day) {
-        Calendar calendar= new GregorianCalendar(year,month,day);
-        setDate(calendar);
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        validateInput();
     }
 
-    public static class DatePickerFragment extends DialogFragment {
-        public Dialog onCreateDialog(Bundle saveInstanceState) {
-            final Calendar c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DAY_OF_MONTH);
+    @Override
+    public void afterTextChanged(Editable s) {
+        // System.out.println(s.toString());
+        validateInput();
 
-            return new DatePickerDialog(getActivity(), (DatePickerDialog.OnDateSetListener) getActivity(), year, month, day);
+
+    }
         }
-   /* private void OnButtonClick(View v)
-    {
-        if(v.getId()== R.id.registerB){
-
-            Intent i = new Intent(register.this,registermore.class);
-            startActivity(i);
-        }
-
-    }*/
-        }}

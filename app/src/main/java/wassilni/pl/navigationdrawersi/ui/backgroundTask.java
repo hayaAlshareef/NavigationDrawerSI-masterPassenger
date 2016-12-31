@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -45,12 +44,14 @@ public class backgroundTask extends AsyncTask<String ,Void,String> {
     protected String doInBackground(String... voids) {
         String req_url= "http://wassilni.com/db/addPass.php";//register url
         String login_url="http://wassilni.com/db/loginPassenger.php";//login url
-        String delete_url="http://wassilni.com/db/DelPass.php";//delete
-        String sendComplaint_url="http://wassilni.com/db/addComplaint.php"; //send complaint
-        String update_url="http://wassilni.com/db/UpdatePass.php"; // update passenger info
-        String DelReq_url="http://wassilni.com/db/DelReq.php"; // delete request
-        String addReq_url="http://wassilni.com/db/AddReq.php";
-        String addRating_url="http://wassilni.com/db/addRating.php";
+        String checkEmail_url="http://wassilni.com/db/checkEmail.php";//checkEmail url
+        String delete_url="http://wassilni.com/db/DelPass.php";//delete url
+        String sendComplaint_url="http://wassilni.com/db/addComplaint.php"; //send complaint url
+        String update_url="http://wassilni.com/db/UpdatePass.php"; // update passenger info url
+        String DelReq_url="http://wassilni.com/db/DelReq.php"; // delete request url
+        String addReq_url="http://wassilni.com/db/AddReq.php";// add request url
+        String addRating_url="http://wassilni.com/db/addRating.php";// add rating url
+        String sendAbsent_url="http://wassilni.com/db/Absent.php";// sent abent url
         String method = voids[0];
         Log.d("Background","before comparison @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         if(method.equals("register"))
@@ -85,8 +86,17 @@ public class backgroundTask extends AsyncTask<String ,Void,String> {
                 bufferedWriter.close();
                 os.close();
                 InputStream Is=httpURLConnection.getInputStream();
+                BufferedReader buffredReader=new BufferedReader(new InputStreamReader(Is,"iso-8859-1"));
+                String response="";
+                String line="";
+                while ((line=buffredReader.readLine())!=null){
+                    response+=line;
+                }
+                buffredReader.close();
                 Is.close();
-                return "Registration success";
+                httpURLConnection.disconnect();
+                System.out.println("#######################"+response);
+                return response;
                         
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -288,8 +298,18 @@ System.out.println("$$$$$$$$$$$$$$$   In Login !!!!!");
                 bufferedWriter.flush();
                 bufferedWriter.close();
                 os.close();
+
+                InputStream Is=httpURLConnection.getInputStream();
+                BufferedReader buffredReader=new BufferedReader(new InputStreamReader(Is,"iso-8859-1"));
+                String response="";
+                String line="";
+                while ((line=buffredReader.readLine())!=null){
+                    response+=line;
+                }
+                buffredReader.close();
+                Is.close();
                 httpURLConnection.disconnect();
-                return "update success";
+                return response;
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -357,6 +377,81 @@ System.out.println("$$$$$$$$$$$$$$$   In Login !!!!!");
                     response+=line;
                 }
                 bufferedReader.close();
+                Is.close();
+                httpURLConnection.disconnect();
+                return response;
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+        else if(method.equals("checkEmail")) {
+            String D_Email = voids[1];
+            String Driver="Passenger";
+            System.out.println(D_Email);
+
+            try {
+                URL url = new URL(checkEmail_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("POST");//use the POST method to send the data to php file
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                //send the date to php file
+                String data = URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(D_Email, "UTF-8") + "&" +
+                        URLEncoder.encode("user", "UTF-8") + "=" + URLEncoder.encode(Driver, "UTF-8");
+                bufferedWriter.write(data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream Is = httpURLConnection.getInputStream();
+                BufferedReader buffredReader = new BufferedReader(new InputStreamReader(Is, "iso-8859-1"));
+                String response = "";
+                String line = "";
+                while ((line = buffredReader.readLine()) != null) {
+                    response += line;
+                }
+                buffredReader.close();
+                Is.close();
+                httpURLConnection.disconnect();
+                return response;
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+        else if(method.equals("sendAbsent")) {
+            String R_ID = voids[1];
+            String a_date=voids[2];
+            Log.d("sendAbsent", R_ID+" "+a_date);
+            try {
+                URL url = new URL(sendAbsent_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("POST");//use the POST method to send the data to php file
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                //send the date to php file
+                String data = URLEncoder.encode("R_ID", "UTF-8") + "=" + URLEncoder.encode(R_ID, "UTF-8") + "&" +
+                        URLEncoder.encode("a_date", "UTF-8") + "=" + URLEncoder.encode(a_date, "UTF-8");
+                bufferedWriter.write(data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream Is = httpURLConnection.getInputStream();
+                BufferedReader buffredReader = new BufferedReader(new InputStreamReader(Is, "iso-8859-1"));
+                String response = "";
+                String line = "";
+                while ((line = buffredReader.readLine()) != null) {
+                    response += line;
+                }
+                buffredReader.close();
                 Is.close();
                 httpURLConnection.disconnect();
                 return response;
