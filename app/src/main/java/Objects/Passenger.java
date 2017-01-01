@@ -246,7 +246,7 @@ public class Passenger {
         editor.putString("Email", MyApp.passenger_from_DB.getEmail());
         editor.putString("FName", MyApp.passenger_from_DB.getFName());
         editor.putString("LName", MyApp.passenger_from_DB.getLName());
-        editor.putString("pass", MyApp.passenger_from_DB.getPasswrod());
+        editor.putString("password", MyApp.passenger_from_DB.getPasswrod());
         editor.putString("Phone", MyApp.passenger_from_DB.getPhone());
         editor.putString("School", MyApp.passenger_from_DB.getSchool());
 
@@ -315,6 +315,6 @@ public class Passenger {
 
     public String toString()
     {
-        return FName+" "+LName+" "+Email+" "+Phone;
+        return FName+" "+LName+" "+Email+" "+Phone+" "+Passwrod;
     }
 }
