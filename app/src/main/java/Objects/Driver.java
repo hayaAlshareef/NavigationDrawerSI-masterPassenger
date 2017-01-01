@@ -2,6 +2,8 @@ package Objects;
 
 import android.location.Location;
 
+import java.util.ArrayList;
+
 /**
  * Created by Najla AlHazzani on 11/19/2016.
  */
@@ -25,15 +27,21 @@ public class Driver{
     private String age;
     private double Rating;
     private char confirmed;
-
+    private ArrayList<schedule> Schedule;
     private Car car;
+
+
 
     //**************************************** Constructor(S) ▼▼▼▼▼
 
 
-    public Driver (){}//default constructor.
+    public Driver (){
+
+        Schedule = new ArrayList<schedule>();
+    }//default constructor.
 
     public Driver(int id,String name){
+        Schedule = new ArrayList<schedule>();
         ID=id;
         FName=name;
 
@@ -57,6 +65,7 @@ public class Driver{
         Rating = rating;
         this.confirmed = confirmed;
         this.car = car;
+        Schedule = new ArrayList<schedule>();
     }
 
     //*************************************** service method HERE ▼▼▼▼▼
@@ -542,6 +551,10 @@ public class Driver{
     public void setCar(Car car) {
         this.car = car;
     }
+
+    public ArrayList<schedule> getSchedule() {return Schedule;}
+
+    public void setSchedule(ArrayList<schedule> Schedule) { this.Schedule = Schedule;}
 
     public String toString()
     {

@@ -6,7 +6,7 @@ import com.google.android.gms.maps.model.LatLng;
  * Created by hp on 10/12/16.
  */
 
-public class schedule {
+public class schedule implements Comparable {
 
     public int S_ID;
     public  String StartDate;
@@ -32,6 +32,33 @@ public class schedule {
         this.dayPrice = dayPrice;
     }
 
+    @Override
+    public int compareTo(Object o) {
+        int returnVal = 0;
+        schedule sch=(schedule)o;
+        if(getDayPrice() < sch.getDayPrice()){
+            returnVal =  -1;
+        }else if(getDayPrice() > sch.getDayPrice()){
+            returnVal =  1;
+        }else if(getDayPrice() == sch.getDayPrice()){
+            returnVal =  0;
+        }
+        return returnVal;
+
+    }
+    public int compareTo(schedule one, schedule another){
+        int returnVal = 0;
+
+        if(one.getDayPrice() < another.getDayPrice()){
+            returnVal =  -1;
+        }else if(one.getDayPrice() > another.getDayPrice()){
+            returnVal =  1;
+        }else if(one.getDayPrice() == another.getDayPrice()){
+            returnVal =  0;
+        }
+        return returnVal;
+
+    }
     public int getS_ID() {
         return S_ID;
     }
@@ -109,4 +136,6 @@ public class schedule {
 
         return S_ID+" "+montPrice+" "+dayPrice;
     }
+
+
 }

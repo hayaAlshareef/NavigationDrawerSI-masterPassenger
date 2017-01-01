@@ -8,10 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,17 +24,21 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.concurrent.ExecutionException;
 
 import Objects.Car;
 import Objects.Driver;
 import Objects.MyApp;
 import Objects.schedule;
+import Objects.searchResult;
 import wassilni.pl.navigationdrawersi.R;
 
-public class Search extends AppCompatActivity {
+public class Search extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     public ArrayList<Driver> drivers=new ArrayList<Driver>();
     public ArrayList<schedule> schedules=new ArrayList<schedule>();
+    public ArrayList<searchResult> searchResults=new ArrayList<searchResult>();
     ListView listView;
     int ids[];
 
@@ -47,21 +53,23 @@ public class Search extends AppCompatActivity {
         String result=i.getStringExtra("json");
         parseJSON(result);
 
+        Spinner spinnerSorting = (Spinner) findViewById(R.id.spinnerSort);
+        spinnerSorting.setOnItemSelectedListener(this);
 
     }
 
     private void showDate()
     {
 
-        listView.setAdapter(new myList(this, schedules, drivers));
+        listView.setAdapter(new myList(this, searchResults));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1,int position, long arg3) {
                 // query and parseJSON, then go to mapActivity.
 
-                schedule s=schedules.get(position);
-                Driver d = drivers.get(position);
+                schedule s=searchResults.get(position).getSchedule();
+                Driver d = searchResults.get(position).getDriver();
 
                 System.out.println("befor "+d.getCar().getYearOfManufacture());
                 Intent i = new Intent(Search.this, DriverProfile.class);
@@ -156,6 +164,7 @@ try {
         for (int i = 0; i < auser.length(); i++) {
             JSONObject jsonObject = auser.getJSONObject(i);
 
+            /** create schedule  object   **/
             sched = new schedule();
             sched.setS_ID(jsonObject.getInt(s_id));
             sched.setStartDate(jsonObject.getString(sDate));
@@ -166,7 +175,19 @@ try {
             sched.setBookedSeat(jsonObject.getInt(BookedSeat));
             sched.setMontPrice(jsonObject.getInt(mPrice));
             sched.setDayPrice(jsonObject.getInt(dPrice));
-            schedules.add(sched);
+
+            /** create car object   **/
+            car = new Car();
+            car.setPlate(jsonObject.getString(Plate_num));
+            car.setType(jsonObject.getString(type));
+            car.setModel(jsonObject.getString(model));
+            car.setColor(jsonObject.getString(color));
+            car.setCompany(jsonObject.getString(C_company));
+            car.setCapacity(jsonObject.getInt(capacity));
+            car.setYearOfManufacture(jsonObject.getInt(yearOfmanufacture));
+
+
+            /**  create driver object  **/
 
             System.out.println();
             d = new Driver();
@@ -183,87 +204,143 @@ try {
             d.setAge(jsonObject.getString(age));
             d.setRating(jsonObject.getDouble(rating));
             d.setConfirmed(jsonObject.getString(confirmed).charAt(0));
+            d.setCar(car);
+           // d.getSchedule().add(sched);
+           // drivers.add(d);
+            searchResult searchR = new searchResult(d,sched);
+            searchResults.add(searchR);
+           /* int D_id =jsonObject.getInt(d_id);
+            boolean flag = true;
+            for(int a=0;a<drivers.size();a++){
+                if(drivers.get(a).getID()==D_id){
 
-            // car ===================================== car
-            car = new Car();
-            car.setPlate(jsonObject.getString(Plate_num));
-            car.setType(jsonObject.getString(type));
-            car.setModel(jsonObject.getString(model));
-            car.setColor(jsonObject.getString(color));
-            car.setCompany(jsonObject.getString(C_company));
-            car.setCapacity(jsonObject.getInt(capacity));
-            car.setYearOfManufacture(jsonObject.getInt(yearOfmanufacture));
-            d.setCar(car);//*****************************************************
-            drivers.add(d);
-/*
+                    drivers.get(a).setCar(car);
+                    drivers.get(a).getSchedule().add(sched);
+                    flag=false;
+                    break;
 
+                }
 
-                        //Log.d("Search", "=============================="+"");
-*/
+            }*/
+
+            //schedules.add(sched);
+          /*  if(flag) {
+                System.out.println();
+                d = new Driver();
+                d.setID(jsonObject.getInt(d_id));
+                d.setEmail(jsonObject.getString(email));
+                d.setFName(jsonObject.getString(FName));
+                d.setLName(jsonObject.getString(LName));
+                d.setPhone(jsonObject.getString(phoneNum));
+                d.setCompany(jsonObject.getString(company));
+                d.setLicense(jsonObject.getString(license));
+                d.setNationality(jsonObject.getString(nationality));
+                d.setFemaleCompanion(jsonObject.getString(female_companion).charAt(0));
+                d.setID_Iqama(jsonObject.getString(id_iqama));
+                d.setAge(jsonObject.getString(age));
+                d.setRating(jsonObject.getDouble(rating));
+                d.setConfirmed(jsonObject.getString(confirmed).charAt(0));
+                d.setCar(car);
+                d.getSchedule().add(sched);
+                drivers.add(d);
+
+            }*/
+
         }//end for auser.length
     }// if JSON EMPTY
     else Toast.makeText(getApplicationContext(),"لا توجد رحلة بهذه المواصفات", Toast.LENGTH_SHORT).show();
             }catch (JSONException e){e.printStackTrace();}
 
-        for (int i=0 ; i< drivers.size();i++)
-            System.out.println(drivers.get(i).toString()+"\t"+schedules.get(i).getS_ID());
+       // for (int i=0 ; i< drivers.size();i++)
+          //  System.out.println(drivers.get(i).toString()+"\t"+schedules.get(i).getS_ID());
         }
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        Spinner spinner = (Spinner) parent;
+        TextView myText = (TextView) view;
+        if(spinner.getSelectedItemPosition()==1){//sort the result high price
+          //  Toast.makeText(getApplicationContext(),"أعلى سعر ", Toast.LENGTH_SHORT).show();
+            Collections.sort(searchResults, Collections.reverseOrder());
+            showDate();
+
+
+        }
+        else if (spinner.getSelectedItemPosition()==2){//sort the result lower price
+           // Toast.makeText(getApplicationContext(),"اقل سعر ", Toast.LENGTH_SHORT).show();
+
+        Collections.sort(searchResults);
+            showDate();}
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
     class myList extends BaseAdapter {
-        ArrayList<schedule> itemsSchedule;
-        ArrayList<Driver> itemsDriver;
+        ArrayList<searchResult> ListSearchResults;
         Context context;
+        searchResult tempSearchResult;
         schedule tempSchedule;
         Driver tempDriver;
-        public myList(Context context,ArrayList<schedule> ListitemSche, ArrayList<Driver> ListitemDriv) {
-            this.context=context;
-            itemsSchedule=ListitemSche;
-            itemsDriver=ListitemDriv;
+        int sched_id, driver_id;
+
+        public myList(Context context, ArrayList<searchResult> ListitemsearchR) {
+            this.context = context;
+
+            ListSearchResults = ListitemsearchR;
+
+
         }
 
         @Override
         public int getCount() {
-            return itemsSchedule.size();
+            return ListSearchResults.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return itemsSchedule.get(position);
+            return ListSearchResults.get(position);
         }
 
         @Override
         public long getItemId(int position) {
             return position;
         }
-        int sched_id,driver_id;
+
 
         @Override
         public View getView(final int position, final View convertView, ViewGroup parent) {
+            tempSearchResult = ListSearchResults.get(position);
+            // for(int i=0 ;i<tempDriver.getSchedule().size();i++){
+            // tempSchedule=tempDriver.getSchedule().get(i);
+            tempSchedule = tempSearchResult.getSchedule();
+            tempDriver = tempSearchResult.getDriver();
+            LayoutInflater inflater = LayoutInflater.from(context);
+            View row = inflater.inflate(R.layout.search_result_layout, parent, false);
+            TextView DriverName = (TextView) row.findViewById(R.id.DriverNameTV);
+            TextView CarName = (TextView) row.findViewById(R.id.CarNameTV);
+            TextView MonthPrice = (TextView) row.findViewById(R.id.MonthPriceTV);
+            TextView DayPrice = (TextView) row.findViewById(R.id.DayPriceTV);
 
-            LayoutInflater inflater= LayoutInflater.from(context);
-            View row=inflater.inflate(R.layout.search_result_layout,parent,false);
-            TextView DriverName=(TextView) row.findViewById(R.id.DriverNameTV);
-            TextView CarName=(TextView) row.findViewById(R.id.CarNameTV);
-            TextView MonthPrice=(TextView) row.findViewById(R.id.MonthPriceTV);
-            TextView DayPrice=(TextView) row.findViewById(R.id.DayPriceTV);
+            ///tempSchedule=itemsSchedule.get(position);
 
-            tempSchedule=itemsSchedule.get(position);
-            tempDriver=itemsDriver.get(position);
-            sched_id=tempSchedule.getS_ID();
-            driver_id=tempDriver.getID();
+            sched_id = tempSchedule.getS_ID();
+            driver_id = tempDriver.getID();
 
-          //  ids[position]=temp.getS_ID();//to take the id for the schedule
+            //  ids[position]=temp.getS_ID();//to take the id for the schedule
 
 
-
-
-            DriverName.setText(tempDriver.getFName()+" "+tempDriver.getLName());
-            CarName.setText(tempDriver.getCar().getCompany()+" "+tempDriver.getCar().getModel());
-            MonthPrice.setText(tempSchedule.getMontPrice()+"");
-         DayPrice.setText(tempSchedule.getDayPrice()+"");
+            DriverName.setText(tempDriver.getFName() + " " + tempDriver.getLName());
+            CarName.setText(tempDriver.getCar().getCompany() + " " + tempDriver.getCar().getModel());
+            MonthPrice.setText(tempSchedule.getMontPrice() + "");
+            DayPrice.setText(tempSchedule.getDayPrice() + "");
 
             return row;
-        }
+
+    }
 
     }
 
