@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +35,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.sql.Time;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -42,7 +45,7 @@ import java.util.concurrent.ExecutionException;
 import Objects.MyApp;
 import wassilni.pl.navigationdrawersi.R;
 
-public class FragmentTwo extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+public class FragmentTwo extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener, TextWatcher {
 
    // @InjectView(R.id.circleLayout)
     //LinearLayout circleLayout;
@@ -57,6 +60,7 @@ public class FragmentTwo extends Fragment implements View.OnClickListener, Adapt
     public static String dLoc,dAdd;
     private Request r ;
     Spinner hourSpinner, mintSpinner;
+    SimpleDateFormat spf = new SimpleDateFormat("yyyy-MM-dd");
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup containter,
@@ -82,13 +86,19 @@ public class FragmentTwo extends Fragment implements View.OnClickListener, Adapt
         dropoffET.setEnabled(false);
         pickupAdd=(EditText) view.findViewById(R.id.pickupAddET);
         dropoffAdd=(EditText) view.findViewById(R.id.dropoffAddET);
+        sDateET.addTextChangedListener(this);
+        eDateET.addTextChangedListener(this);
+        pickupET.addTextChangedListener(this);
+        dropoffET.addTextChangedListener(this);
+
         ///to open search page --- before user click this button , user must be enter all requierd fields then we will send it to next page to get result
         // user can select one or two from result then click requiest : 1-the requ display it in fragment one page(with wait status) , 2-the req send it to rhe driver
         //in the search page the user can view any driver page
+
         searchB.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
-                 if(sDateET.getText().toString()!="")  {// if not empty -----------------------------------------------------------
+                 if(validateInput())  {// if not empty -----------------------------------------------------------
                      String json=getFields();
                      if(json!="")
                      {
@@ -123,6 +133,83 @@ public class FragmentTwo extends Fragment implements View.OnClickListener, Adapt
         return view;
     }
 
+    private boolean validateInput(){
+
+        boolean result =true;
+
+
+        if(dropoffET.getText().toString().length()==0)     //size as per your requirement
+        {
+            dropoffET.setError("يجب عليك إختيار وجهتك ");
+            result=false;
+
+        }
+        if(pickupET.getText().toString().length()==0)     //size as per your requirement
+        {
+            pickupET.setError("يجب عليك إختيار مكان الإنطلاق  ");
+            result=false;
+
+        }
+
+        if(sDateET.getText().toString().length()==0)     //size as per your requirement
+        {
+            sDateET.setError("يجب عليك إدخال تاريخ بداية الإشتراك");
+            result=false;
+
+        }
+        if(eDateET.getText().toString().length()==0)     //size as per your requirement
+        {
+            eDateET.setError("يجب عليك إدخال تاريخ نهاية الإشتراك");
+            result=false;
+
+        }
+
+        if(eDateET.getText().toString().length()>=10) {
+            //  matcher = Pattern.compile(DATE_PATTERN).matcher(et_DOB.getText().toString());
+            Date d=null;
+            String value = eDateET.getText().toString().trim();
+            if (value.length() != 0) {
+                try {
+
+
+                    d = spf.parse(value);
+                    if (!value.equals(spf.format(d))) {//if the date not match the date format
+                        d = null;
+                    }
+                }catch(ParseException ex){
+                    ex.printStackTrace();
+                }
+                if (d == null) {
+                    // Invalid date format
+                    eDateET.setError("التنسيق اليوم غير صحيح يجب ان يكون 1994-29-12");
+                    result = false;
+                }
+            }}
+            if(sDateET.getText().toString().length()>=10) {
+                //  matcher = Pattern.compile(DATE_PATTERN).matcher(et_DOB.getText().toString());
+                Date d=null;
+                String value = sDateET.getText().toString().trim();
+                if (value.length() != 0) {
+                    try {
+
+
+                        d = spf.parse(value);
+                        if (!value.equals(spf.format(d))) {//if the date not match the date format
+                            d = null;
+                        }
+                    }catch(ParseException ex){
+                        ex.printStackTrace();
+                    }
+                    if (d == null) {
+                        // Invalid date format
+                        sDateET.setError("التنسيق اليوم غير صحيح يجب ان يكون 1994-29-12");
+                        result = false;
+                    }
+                }
+        }
+
+        return result;
+    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -198,6 +285,24 @@ public class FragmentTwo extends Fragment implements View.OnClickListener, Adapt
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        validateInput();
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        validateInput();
 
     }
 
