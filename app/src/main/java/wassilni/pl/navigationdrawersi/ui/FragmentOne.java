@@ -137,6 +137,10 @@ public class FragmentOne extends Fragment {
         try {
             JSONObject jsonObject = new JSONObject(sJson);
             users = jsonObject.getJSONArray(JSON_ARRAY);
+            if(users.length()!=0)
+                showData();
+            else  Toast.makeText(getActivity(), "لا توجد إشتراكات حاليا", Toast.LENGTH_SHORT).show();
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -316,7 +320,7 @@ public class FragmentOne extends Fragment {
              //   Toast.makeText(getActivity(),s,Toast.LENGTH_SHORT).show();
                 if(method.equals("getReq")){
                 extractJSON();
-                showData();}
+               }
 
             }
         }

@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -190,42 +191,46 @@ public class FragmentFour extends Fragment {
                 try {
                     JSONObject jsonObject = new JSONObject(sJson);
                     users = jsonObject.getJSONArray(JSON_ARRAY);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-
-                try {
-                    int counter = 1;
-                    name = new String[users.length() + 1];
-                    JSONObject jsonObject;
-                    driverObject = new Driver(0, "شكوى عامة");
-                    driveresInfo.add(driverObject);
-                    name[0] = "شكوى عامة";
-                    while (TRACK < users.length()) {
-                        jsonObject = users.getJSONObject(TRACK);
-                        String fName = jsonObject.getString("D_F_Name");
-                        String lName = jsonObject.getString("D_L_Name");
-                        name[counter] = fName + " " + lName;
-                        driverObject = new Driver(Integer.parseInt(jsonObject.getString("D_ID")), name[counter]);
+                if(users.length()!=0) {
+                    try {
+                        int counter = 1;
+                        name = new String[users.length() + 1];
+                        JSONObject jsonObject;
+                        driverObject = new Driver(0, "شكوى عامة");
                         driveresInfo.add(driverObject);
-                        counter++;
-                        TRACK++;
+                        name[0] = "شكوى عامة";
+                        while (TRACK < users.length()) {
+                            jsonObject = users.getJSONObject(TRACK);
+                            String fName = jsonObject.getString("D_F_Name");
+                            String lName = jsonObject.getString("D_L_Name");
+                            name[counter] = fName + " " + lName;
+                            driverObject = new Driver(Integer.parseInt(jsonObject.getString("D_ID")), name[counter]);
+                            driveresInfo.add(driverObject);
+                            counter++;
+                            TRACK++;
+                        }
+
+
+                        for (int i = 0; i < name.length; i++) {
+
+                            DriverN.add(name[i]);
+
+                        }
+
+                        spinner_fn();
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-
-
-                    for (int i = 0; i < name.length; i++) {
-
-                        DriverN.add(name[i]);
-
-                    }
-
-                    spinner_fn();
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
+                else   Toast.makeText(getActivity(), "لم تشترك في رحلات بعد", Toast.LENGTH_SHORT).show();
+
             }
         }
         GetJSON gj = new GetJSON();
