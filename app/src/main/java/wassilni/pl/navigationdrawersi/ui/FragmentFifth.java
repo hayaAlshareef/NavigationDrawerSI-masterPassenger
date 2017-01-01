@@ -330,7 +330,9 @@ public class FragmentFifth extends Fragment implements TextWatcher ,View.OnClick
             if(et_currentPassword.getText().toString().trim().equals(currentPassword)) {
                 checkPassword();
             } else   et_currentPassword.setError("كلمة المرور الحالية غير متوافقة");
-        } else  et_currentPassword.setError(null);
+        } else {
+            et_password.setFocusableInTouchMode(false);
+            et_checkPassword.setFocusableInTouchMode(false);}
 
     }
     public void setValues()

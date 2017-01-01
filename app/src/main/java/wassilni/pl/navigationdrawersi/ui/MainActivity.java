@@ -60,8 +60,7 @@ public class MainActivity extends AppCompatActivity {
     private CharSequence mTitle;
     private CharSequence mDrawerTitle;
     private List<NavigationDrawerItem> navigationItems;
-    TextView userName;
-    TextView email;
+    TextView userName,email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,13 +116,7 @@ SessionSetup();
       // getSupportActionBar().setIcon(R.drawable.ic_action_ab_transparent);
         userName=(TextView) findViewById(R.id.drawerUserName);
         email=(TextView) findViewById(R.id.drawerUserEmail);
-//if((!MyApp.passenger_from_session.getFName().equals(null))) {
-   // userName.setText(MyApp.passenger_from_session.getFName() + " " + MyApp.passenger_from_session.getLName());
-   // email.setText(MyApp.passenger_from_session.getEmail());
-//}else{
-   // userName.setText("");
-   // email.setText("");
-//}
+
         selectItem(currentSelectedPosition);
 
     }
