@@ -290,12 +290,12 @@ public class FragmentFifth extends Fragment implements TextWatcher ,View.OnClick
           }
 
           if (et_password.getText().toString().length() < 6 && et_password.getText().toString().equals(null)) {
-              et_password.setError("الرقم السري يجب ان يكون أطول من 10 خانات");
+              et_password.setError("الرقم السري يجب ان يكون أطول من 6 خانات");
               r = false;
           }
           if (et_checkPassword.getText().toString().length() < 6 && et_checkPassword.getText().toString().equals(null)) {
 
-              et_checkPassword.setError("الرقم السري يجب ان يكون أطول من 10 خانات ");
+              et_checkPassword.setError("الرقم السري يجب ان يكون أطول من 6 خانات ");
               r = false;
 
           } else if (!et_checkPassword.getText().toString().equals(et_password.getText().toString())) {
