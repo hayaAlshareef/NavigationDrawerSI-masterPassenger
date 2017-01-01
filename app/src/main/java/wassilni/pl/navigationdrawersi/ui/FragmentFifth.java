@@ -51,6 +51,7 @@ public class FragmentFifth extends Fragment implements TextWatcher ,View.OnClick
     String sName ,lName , email , password , currentPassword,currentPassFromUser,passwordCheck , phone , Editschool;
     Button saveB;
     String id;
+    String pass;
 
     private int TRACK = 0;
     private JSONArray users = null;
@@ -78,7 +79,8 @@ public class FragmentFifth extends Fragment implements TextWatcher ,View.OnClick
         et_checkPassword.addTextChangedListener(this);
         et_phone.addTextChangedListener(this);
         et_school.addTextChangedListener(this);
-
+        et_password.setFocusableInTouchMode(false);
+        et_checkPassword.setFocusableInTouchMode(false);
         TextView d =(TextView)view.findViewById(R.id.deletPassenger);
 
         setValues();
@@ -228,16 +230,8 @@ public class FragmentFifth extends Fragment implements TextWatcher ,View.OnClick
             result=false;
 
         }
-        if(et_currentPassword.getText().toString().equals(null)){}
-        else{
-            if(currentPassword.equals(et_currentPassword.getText().toString())) {
-                boolean r = checkPassword();
-                if (!r) result = false;
 
-            }
-            et_currentPassword.setError("الرقم السري الحالي غير متوافق!");
 
-        }
 
 
         return result;
@@ -250,35 +244,34 @@ public class FragmentFifth extends Fragment implements TextWatcher ,View.OnClick
   public boolean checkPassword(){
           boolean r=true;
 
-          if(et_password.getText().toString().length()==0 && et_password.getText().toString().equals(null))     //size as per your requirement
+           et_password.setFocusableInTouchMode(true);
+           et_checkPassword.setFocusableInTouchMode(true);
+
+          if (et_password.getText().toString().length() == 0 && et_password.getText().toString().equals(null))     //size as per your requirement
           {
               et_password.setError("يجب عليك تعبية هذه الخانة ");
-              r=false;
+              r = false;
 
           }
-          if(et_checkPassword.getText().toString().length()==0 && et_checkPassword.getText().toString().equals(null))     //size as per your requirement
+          if (et_checkPassword.getText().toString().length() == 0 && et_checkPassword.getText().toString().equals(null))     //size as per your requirement
           {
               et_checkPassword.setError("يجب عليك تعبية هذه الخانة ");
-              r=false;
+              r = false;
 
           }
 
-          if(et_password.getText().toString().length()<6 && et_password.getText().toString().equals(null))
-          {
+          if (et_password.getText().toString().length() < 6 && et_password.getText().toString().equals(null)) {
               et_password.setError("الرقم السري يجب ان يكون أطول من 10 خانات");
-              r=false;
+              r = false;
           }
-          if(et_checkPassword.getText().toString().length()<6 && et_checkPassword.getText().toString().equals(null))
-          {
+          if (et_checkPassword.getText().toString().length() < 6 && et_checkPassword.getText().toString().equals(null)) {
 
               et_checkPassword.setError("الرقم السري يجب ان يكون أطول من 10 خانات ");
-              r=false;
+              r = false;
 
-          }
-          else if (!et_checkPassword.getText().toString().equals(et_password.getText().toString()))
-          {
-              et_checkPassword.setError("التأكد من كلمة المرور يجب أن يكون مطابق لكلمة المرور ");
-              r=false;
+          } else if (!et_checkPassword.getText().toString().equals(et_password.getText().toString())) {
+              et_password.setError("التأكد من كلمة المرور يجب أن يكون مطابق لكلمة المرور ");
+              r = false;
 
           }
 
@@ -290,6 +283,7 @@ public class FragmentFifth extends Fragment implements TextWatcher ,View.OnClick
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         validateInput();
+
     }
 
     @Override
@@ -300,6 +294,15 @@ public class FragmentFifth extends Fragment implements TextWatcher ,View.OnClick
     @Override
     public void afterTextChanged(Editable s) {
         validateInput();
+        if(!et_currentPassword.getText().toString().trim().equals("")) {
+            pass=et_currentPassword.getText().toString();
+            System.out.println("pass= "+ pass);
+            System.out.println("currentPassword= "+currentPassword);
+            if(et_currentPassword.getText().toString().trim().equals(currentPassword)) {
+                checkPassword();
+            } else   et_currentPassword.setError("كلمة المرور الحالية غير متوافقة");
+        } else  et_currentPassword.setError(null);
+
     }
     public void setValues()
     {
