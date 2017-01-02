@@ -9,12 +9,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingRight="20dp"
-        android:paddingLeft="20dp">
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#FAFAFA"
+
+            android:id="@+id/fistRow"
             android:paddingRight="10dp">
             <TextView
                 android:layout_width="match_parent"
@@ -70,7 +75,8 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#FAFAFA"
+
+            android:id="@+id/thirdRow"
             android:paddingRight="10dp">
             <TextView
                 android:layout_width="match_parent"
@@ -125,11 +131,16 @@
 
 
         </TableRow>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="#ccc"
-            android:paddingTop="20dp" />
     </TableLayout>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="4dp"
+        android:background="#ccc"
+        android:paddingTop="20dp"
+        android:layout_marginTop="140dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

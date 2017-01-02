@@ -2,6 +2,7 @@ package wassilni.pl.navigationdrawersi.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,6 +15,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,14 +63,20 @@ public class Search extends AppCompatActivity implements AdapterView.OnItemSelec
 
     private void showDate()
     {
+        final myList list=new myList(this,searchResults);
 
-        listView.setAdapter(new myList(this, searchResults));
+        listView.setAdapter(list);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1,int position, long arg3) {
                 // query and parseJSON, then go to mapActivity.
 
+                arg0.getChildAt(position).setBackgroundColor(getResources().getColor(R.color.gray_shadow));
+
+
+                arg0.getChildAt(position).setBackgroundColor(getResources().getColor(R.color.transparent));
+                list.setBackground();
                 schedule s=searchResults.get(position).getSchedule();
                 Driver d = searchResults.get(position).getDriver();
 
@@ -286,6 +295,8 @@ try {
         schedule tempSchedule;
         Driver tempDriver;
         int sched_id, driver_id;
+        TableRow firstR;
+        TableRow thirdR;
 
         public myList(Context context, ArrayList<searchResult> ListitemsearchR) {
             this.context = context;
@@ -293,6 +304,11 @@ try {
             ListSearchResults = ListitemsearchR;
 
 
+        }
+        public void setBackground(){
+
+            firstR.setBackgroundColor(Color.TRANSPARENT);
+            thirdR.setBackgroundColor(Color.TRANSPARENT);
         }
 
         @Override
@@ -324,7 +340,8 @@ try {
             TextView CarName = (TextView) row.findViewById(R.id.CarNameTV);
             TextView MonthPrice = (TextView) row.findViewById(R.id.MonthPriceTV);
             TextView DayPrice = (TextView) row.findViewById(R.id.DayPriceTV);
-
+             firstR=(TableRow)row.findViewById(R.id.fistRow);
+             thirdR=(TableRow)row.findViewById(R.id.thirdRow);
             ///tempSchedule=itemsSchedule.get(position);
 
             sched_id = tempSchedule.getS_ID();

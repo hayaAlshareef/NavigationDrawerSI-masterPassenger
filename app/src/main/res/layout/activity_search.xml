@@ -21,7 +21,14 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="12dp"
-        android:layout_below="@+id/spinnerSort" />
+        android:layout_below="@+id/spinnerSort"
+        android:divider="@null"
+        android:dividerHeight="0dip"
+        android:focusableInTouchMode="false"
+
+        android:listSelector="#E0E0E0"
+
+        />
 
     <TextView
         android:text="نتائج البحث"
