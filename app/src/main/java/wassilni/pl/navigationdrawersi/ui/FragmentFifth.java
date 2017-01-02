@@ -149,33 +149,62 @@ public class FragmentFifth extends Fragment implements TextWatcher ,View.OnClick
 
     public void userReg() {
         intitialize();
-        if(!validateInput())
+       // boolean flage=true;
+        String method;
+        if(android.util.Patterns.EMAIL_ADDRESS.matcher(et_email.getText().toString()).matches())
         {
 
-            Toast.makeText(getActivity(),"خطأ في التعديل",Toast.LENGTH_SHORT).show();
-        }
-        else{
-            String method="update";
-            backgroundTask backgroundTask = new backgroundTask(getActivity());
-            String result;//to take the result form the php and check if it register or no
-            try {
-                result=backgroundTask.execute(method, id, sName, lName, email, password, phone, Editschool).get();
-                if(result.contains("update")){
-                    SharedPreferences sp= getContext().getSharedPreferences("session", Context.MODE_APPEND);
-                    SharedPreferences.Editor editor= sp.edit();
-                    editor=editor.clear();
-                    editor.clear();
-                    editor.commit();
-                    Toast.makeText(getActivity(),"تم حذف ملف التعريف, يتوجب عليك تسجيل الدخول مجدداً",Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getActivity(),login.class));
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }}
-    }
+        method="checkEmail";
 
+        try {
+            backgroundTask backgroundTask = new backgroundTask(getActivity());
+            if(!et_email.getText().toString().equals(MyApp.passenger_from_session.getEmail())){
+                String r ;
+                r= backgroundTask.execute(method,et_email.getText().toString()).get();
+                if(r.equals("The email is taken")){
+                    et_email.setError("البريد الإلكتروني سبق التسجيل به");
+                    Toast.makeText(getActivity(),"البريد الإلكتروني سبق التسجيل به",Toast.LENGTH_SHORT).show();
+                   }
+                else{
+                    update();
+                }
+            }
+            else{
+                update();
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        }
+    }
+ public void update(){
+     String method;
+
+     if (!validateInput()) {
+
+         Toast.makeText(getActivity(), "خطأ في التعديل", Toast.LENGTH_SHORT).show();
+     } else {
+         method = "update";
+         backgroundTask backgroundTask = new backgroundTask(getActivity());
+         String result;//to take the result form the php and check if it register or no
+         try {
+             result = backgroundTask.execute(method, id, sName, lName, email, password, phone, Editschool).get();
+             if (result.contains("update")) {
+                 SharedPreferences sp = getContext().getSharedPreferences("session", Context.MODE_APPEND);
+                 SharedPreferences.Editor editor = sp.edit();
+                 editor = editor.clear();
+                 editor.clear();
+                 editor.commit();
+                 Toast.makeText(getActivity(), "تم حذف ملف التعريف, يتوجب عليك تسجيل الدخول مجدداً", Toast.LENGTH_SHORT).show();
+                 startActivity(new Intent(getActivity(), login.class));
+             }
+         } catch (InterruptedException e) {
+             e.printStackTrace();
+         } catch (ExecutionException e) {
+             e.printStackTrace();
+         }
+     }
+ }
 
     //this method to initionalize  all the input from user to string
     private void intitialize() {
@@ -261,12 +290,12 @@ public class FragmentFifth extends Fragment implements TextWatcher ,View.OnClick
           }
 
           if (et_password.getText().toString().length() < 6 && et_password.getText().toString().equals(null)) {
-              et_password.setError("الرقم السري يجب ان يكون أطول من 10 خانات");
+              et_password.setError("الرقم السري يجب ان يكون أطول من 6 خانات");
               r = false;
           }
           if (et_checkPassword.getText().toString().length() < 6 && et_checkPassword.getText().toString().equals(null)) {
 
-              et_checkPassword.setError("الرقم السري يجب ان يكون أطول من 10 خانات ");
+              et_checkPassword.setError("الرقم السري يجب ان يكون أطول من 6 خانات ");
               r = false;
 
           } else if (!et_checkPassword.getText().toString().equals(et_password.getText().toString())) {
@@ -301,7 +330,9 @@ public class FragmentFifth extends Fragment implements TextWatcher ,View.OnClick
             if(et_currentPassword.getText().toString().trim().equals(currentPassword)) {
                 checkPassword();
             } else   et_currentPassword.setError("كلمة المرور الحالية غير متوافقة");
-        } else  et_currentPassword.setError(null);
+        } else {
+            et_password.setFocusableInTouchMode(false);
+            et_checkPassword.setFocusableInTouchMode(false);}
 
     }
     public void setValues()

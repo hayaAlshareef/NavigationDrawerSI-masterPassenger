@@ -111,6 +111,9 @@ public class FragmentThree extends Fragment {
         try {
             JSONObject jsonObject = new JSONObject(sJson);
             users = jsonObject.getJSONArray(JSON_ARRAY);
+            if(users.length()!=0) showData();
+            else  Toast.makeText(getActivity(), "لا توجد طلبات", Toast.LENGTH_SHORT).show();
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -242,7 +245,7 @@ public class FragmentThree extends Fragment {
                 sJson=s;
                // Toast.makeText(getActivity(),s,Toast.LENGTH_SHORT).show();
                 extractJSON();
-                showData();
+
             }
         }
         GetJSON gj = new GetJSON();
